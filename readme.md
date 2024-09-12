@@ -13,3 +13,9 @@
 -   Påminnelse for arrangementer/hendelser
 -   Dele arrangementer/hendelser
 -   Endre mellom layout på kalenderen altså ukentlig, måntlig og årlig
+
+## Teknisk Informasjon
+
+Java version `21.0.1`
+
+Maven version `3.8.0`
