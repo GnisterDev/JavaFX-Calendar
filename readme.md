@@ -1,20 +1,20 @@
 # Group gr2404 repository
 
-[Åpne i Eclipse Che](https://che.stud.ntnu.no/dashboard/#/load-factory?policies.create=perclick&url=https://gitlab.stud.idi.ntnu.no/it1901/groups-2024/gr2404/gr2404)
+[Open in Eclipse Che](https://che.stud.ntnu.no/dashboard/#/load-factory?policies.create=perclick&url=https://gitlab.stud.idi.ntnu.no/it1901/groups-2024/gr2404/gr2404)
 
-## Funksjoner for vårt prosjekt
+## Functions in our project
 
--   Opprette arrangementer/hendelser
-    -   Sett tid
-    -   Sett sted (optional)
-    -   Sett gjentakelse (optional)
-    -   Sett utsende (optional)
--   Redigering av arrangementer/hendelser
--   Påminnelse for arrangementer/hendelser
--   Dele arrangementer/hendelser
--   Endre mellom layout på kalenderen altså ukentlig, måntlig og årlig
+-   Create events to the calendar
+    -   Select a time
+    -   Select a place (optional)
+    -   Select if event reapeats (optional)
+    -   Select colour for event (optional)
+-   Ability of edit information for created event
+-   Reminder for created events
+-   Ability of sharing events with other people
+-   Ability of changing the layout of the calendar to be daily, weekly, or monthly
 
-## Teknisk Informasjon
+## Technical Information
 
 Java version `21.0.1`
 
