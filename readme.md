@@ -1,18 +1,18 @@
-# Group gr2404 repository
+ls# Group gr2404 repository
 
 [Open in Eclipse Che](https://che.stud.ntnu.no/dashboard/#/load-factory?policies.create=perclick&url=https://gitlab.stud.idi.ntnu.no/it1901/groups-2024/gr2404/gr2404)
 
-## Functions in our project
+## Description
 
--   Create events to the calendar
-    -   Select a time
-    -   Select a place (optional)
-    -   Select if event reapeats (optional)
-    -   Select colour for event (optional)
--   Ability of edit information for created event
--   Reminder for created events
--   Ability of sharing events with other people
--   Ability of changing the layout of the calendar to be daily, weekly, or monthly
+This project is a simple calender. The project is containd within `./calendar`. For more information see the [README.md](./calendar/readme.md) file inside the `./calendar` folder
+
+## Building and running the project
+
+The project uses maven to build and run.
+
+To build the project `cd` into the `./calendar` folder and run the command `mvn install compile`. If you want to run the tests seperate run `mvn test`.
+
+The project is run using the command `mvn javafx:run`. Note that you must first have run `mvn install`.
 
 ## Technical Information
 
