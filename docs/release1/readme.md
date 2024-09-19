@@ -19,7 +19,9 @@ We also added a junit5 plugin that changes how test outputs are displayed in the
 We decided to create a calendar app. It should enable multiple users to manage their weekly events. A full description of the app and user stories associated with it can be found in the [javafx project readme.md file](../../calendar/readme.md).
 
 ### Issues we encounterd
+
 We had some problems with gitlab issues as we started setting up the project without creating issues for it. We have since added issues for the things that were missing, but as a result they are not properly linked to the commits that address them. After talking to the student assistent, who made us aware of this, we have strived to properly define issues and make branches and merge requests that solve and close them. We will also, of course, strive to do this in the future.
 
 ### AI statement
-We have not used AI for this release, but we are planning to use it as a helping tool later on in this project. 
+
+[Own md-file for ai statement](./ai-tools.md)
