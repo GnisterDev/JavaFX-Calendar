@@ -30,4 +30,4 @@ The calendar application is designed to help users manage their time by providin
 
 ## Calender mockup
 
-![Calender mockup](./images/Calender_mockup.png)
+![Calender mockup](../docs/images/Calender_mockup.png)
