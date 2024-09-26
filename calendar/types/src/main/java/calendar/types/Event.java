@@ -4,11 +4,6 @@ import java.util.UUID;
 
 import javafx.scene.paint.Color;
 
-enum EventType {
-    EVENT_TYPE1,
-    EVENT_TYPE2
-}
-
 public class Event {
     private UUID id;
     private EventType type;
@@ -16,11 +11,11 @@ public class Event {
     private String description;
     private Color color;
 
-    Event(String title, String description) {
+    public Event(String title, String description) {
         this(title, description, EventType.EVENT_TYPE1, Color.BLUE, UUID.randomUUID());
     }
 
-    Event(String title, String description, EventType type, Color color, UUID id) {
+    public Event(String title, String description, EventType type, Color color, UUID id) {
         this.title = title;
         this.description = description;
         this.type = type;
@@ -28,23 +23,23 @@ public class Event {
         this.id = id;
     }
 
-    UUID getId() {
+    public UUID getId() {
         return id;
     }
 
-    String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    EventType getType() {
+    public EventType getType() {
         return type;
     }
 
-    Color getColor() {
+    public Color getColor() {
         return color;
     }
 }

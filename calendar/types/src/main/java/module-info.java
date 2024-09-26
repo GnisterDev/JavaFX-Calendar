@@ -1,5 +1,5 @@
 module calendar.types {
-    requires javafx.graphics;
+    requires transitive javafx.graphics;
 
     exports calendar.types;
 }
