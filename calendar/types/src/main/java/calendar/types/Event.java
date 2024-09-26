@@ -9,7 +9,7 @@ enum EventType {
     EVENT_TYPE2
 }
 
-class Event {
+public class Event {
     private UUID id;
     private EventType type;
     private String title;
