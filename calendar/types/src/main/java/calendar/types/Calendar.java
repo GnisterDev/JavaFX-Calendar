@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Calendar {
     @JsonProperty
     private UUID userId;
+
     @JsonProperty
     private List<Event> events;
 
@@ -18,7 +19,7 @@ public class Calendar {
     }
 
     public Calendar(UUID userId) {
-        this(new ArrayList<>(), userId);
+        this(userId, new ArrayList<>());
     }
 
     public Calendar(List<Event> events) {

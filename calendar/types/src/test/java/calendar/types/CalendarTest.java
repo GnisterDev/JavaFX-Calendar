@@ -22,7 +22,7 @@ public class CalendarTest {
     public void testConstructors() {
         Calendar cal1 = new Calendar();
         Calendar cal2 = new Calendar(List.of(event));
-        Calendar cal3 = new Calendar(List.of(event), id);
+        Calendar cal3 = new Calendar(id, List.of(event));
 
         assertTrue(cal1.getEvents().isEmpty());
         assertEquals(0, cal1.eventCount());

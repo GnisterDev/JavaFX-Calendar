@@ -10,12 +10,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class User {
     @JsonProperty
     private UUID userId;
+
     @JsonProperty
     private String username;
+
     @JsonProperty
     private String password;
+
     @JsonProperty
     private List<Calendar> calendars;
+
+    @JsonProperty
     private UserSettings settings;
 
     public User(String username, String password) {
@@ -30,7 +35,8 @@ public class User {
     public User(@JsonProperty("userId") UUID userId,
             @JsonProperty("username") String username,
             @JsonProperty("password") String password,
-            @JsonProperty("calendars") List<Calendar> calendars) {
+            @JsonProperty("calendars") List<Calendar> calendars,
+            @JsonProperty("settings") UserSettings settings) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -38,9 +44,9 @@ public class User {
         this.settings = settings;
     }
 
-    // public UUID getUserId() {
-    // return userId;
-    // }
+    public UUID getUserId() {
+    return userId;
+    }
 
     public String getUsername() {
         return username;

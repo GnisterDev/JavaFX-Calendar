@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import calendar.types.User;
+import calendar.types.UserSettings;
 import calendar.types.UserStore;
 import javafx.scene.paint.Color;
 import calendar.persistence.internal.ColorDeserializer;
@@ -61,7 +62,7 @@ public class Persistence {
         cl.add(new Calendar(e));
 
         UUID id = UUID.randomUUID();
-        User u = new User(id, "A", "1", cl);
+        User u = new User(id, "A", "1", cl, new UserSettings(id));
 
         HashMap<String, UUID> StU = new HashMap<>();
         StU.put("A", id);
