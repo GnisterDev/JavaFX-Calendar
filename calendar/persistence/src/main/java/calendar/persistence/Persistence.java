@@ -16,6 +16,9 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import calendar.types.User;
 import calendar.types.UserStore;
 import javafx.scene.paint.Color;
+import calendar.persistence.internal.ColorDeserializer;
+import calendar.persistence.internal.ColorSerializer;
+import calendar.persistence.internal.UUIDDeserializer;
 import calendar.types.Calendar;
 import calendar.types.Event;
 

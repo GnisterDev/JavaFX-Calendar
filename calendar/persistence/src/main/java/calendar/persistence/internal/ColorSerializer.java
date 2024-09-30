@@ -1,4 +1,4 @@
-package calendar.persistence;
+package calendar.persistence.internal;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
