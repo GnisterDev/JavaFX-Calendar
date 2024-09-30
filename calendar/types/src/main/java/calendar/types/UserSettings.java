@@ -3,13 +3,24 @@ package calendar.types;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class UserSettings {
+    @JsonProperty
     private UUID userId;
+    @JsonProperty
     private TimeZone timezone;
+    @JsonProperty
     private boolean militaryTime;
+    @JsonProperty
     private boolean showWeekNr;
 
-    public UserSettings(UUID userId, TimeZone timezone, boolean militaryTime, boolean showWeekNr) {
+    @JsonCreator
+    public UserSettings(@JsonProperty("userId") UUID userId,
+            @JsonProperty("timezone") TimeZone timezone,
+            @JsonProperty("militaryTime") boolean militaryTime,
+            @JsonProperty("showWeekNr") boolean showWeekNr) {
         this.userId = userId;
         this.timezone = timezone;
         this.militaryTime = militaryTime;
@@ -32,7 +43,7 @@ public class UserSettings {
         return militaryTime;
     }
 
-    public boolean getShowweekNr() {
+    public boolean getShowWeekNr() {
         return showWeekNr;
     }
 }

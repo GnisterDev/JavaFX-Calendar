@@ -1,88 +1,112 @@
 {
   "usernameToUserId" : {
-    "A" : "4c9a9f09-5c9c-4919-a473-f704b6f5c891",
-    "B" : "e3fe9d21-6d3b-4cca-b536-fc0ef0f531ab",
-    "C" : "325390a2-6d23-4423-b2e5-1fb12adf6e81",
-    "D" : "5d58cdc1-2ff0-4c59-a10a-143e784226df"
+    "A" : "6f057817-754d-4bb8-bcc3-022a140d5b70",
+    "B" : "2cd522f2-f43a-4d8f-ba6e-dcb1636c5024",
+    "C" : "be682c8f-f379-4e32-9139-88ce03cbc7ca",
+    "D" : "2ac43fdd-a27b-454a-aaf7-db50d55499f0"
   },
   "userIdToUser" : {
-    "e8023fea-18ce-4e50-a1f7-1213f19c812c" : {
-      "userId" : "3b18b690-52a1-4e14-8685-5fd3f81b0288",
-      "username" : "C",
-      "password" : "3",
-      "calendars" : [ ]
+    "bc95e488-ad3b-4104-8b45-ca8195c0d824" : {
+      "userId" : "a88d7f2c-9a32-4ef6-b6ac-e0b89b8e9629",
+      "username" : "D",
+      "password" : "4",
+      "calendars" : [ ],
+      "settings" : {
+        "userId" : "a88d7f2c-9a32-4ef6-b6ac-e0b89b8e9629",
+        "timezone" : "Europe/Oslo",
+        "militaryTime" : true,
+        "showWeekNr" : false
+      }
     },
-    "4c9a9f09-5c9c-4919-a473-f704b6f5c891" : {
-      "userId" : "4c9a9f09-5c9c-4919-a473-f704b6f5c891",
+    "6f057817-754d-4bb8-bcc3-022a140d5b70" : {
+      "userId" : "6f057817-754d-4bb8-bcc3-022a140d5b70",
       "username" : "A",
       "password" : "1",
       "calendars" : [ {
-        "userId" : "50a69352-3618-4a1a-8e35-2f88a01b3a93",
+        "userId" : "661140b0-05b2-4a05-81d6-818dbe23c7c5",
         "events" : [ {
           "title" : "title1",
           "description" : "description1",
-          "startTime" : 1727701549879,
-          "endTime" : 1727701549879,
+          "startTime" : 1727702479136,
+          "endTime" : 1727702479136,
           "type" : "EVENT_TYPE1",
           "color" : {
             "red" : 0.0,
             "green" : 0.0,
             "blue" : 1.0
           },
-          "id" : "fa93cc45-f5e6-48fd-a26e-27349b95c7e3"
+          "id" : "33876b5e-b9a2-43da-aead-e1f79ffed0f1"
         }, {
           "title" : "title2",
           "description" : "description2",
-          "startTime" : 1727701549939,
-          "endTime" : 1727701549939,
+          "startTime" : 1727702479185,
+          "endTime" : 1727702479185,
           "type" : "EVENT_TYPE1",
           "color" : {
             "red" : 0.0,
             "green" : 0.0,
             "blue" : 1.0
           },
-          "id" : "e648586d-a689-4446-bfa5-08f65704c2f6"
+          "id" : "2e5a6882-f069-4218-9a19-dc8dfb7381f5"
         } ]
       }, {
-        "userId" : "e03c200d-8575-4b9e-85df-cbd3dc99dd96",
+        "userId" : "4bd68a46-b421-4e91-956c-4c449eb1b34b",
         "events" : [ {
           "title" : "title1",
           "description" : "description1",
-          "startTime" : 1727701549879,
-          "endTime" : 1727701549879,
+          "startTime" : 1727702479136,
+          "endTime" : 1727702479136,
           "type" : "EVENT_TYPE1",
           "color" : {
             "red" : 0.0,
             "green" : 0.0,
             "blue" : 1.0
           },
-          "id" : "fa93cc45-f5e6-48fd-a26e-27349b95c7e3"
+          "id" : "33876b5e-b9a2-43da-aead-e1f79ffed0f1"
         }, {
           "title" : "title2",
           "description" : "description2",
-          "startTime" : 1727701549939,
-          "endTime" : 1727701549939,
+          "startTime" : 1727702479185,
+          "endTime" : 1727702479185,
           "type" : "EVENT_TYPE1",
           "color" : {
             "red" : 0.0,
             "green" : 0.0,
             "blue" : 1.0
           },
-          "id" : "e648586d-a689-4446-bfa5-08f65704c2f6"
+          "id" : "2e5a6882-f069-4218-9a19-dc8dfb7381f5"
         } ]
-      } ]
+      } ],
+      "settings" : {
+        "userId" : "6f057817-754d-4bb8-bcc3-022a140d5b70",
+        "timezone" : "Europe/Oslo",
+        "militaryTime" : true,
+        "showWeekNr" : false
+      }
     },
-    "f9a9c276-ab8e-4062-bcbc-0f8fa5967fc0" : {
-      "userId" : "b191d7dc-da93-4343-9f76-8b826090c927",
+    "6b53c9dd-9a01-42a3-a32b-c3cbdeb3bb8b" : {
+      "userId" : "117e2c9c-bcc5-4523-bcfe-d7bb6acadea3",
       "username" : "B",
       "password" : "2",
-      "calendars" : [ ]
+      "calendars" : [ ],
+      "settings" : {
+        "userId" : "117e2c9c-bcc5-4523-bcfe-d7bb6acadea3",
+        "timezone" : "Europe/Oslo",
+        "militaryTime" : true,
+        "showWeekNr" : false
+      }
     },
-    "4fa4a7f3-e01b-4acf-bb7b-12d81f4adafc" : {
-      "userId" : "00508644-289b-4ae3-b8b0-bf2ee0447d44",
-      "username" : "D",
-      "password" : "4",
-      "calendars" : [ ]
+    "e86043c7-4ed9-4bea-8410-a3744880d6d4" : {
+      "userId" : "8afe2359-ce03-41c7-ab7f-f9d5f252b44c",
+      "username" : "C",
+      "password" : "3",
+      "calendars" : [ ],
+      "settings" : {
+        "userId" : "8afe2359-ce03-41c7-ab7f-f9d5f252b44c",
+        "timezone" : "Europe/Oslo",
+        "militaryTime" : true,
+        "showWeekNr" : false
+      }
     }
   }
 }

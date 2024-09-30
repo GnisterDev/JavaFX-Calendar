@@ -20,6 +20,6 @@ public class UserSettingsTest {
         assertEquals(id, set.getUserId());
         assertEquals(timezone, set.getTimezone());
         assertTrue(set.getMilitaryTime());
-        assertFalse(set.getShowweekNr());
+        assertFalse(set.getShowWeekNr());
     }
 }
