@@ -16,6 +16,10 @@ public class UserSettings {
         this.showWeekNr = showWeekNr;
     }
 
+    public UserSettings(UUID userId) {
+        this(userId, TimeZone.getDefault(), true, false);
+    }
+
     public UUID getUserId() {
         return userId;
     }

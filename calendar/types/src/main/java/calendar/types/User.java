@@ -9,16 +9,22 @@ public class User {
     private String username;
     private String password;
     private List<Calendar> calendars;
+    private UserSettings settings;
 
     public User(String username, String password) {
-        this(UUID.randomUUID(), username, password, new ArrayList<>());
+        this.userId = UUID.randomUUID();
+        this.username = username;
+        this.password = password;
+        this.calendars = new ArrayList<>();
+        this.settings = new UserSettings(userId);
     }
 
-    public User(UUID userId, String username, String password, List<Calendar> calendars) {
+    public User(UUID userId, String username, String password, List<Calendar> calendars, UserSettings settings) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.calendars = new ArrayList<>(calendars);
+        this.settings = settings;
     }
 
     public UUID getUserId() {
@@ -27,6 +33,10 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public UserSettings getSettings() {
+        return settings;
     }
 
     public boolean checkPassword(String password) {

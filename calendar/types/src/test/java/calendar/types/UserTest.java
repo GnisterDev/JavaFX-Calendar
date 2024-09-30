@@ -3,6 +3,7 @@ package calendar.types;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -16,6 +17,7 @@ public class UserTest {
     private UUID id = UUID.randomUUID();
     private Calendar cal1 = new Calendar();
     private Calendar cal2 = new Calendar();
+    private UserSettings set = new UserSettings(id);
 
     @Test
     public void testConstructors() {
@@ -23,13 +25,15 @@ public class UserTest {
 
         assertEquals("username", user1.getUsername());
         assertTrue(user1.getCalendars().isEmpty());
+        assertNotNull(user1.getSettings());
         assertEquals(0, user1.calendarCount());
         assertThrows(IndexOutOfBoundsException.class, () -> user1.getCalendar(1));
 
-        User user2 = new User(id, "username", "password", List.of(cal1, cal2));
+        User user2 = new User(id, "username", "password", List.of(cal1, cal2), set);
 
         assertEquals(id, user2.getUserId());
         assertEquals("username", user2.getUsername());
+        assertEquals(set, user2.getSettings());
         assertEquals(2, user2.calendarCount());
         assertEquals(cal1, user2.getCalendar(0));
 
@@ -49,13 +53,13 @@ public class UserTest {
         List<Calendar> calendars = new ArrayList<>(List.of(cal1, cal2));
 
         // Calendar list does not mutate User
-        User user1 = new User(id, "username", "password", calendars);
+        User user1 = new User(id, "username", "password", calendars, set);
         assertEquals(calendars, user1.getCalendars());
         calendars.remove(1);
         assertNotEquals(calendars, user1.getCalendars());
 
         // User does not mutate calendar list
-        User user2 = new User(id, "username", "password", calendars);
+        User user2 = new User(id, "username", "password", calendars, set);
         assertEquals(calendars, user2.getCalendars());
         user2.addCalendar(cal1);
         assertNotEquals(calendars, user2.getCalendars());
