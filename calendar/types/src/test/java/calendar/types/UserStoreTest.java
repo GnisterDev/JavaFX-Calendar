@@ -122,5 +122,4 @@ public class UserStoreTest {
         assertTrue(store.hasUser(user2));
         assertFalse(store.hasUser(user3));
     }
-
 }

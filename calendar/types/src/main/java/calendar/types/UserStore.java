@@ -51,7 +51,7 @@ public class UserStore {
     }
 
     public boolean hasUser(User user) {
-        return hasUsername(user.getUsername()) || hasUserId(user.getUserId());
+        return hasUsername(user.getUsername()) && hasUserId(user.getUserId());
     }
 
     public Optional<UUID> getUserId(String username) {

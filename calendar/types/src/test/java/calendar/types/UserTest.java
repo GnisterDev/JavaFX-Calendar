@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,5 +59,35 @@ public class UserTest {
         assertEquals(calendars, user2.getCalendars());
         user2.addCalendar(cal1);
         assertNotEquals(calendars, user2.getCalendars());
+    }
+
+    @Test
+    public void testModifyCalendars() {
+        User user = new User("username", "password");
+
+        user.addCalendar(cal1);
+        assertEquals(1, user.calendarCount());
+        assertEquals(cal1, user.getCalendar(0));
+        assertThrows(IndexOutOfBoundsException.class, () -> user.getCalendar(2));
+
+        user.addCalendar(cal2);
+        assertEquals(2, user.calendarCount());
+        assertEquals(cal1, user.getCalendar(0));
+        assertEquals(cal2, user.getCalendar(1));
+        assertThrows(IndexOutOfBoundsException.class, () -> user.getCalendar(3));
+
+        user.removeCalendar(0);
+        assertEquals(1, user.calendarCount());
+        assertEquals(cal2, user.getCalendar(0));
+        assertThrows(IndexOutOfBoundsException.class, () -> user.getCalendar(2));
+
+        user.removeCalendar(cal1);
+        assertEquals(1, user.calendarCount());
+        assertEquals(cal2, user.getCalendar(0));
+        assertThrows(IndexOutOfBoundsException.class, () -> user.getCalendar(2));
+
+        user.removeCalendar(cal2);
+        assertEquals(0, user.calendarCount());
+        assertThrows(IndexOutOfBoundsException.class, () -> user.getCalendar(1));
     }
 }
