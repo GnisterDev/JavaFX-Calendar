@@ -1,27 +1,21 @@
 package calendar.persistence;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-import javafx.scene.paint.Color;
 import java.io.File;
 import java.io.IOException;
-import java.net.PasswordAuthentication;
-import java.util.UUID;
 import java.util.Date;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import calendar.types.Calendar;
 import calendar.types.Event;
 import calendar.types.User;
+import calendar.types.UserSettings;
 
 public class PersistenceTest {
 
     private static final String TEST_FILE_PATH = "test.json";
-    private Persistence persistence;
 
     @AfterEach
     public void tearDown() {
@@ -69,7 +63,7 @@ public class PersistenceTest {
     @Test
     public void testReadThrowsIOExceptionWhenFileNotFound() {
         assertThrows(IOException.class, () -> {
-            Persistence.read(User.class);
+            Persistence.read(UserSettings.class);
         });
     }
 }
