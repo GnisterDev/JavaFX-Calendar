@@ -3,22 +3,40 @@ package calendar.types;
 import java.util.Date;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javafx.scene.paint.Color;
 
 public class Event {
+    @JsonProperty
     private UUID id;
+    @JsonProperty
     private EventType type;
+    @JsonProperty
     private String title;
+    @JsonProperty
     private String description;
+    @JsonProperty
     private Date startTime;
+    @JsonProperty
     private Date endTime;
+    @JsonProperty
     private Color color;
 
     public Event(String title, String description, Date startTime, Date endTime) {
         this(title, description, startTime, endTime, EventType.EVENT_TYPE1, Color.BLUE, UUID.randomUUID());
     }
 
-    public Event(String title, String description, Date startTime, Date endTime, EventType type, Color color, UUID id) {
+    @JsonCreator
+    public Event(
+            @JsonProperty("title") String title,
+            @JsonProperty("description") String description,
+            @JsonProperty("startTime") Date startTime,
+            @JsonProperty("endTime") Date endTime,
+            @JsonProperty("type") EventType type,
+            @JsonProperty("color") Color color,
+            @JsonProperty("id") UUID id) {
         this.title = title;
         this.description = description;
         this.startTime = startTime;
