@@ -1,108 +1,108 @@
 {
   "usernameToUserId" : {
-    "A" : "6f057817-754d-4bb8-bcc3-022a140d5b70",
-    "B" : "2cd522f2-f43a-4d8f-ba6e-dcb1636c5024",
-    "C" : "be682c8f-f379-4e32-9139-88ce03cbc7ca",
-    "D" : "2ac43fdd-a27b-454a-aaf7-db50d55499f0"
+    "A" : "ef38f038-a367-4cc7-b4ba-50a8aa4e7268",
+    "B" : "b087f8d6-7d4d-491d-a32d-e62017cfbaa9",
+    "C" : "e8730121-2fad-4511-afa6-223cda1a1b6b",
+    "D" : "58f0785a-8c38-4bc9-b21c-8b3adde76152"
   },
   "userIdToUser" : {
-    "bc95e488-ad3b-4104-8b45-ca8195c0d824" : {
-      "userId" : "a88d7f2c-9a32-4ef6-b6ac-e0b89b8e9629",
-      "username" : "D",
-      "password" : "4",
-      "calendars" : [ ],
-      "settings" : {
-        "userId" : "a88d7f2c-9a32-4ef6-b6ac-e0b89b8e9629",
-        "timezone" : "Europe/Oslo",
-        "militaryTime" : true,
-        "showWeekNr" : false
-      }
-    },
-    "6f057817-754d-4bb8-bcc3-022a140d5b70" : {
-      "userId" : "6f057817-754d-4bb8-bcc3-022a140d5b70",
+    "ef38f038-a367-4cc7-b4ba-50a8aa4e7268" : {
+      "userId" : "ef38f038-a367-4cc7-b4ba-50a8aa4e7268",
       "username" : "A",
       "password" : "1",
       "calendars" : [ {
-        "userId" : "661140b0-05b2-4a05-81d6-818dbe23c7c5",
+        "userId" : "cf474a6b-63ad-48a4-acda-4c8f6e674810",
         "events" : [ {
           "title" : "title1",
           "description" : "description1",
-          "startTime" : 1727702479136,
-          "endTime" : 1727702479136,
+          "startTime" : 1727705011629,
+          "endTime" : 1727705011629,
           "type" : "EVENT_TYPE1",
           "color" : {
             "red" : 0.0,
             "green" : 0.0,
             "blue" : 1.0
           },
-          "id" : "33876b5e-b9a2-43da-aead-e1f79ffed0f1"
+          "id" : "54115a81-4982-448b-8a72-20597af1a394"
         }, {
           "title" : "title2",
           "description" : "description2",
-          "startTime" : 1727702479185,
-          "endTime" : 1727702479185,
+          "startTime" : 1727705011683,
+          "endTime" : 1727705011683,
           "type" : "EVENT_TYPE1",
           "color" : {
             "red" : 0.0,
             "green" : 0.0,
             "blue" : 1.0
           },
-          "id" : "2e5a6882-f069-4218-9a19-dc8dfb7381f5"
+          "id" : "9292afee-1a27-4ab9-8ee9-4588da88f9b3"
         } ]
       }, {
-        "userId" : "4bd68a46-b421-4e91-956c-4c449eb1b34b",
+        "userId" : "daf4a839-3ad2-4a96-8c57-64259dbe8899",
         "events" : [ {
           "title" : "title1",
           "description" : "description1",
-          "startTime" : 1727702479136,
-          "endTime" : 1727702479136,
+          "startTime" : 1727705011629,
+          "endTime" : 1727705011629,
           "type" : "EVENT_TYPE1",
           "color" : {
             "red" : 0.0,
             "green" : 0.0,
             "blue" : 1.0
           },
-          "id" : "33876b5e-b9a2-43da-aead-e1f79ffed0f1"
+          "id" : "54115a81-4982-448b-8a72-20597af1a394"
         }, {
           "title" : "title2",
           "description" : "description2",
-          "startTime" : 1727702479185,
-          "endTime" : 1727702479185,
+          "startTime" : 1727705011683,
+          "endTime" : 1727705011683,
           "type" : "EVENT_TYPE1",
           "color" : {
             "red" : 0.0,
             "green" : 0.0,
             "blue" : 1.0
           },
-          "id" : "2e5a6882-f069-4218-9a19-dc8dfb7381f5"
+          "id" : "9292afee-1a27-4ab9-8ee9-4588da88f9b3"
         } ]
       } ],
       "settings" : {
-        "userId" : "6f057817-754d-4bb8-bcc3-022a140d5b70",
+        "userId" : "ef38f038-a367-4cc7-b4ba-50a8aa4e7268",
         "timezone" : "Europe/Oslo",
         "militaryTime" : true,
         "showWeekNr" : false
       }
     },
-    "6b53c9dd-9a01-42a3-a32b-c3cbdeb3bb8b" : {
-      "userId" : "117e2c9c-bcc5-4523-bcfe-d7bb6acadea3",
-      "username" : "B",
-      "password" : "2",
-      "calendars" : [ ],
-      "settings" : {
-        "userId" : "117e2c9c-bcc5-4523-bcfe-d7bb6acadea3",
-        "timezone" : "Europe/Oslo",
-        "militaryTime" : true,
-        "showWeekNr" : false
-      }
-    },
-    "e86043c7-4ed9-4bea-8410-a3744880d6d4" : {
-      "userId" : "8afe2359-ce03-41c7-ab7f-f9d5f252b44c",
+    "e9c7de1a-bc6d-49d5-8950-8f0b32cf43f5" : {
+      "userId" : "a1f13764-3724-497a-85bb-2c0f8be8ab06",
       "username" : "C",
       "password" : "3",
       "calendars" : [ ],
       "settings" : {
-        "userId" : "8afe2359-ce03-41c7-ab7f-f9d5f252b44c",
+        "userId" : "a1f13764-3724-497a-85bb-2c0f8be8ab06",
+        "timezone" : "Europe/Oslo",
+        "militaryTime" : true,
+        "showWeekNr" : false
+      }
+    },
+    "ba539e96-f55a-485b-9a10-d8dee1ca94ec" : {
+      "userId" : "694cec23-7bd3-470a-bb3e-6abf06c8745a",
+      "username" : "B",
+      "password" : "2",
+      "calendars" : [ ],
+      "settings" : {
+        "userId" : "694cec23-7bd3-470a-bb3e-6abf06c8745a",
+        "timezone" : "Europe/Oslo",
+        "militaryTime" : true,
+        "showWeekNr" : false
+      }
+    },
+    "3c19f7d1-5764-4d2b-bbb3-0e5ceef56728" : {
+      "userId" : "48c26869-f557-4aaf-b071-c044afcd06ab",
+      "username" : "D",
+      "password" : "4",
+      "calendars" : [ ],
+      "settings" : {
+        "userId" : "48c26869-f557-4aaf-b071-c044afcd06ab",
         "timezone" : "Europe/Oslo",
         "militaryTime" : true,
         "showWeekNr" : false

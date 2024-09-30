@@ -15,7 +15,7 @@ public class ColorDeserializer extends JsonDeserializer<Color> {
     @Override
     public Color deserialize(JsonParser parser, DeserializationContext ctxt)
             throws IOException, JsonProcessingException {
-        JsonNode node = parser.getCodec().readTree(parser);
+        JsonNode node = parser.readValueAsTree();
         Double r = (double) node.get("red").doubleValue();
         Double g = (double) node.get("green").doubleValue();
         Double b = (double) node.get("blue").doubleValue();

@@ -22,6 +22,7 @@
         <maven-surefire.version>3.5.0</maven-surefire.version>
         <maven-failsafe.version>3.5.0</maven-failsafe.version>
         <jacoco.version>0.8.11</jacoco.version>
+        <mocito.version>5.14.0</mocito.version>
     </properties>
 
     <!-- Define submodules -->
@@ -88,6 +89,14 @@
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-graphics</artifactId>
                 <version>${javafx.version}</version>
+            </dependency>
+
+            <!-- Mockito -->
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mocito.version}</version>
+                <scope>test</scope>
             </dependency>
 
             <!-- Add other dependencies here -->
