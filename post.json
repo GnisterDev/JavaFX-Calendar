@@ -1,0 +1,88 @@
+{
+  "usernameToUserId" : {
+    "A" : "b2b17a72-7b86-45b0-9ecc-c0bc6dd4196c",
+    "B" : "fd66bf48-2313-44a2-9e34-afae7ca8b2fd",
+    "C" : "dedf02b5-4da6-4a15-a39e-622c876eeb44",
+    "D" : "9d94e671-f33f-4b40-8c13-e3003426e779"
+  },
+  "userIdToUser" : {
+    "4e02ce76-04a0-431c-a4b7-2ea536088901" : {
+      "userId" : "07637099-190e-443e-8b1a-41845cb37e1a",
+      "username" : "B",
+      "password" : "2",
+      "calendars" : [ ]
+    },
+    "6f25aa40-2ed9-45c4-a37c-7688ca524559" : {
+      "userId" : "0b3fa40b-c9f9-4950-883e-799bc047d100",
+      "username" : "D",
+      "password" : "4",
+      "calendars" : [ ]
+    },
+    "b2b17a72-7b86-45b0-9ecc-c0bc6dd4196c" : {
+      "userId" : "b2b17a72-7b86-45b0-9ecc-c0bc6dd4196c",
+      "username" : "A",
+      "password" : "1",
+      "calendars" : [ {
+        "userId" : "faaa3884-5d31-4d50-8fd7-45d74cf7a8a1",
+        "events" : [ {
+          "title" : "title1",
+          "description" : "description1",
+          "startTime" : 1727700800793,
+          "endTime" : 1727700800793,
+          "type" : "EVENT_TYPE1",
+          "color" : {
+            "red" : 0.0,
+            "green" : 0.0,
+            "blue" : 1.0
+          },
+          "id" : "ccdc6463-cea1-476e-a549-1656aebe1a1a"
+        }, {
+          "title" : "title2",
+          "description" : "description2",
+          "startTime" : 1727700800841,
+          "endTime" : 1727700800841,
+          "type" : "EVENT_TYPE1",
+          "color" : {
+            "red" : 0.0,
+            "green" : 0.0,
+            "blue" : 1.0
+          },
+          "id" : "fb1321bb-0517-4c33-a584-042a2e017316"
+        } ]
+      }, {
+        "userId" : "680a00b2-a999-49da-9ea0-02ab93f6c68f",
+        "events" : [ {
+          "title" : "title1",
+          "description" : "description1",
+          "startTime" : 1727700800793,
+          "endTime" : 1727700800793,
+          "type" : "EVENT_TYPE1",
+          "color" : {
+            "red" : 0.0,
+            "green" : 0.0,
+            "blue" : 1.0
+          },
+          "id" : "ccdc6463-cea1-476e-a549-1656aebe1a1a"
+        }, {
+          "title" : "title2",
+          "description" : "description2",
+          "startTime" : 1727700800841,
+          "endTime" : 1727700800841,
+          "type" : "EVENT_TYPE1",
+          "color" : {
+            "red" : 0.0,
+            "green" : 0.0,
+            "blue" : 1.0
+          },
+          "id" : "fb1321bb-0517-4c33-a584-042a2e017316"
+        } ]
+      } ]
+    },
+    "fd5dcf58-9c7c-4b9d-bd3b-d9697fbba9f2" : {
+      "userId" : "679818ec-bb9a-4e6d-b125-10963b6ee70e",
+      "username" : "C",
+      "password" : "3",
+      "calendars" : [ ]
+    }
+  }
+}

@@ -4,26 +4,37 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class User {
+    @JsonProperty
     private UUID userId;
+    @JsonProperty
     private String username;
+    @JsonProperty
     private String password;
+    @JsonProperty
     private List<Calendar> calendars;
 
     public User(String username, String password) {
         this(UUID.randomUUID(), username, password, new ArrayList<>());
     }
 
-    public User(UUID userId, String username, String password, List<Calendar> calendars) {
+    @JsonCreator
+    public User(@JsonProperty("userId") UUID userId,
+            @JsonProperty("username") String username,
+            @JsonProperty("password") String password,
+            @JsonProperty("calendars") List<Calendar> calendars) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.calendars = new ArrayList<>(calendars);
     }
 
-    public UUID getUserId() {
-        return userId;
-    }
+    // public UUID getUserId() {
+    //     return userId;
+    // }
 
     public String getUsername() {
         return username;

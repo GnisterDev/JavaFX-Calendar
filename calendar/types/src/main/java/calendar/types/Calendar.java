@@ -4,8 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Calendar {
+    @JsonProperty
     private UUID userId;
+    @JsonProperty
     private List<Event> events;
 
     public Calendar() {
@@ -17,10 +22,11 @@ public class Calendar {
     }
 
     public Calendar(List<Event> events) {
-        this(events, UUID.randomUUID());
+        this(UUID.randomUUID(), events);
     }
 
-    public Calendar(List<Event> events, UUID userId) {
+    @JsonCreator
+    public Calendar(@JsonProperty("userId") UUID userId, @JsonProperty("events") List<Event> events) {
         this.events = new ArrayList<>(events);
         this.userId = userId;
     }
