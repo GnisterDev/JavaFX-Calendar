@@ -52,42 +52,42 @@ public class Persistence {
         return object;
     }
 
-    public static void main(String[] args) {
+    // public static void main(String[] args) {
 
-        ArrayList<Event> e = new ArrayList<>();
-        e.add(new Event("title1", "description1", new Date(), new Date()));
-        e.add(new Event("title2", "description2", new Date(), new Date()));
-        ArrayList<Calendar> cl = new ArrayList<>();
-        cl.add(new Calendar(e));
-        cl.add(new Calendar(e));
+    //     ArrayList<Event> e = new ArrayList<>();
+    //     e.add(new Event("title1", "description1", new Date(), new Date()));
+    //     e.add(new Event("title2", "description2", new Date(), new Date()));
+    //     ArrayList<Calendar> cl = new ArrayList<>();
+    //     cl.add(new Calendar(e));
+    //     cl.add(new Calendar(e));
 
-        UUID id = UUID.randomUUID();
-        User u = new User(id, "A", "1", cl, new UserSettings(id));
+    //     UUID id = UUID.randomUUID();
+    //     User u = new User(id, "A", "1", cl, new UserSettings(id));
 
-        HashMap<String, UUID> StU = new HashMap<>();
-        StU.put("A", id);
-        StU.put("B", UUID.randomUUID());
-        StU.put("C", UUID.randomUUID());
-        StU.put("D", UUID.randomUUID());
+    //     HashMap<String, UUID> StU = new HashMap<>();
+    //     StU.put("A", id);
+    //     StU.put("B", UUID.randomUUID());
+    //     StU.put("C", UUID.randomUUID());
+    //     StU.put("D", UUID.randomUUID());
 
-        HashMap<UUID, User> UtU = new HashMap<>();
-        UtU.put(id, u);
-        UtU.put(UUID.randomUUID(), new User("B", "2"));
-        UtU.put(UUID.randomUUID(), new User("C", "3"));
-        UtU.put(UUID.randomUUID(), new User("D", "4"));
+    //     HashMap<UUID, User> UtU = new HashMap<>();
+    //     UtU.put(id, u);
+    //     UtU.put(UUID.randomUUID(), new User("B", "2"));
+    //     UtU.put(UUID.randomUUID(), new User("C", "3"));
+    //     UtU.put(UUID.randomUUID(), new User("D", "4"));
 
-        UserStore userStore = new UserStore(StU, UtU);
-        try {
-            write(userStore);
-            System.out.println(
-                    read(UserStore.class)
-                            .getUser(id)
-                            .get()
-                            .getCalendar(1)
-                            .getEvent(0)
-                            .getStartTime());
-        } catch (IOException err) {
-            System.out.println(err);
-        }
-    }
+    //     UserStore userStore = new UserStore(StU, UtU);
+    //     try {
+    //         write(userStore);
+    //         System.out.println(
+    //                 read(UserStore.class)
+    //                         .getUser(id)
+    //                         .get()
+    //                         .getCalendar(1)
+    //                         .getEvent(0)
+    //                         .getStartTime());
+    //     } catch (IOException err) {
+    //         System.out.println(err);
+    //     }
+    // }
 }
