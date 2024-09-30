@@ -8,19 +8,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class UserStoreTest {
-    private static Map<String, UUID> nameToId = new HashMap<>();
-    private static Map<UUID, User> idToUser = new HashMap<>();
+    private Map<String, UUID> nameToId = new HashMap<>();
+    private Map<UUID, User> idToUser = new HashMap<>();
 
-    private static User user1 = new User("user1", "passwd");
-    private static User user2 = new User("user2", "passwd");
-    private static User user3 = new User("user3", "passwd");
+    private User user1 = new User("user1", "passwd");
+    private User user2 = new User("user2", "passwd");
+    private User user3 = new User("user3", "passwd");
 
-    @BeforeAll
-    public static void setup() {
+    @BeforeEach
+    public void setup() {
         nameToId.put(user1.getUsername(), user1.getUserId());
         nameToId.put(user2.getUsername(), user2.getUserId());
         idToUser.put(user1.getUserId(), user1);
@@ -39,6 +39,10 @@ public class UserStoreTest {
         assertTrue(store.hasUserId(user2.getUserId()));
         assertFalse(store.hasUserId(user3.getUserId()));
 
+        assertTrue(store.hasUser(user1));
+        assertTrue(store.hasUser(user2));
+        assertFalse(store.hasUser(user3));
+
         assertEquals(user1.getUserId(), store.getUserId(user1.getUsername()).get());
         assertEquals(user2.getUserId(), store.getUserId(user2.getUsername()).get());
         assertTrue(store.getUserId(user3.getUsername()).isEmpty());
@@ -46,7 +50,77 @@ public class UserStoreTest {
         assertEquals(user1, store.getUser(user1.getUserId()).get());
         assertEquals(user2, store.getUser(user2.getUserId()).get());
         assertTrue(store.getUser(user3.getUserId()).isEmpty());
+    }
 
+    @Test
+    public void testImmutability() {
+        UserStore store = new UserStore(nameToId, idToUser);
+
+        nameToId.remove(user1.getUsername());
+        assertTrue(store.hasUsername(user1.getUsername()));
+
+        idToUser.remove(user1.getUserId());
+        assertTrue(store.hasUserId(user1.getUserId()));
+
+        nameToId.put(user3.getUsername(), user3.getUserId());
+        assertFalse(store.hasUsername(user3.getUsername()));
+
+        idToUser.put(user3.getUserId(), user3);
+        assertFalse(store.hasUserId(user3.getUserId()));
+    }
+
+    @Test
+    public void testModifyUsers() {
+        UserStore store = new UserStore(nameToId, idToUser);
+
+        assertTrue(store.hasUser(user1));
+        assertTrue(store.hasUser(user2));
+        assertFalse(store.hasUser(user3));
+
+        assertFalse(store.addUser(user1));
+        assertTrue(store.hasUser(user1));
+        assertTrue(store.hasUser(user2));
+        assertFalse(store.hasUser(user3));
+
+        assertTrue(store.addUser(user3));
+        assertTrue(store.hasUser(user1));
+        assertTrue(store.hasUser(user2));
+        assertTrue(store.hasUser(user3));
+
+        assertTrue(store.removeUser(user1.getUsername()));
+        assertFalse(store.hasUser(user1));
+        assertTrue(store.hasUser(user2));
+        assertTrue(store.hasUser(user3));
+
+        assertTrue(store.removeUser(user2.getUserId()));
+        assertFalse(store.hasUser(user1));
+        assertFalse(store.hasUser(user2));
+        assertTrue(store.hasUser(user3));
+
+        assertTrue(store.removeUser(user3));
+        assertFalse(store.hasUser(user1));
+        assertFalse(store.hasUser(user2));
+        assertFalse(store.hasUser(user3));
+
+        assertFalse(store.removeUser(user1.getUsername()));
+        assertFalse(store.hasUser(user1));
+        assertFalse(store.hasUser(user2));
+        assertFalse(store.hasUser(user3));
+
+        assertFalse(store.removeUser(user2.getUserId()));
+        assertFalse(store.hasUser(user1));
+        assertFalse(store.hasUser(user2));
+        assertFalse(store.hasUser(user3));
+
+        assertFalse(store.removeUser(user3));
+        assertFalse(store.hasUser(user1));
+        assertFalse(store.hasUser(user2));
+        assertFalse(store.hasUser(user3));
+
+        assertTrue(store.addUser(user2));
+        assertFalse(store.hasUser(user1));
+        assertTrue(store.hasUser(user2));
+        assertFalse(store.hasUser(user3));
     }
 
 }
