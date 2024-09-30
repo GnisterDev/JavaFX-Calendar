@@ -13,7 +13,7 @@ public class Calendar {
     }
 
     public Calendar(UUID userId) {
-        this.userId = userId;
+        this(new ArrayList<>(), userId);
     }
 
     public Calendar(List<Event> events) {
