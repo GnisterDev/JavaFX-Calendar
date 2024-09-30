@@ -45,7 +45,7 @@ public class User {
     }
 
     public UUID getUserId() {
-    return userId;
+        return userId;
     }
 
     public String getUsername() {

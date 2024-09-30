@@ -1,0 +1,13 @@
+{
+  "title" : "Title",
+  "description" : "Description",
+  "startTime" : 1727708350525,
+  "endTime" : 1727708350525,
+  "type" : "EVENT_TYPE1",
+  "color" : {
+    "red" : 0.0,
+    "green" : 0.0,
+    "blue" : 1.0
+  },
+  "id" : "eb7c475d-210a-4391-9042-6d8582dd96d4"
+}
