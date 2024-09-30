@@ -23,7 +23,7 @@ import calendar.types.Calendar;
 import calendar.types.Event;
 
 public class Persistence {
-    public static void write(UserStore object) throws IOException {
+    public static <T> void write(T object) throws IOException {
         SimpleModule module = new SimpleModule();
         module.addSerializer(Color.class, new ColorSerializer());
 
