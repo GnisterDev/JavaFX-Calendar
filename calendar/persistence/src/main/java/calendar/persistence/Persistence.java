@@ -35,11 +35,11 @@ public class Persistence {
         fileOutputStream.close();
     }
 
-    public static <T> T read(Class<T> topClass) throws IOException {
-        return Persistence.read(topClass, Persistence.DEAFULT_FILE_PATH);
+    public static <T> T read(Class<T> objectType) throws IOException {
+        return Persistence.read(objectType, Persistence.DEAFULT_FILE_PATH);
     }
 
-    public static <T> T read(Class<T> topClass, String filepath) throws IOException {
+    public static <T> T read(Class<T> objectType, String filepath) throws IOException {
         SimpleModule module = new SimpleModule();
         module.addDeserializer(Color.class, new ColorDeserializer());
         module.addDeserializer(UUID.class, new UUIDDeserializer());
@@ -49,7 +49,7 @@ public class Persistence {
         mapper.registerModule(module);
 
         InputStream fileInputStream = new FileInputStream(filepath);
-        T object = mapper.readValue(fileInputStream, topClass);
+        T object = mapper.readValue(fileInputStream, objectType);
 
         return object;
     }
