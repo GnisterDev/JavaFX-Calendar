@@ -16,7 +16,7 @@ import calendar.persistence.internal.ColorSerializer;
 import calendar.persistence.internal.UUIDDeserializer;
 
 public class Persistence {
-    public static String DEAFULT_FILE_PATH = "post.json";
+    public static String DEAFULT_FILE_PATH = "./userdata.json";
 
     public static <T> void write(T object) throws IOException {
         Persistence.write(object, Persistence.DEAFULT_FILE_PATH);
