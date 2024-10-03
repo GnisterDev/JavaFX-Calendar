@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>gr2404.calendar</groupId>
@@ -23,6 +22,7 @@
         <maven-surefire.version>3.5.0</maven-surefire.version>
         <maven-failsafe.version>3.5.0</maven-failsafe.version>
         <jacoco.version>0.8.11</jacoco.version>
+        <mocito.version>5.14.0</mocito.version>
     </properties>
 
     <!-- Define submodules -->
@@ -91,6 +91,14 @@
                 <version>${javafx.version}</version>
             </dependency>
 
+            <!-- Mockito -->
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mocito.version}</version>
+                <scope>test</scope>
+            </dependency>
+
             <!-- Add other dependencies here -->
 
         </dependencies>
@@ -142,8 +150,7 @@
                         <consoleOutputReporter>
                             <disable>true</disable>
                         </consoleOutputReporter>
-                        <statelessTestsetInfoReporter
-                            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporter" />
+                        <statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporter" />
                     </configuration>
                 </plugin>
                 <plugin>
