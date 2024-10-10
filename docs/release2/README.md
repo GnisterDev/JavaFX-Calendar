@@ -6,12 +6,12 @@ This is the second release of the the project. It contains the first version of 
 
 The architecture we have chosen for this app is a layered architecture, aslo known as the N-tier architecture. It has 4 layers, where each layer has only one, well defined, responcibility.
 
-![alt text](./../images/image.png)
+![alt text](./../images/architecture.png)
 
-- The UI module is the UI layer. Its responcibility is giving the user an interface to interact with the rest of the application. It shows the user information and interprets what the user wants to do.
-- The Core module is the service layer. This is where all the business logic and all other calculations live. It is the glue that lets the UI layer and the data access layer communicate. This makes the architecture more flexible, as we wont need to change the UI if we choose to change how data is stored.
-- The Types module is the data access layer. It defines how data is stored and provides an interface to interact with it. 
-- The Persistence module is the persistence layer. It's responcibility is to persist the data. Right now it provides functions to serialize/deserialize the data from the types module and read it from/write it to a file.
+-   The UI module is the UI layer. Its responcibility is giving the user an interface to interact with the rest of the application. It shows the user information and interprets what the user wants to do.
+-   The Core module is the service layer. This is where all the business logic and all other calculations live. It is the glue that lets the UI layer and the data access layer communicate. This makes the architecture more flexible, as we wont need to change the UI if we choose to change how data is stored.
+-   The Types module is the data access layer. It defines how data is stored and provides an interface to interact with it.
+-   The Persistence module is the persistence layer. It's responcibility is to persist the data. Right now it provides functions to serialize/deserialize the data from the types module and read it from/write it to a file.
 
 This architecture is compliant with the Model-View-Controller architectural pattern. The types module is the model. It defines what data is stored and how. The UI module constites the view aspect and has minimal logic of its own. Lastly, the core module is the controller, acting as an interafce between the view and the model.
 
