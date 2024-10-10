@@ -1,6 +1,5 @@
 package calendar.ui;
 
-import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,14 +8,11 @@ import java.util.List;
 
 import calendar.core.CalendarApp;
 import calendar.core.Core;
+import calendar.core.SceneCore;
 import calendar.types.Event;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
@@ -24,7 +20,6 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class CalendarController {
 
@@ -56,86 +51,6 @@ public class CalendarController {
     @FXML
     private Label weekLabel;
 
-    public CalendarApp getCalendarApp() {
-        return calendarApp;
-    }
-
-    public void setCalendarApp(CalendarApp calendarApp) {
-        this.calendarApp = calendarApp;
-    }
-
-    public LocalDate getWeekDate() {
-        return weekDate;
-    }
-
-    public void setWeekDate(LocalDate weekDate) {
-        this.weekDate = weekDate;
-    }
-
-    public Label getMessageLabel() {
-        return messageLabel;
-    }
-
-    public void setMessageLabel(Label messageLabel) {
-        this.messageLabel = messageLabel;
-    }
-
-    public GridPane getCalendarGrid() {
-        return calendarGrid;
-    }
-
-    public void setCalendarGrid(GridPane calendarGrid) {
-        this.calendarGrid = calendarGrid;
-    }
-
-    public DatePicker getStartDatePicker() {
-        return startDatePicker;
-    }
-
-    public void setStartDatePicker(DatePicker startDatePicker) {
-        this.startDatePicker = startDatePicker;
-    }
-
-    public DatePicker getEndDatePicker() {
-        return endDatePicker;
-    }
-
-    public void setEndDatePicker(DatePicker endDatePicker) {
-        this.endDatePicker = endDatePicker;
-    }
-
-    public TextField getEventNameField() {
-        return eventNameField;
-    }
-
-    public void setEventNameField(TextField eventNameField) {
-        this.eventNameField = eventNameField;
-    }
-
-    public Spinner<Integer> getStartTimeSpinner() {
-        return startTimeSpinner;
-    }
-
-    public void setStartTimeSpinner(Spinner<Integer> startTimeSpinner) {
-        this.startTimeSpinner = startTimeSpinner;
-    }
-
-    public Spinner<Integer> getEndTimeSpinner() {
-        return endTimeSpinner;
-    }
-
-    public void setEndTimeSpinner(Spinner<Integer> endTimeSpinner) {
-        this.endTimeSpinner = endTimeSpinner;
-    }
-
-    public Label getWeekLabel() {
-        return weekLabel;
-    }
-
-    public void setWeekLabel(Label weekLabel) {
-        this.weekLabel = weekLabel;
-    }
-
     @FXML
     public void initialize() {
         startTimeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 8));
@@ -145,15 +60,7 @@ public class CalendarController {
     }
 
     public void handleBackToLogin(ActionEvent event) {
-        try {
-            Parent loginPage = FXMLLoader.load(getClass().getResource("login.fxml"));
-            Scene loginScene = new Scene(loginPage);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(loginScene);
-            window.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneCore.setScene("Login.fxml");
     }
 
     public void previousWeek(ActionEvent event) {
