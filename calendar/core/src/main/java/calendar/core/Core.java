@@ -14,11 +14,9 @@ public class Core {
     private static Optional<CalendarApp> calendarApp = Optional.empty();
 
     public static void initialize() throws IOException {
-        // userStore = Persistence.read(UserStore.class);
-
-        // Temp
-        userStore = new UserStore(new HashMap<>(), new HashMap<>());
-        registerUser("1", "1");
+        userStore = Persistence.read(UserStore.class);
+        if (userStore == null)
+            userStore = new UserStore(new HashMap<>(), new HashMap<>());
     }
 
     public static void destroy() throws IOException {
