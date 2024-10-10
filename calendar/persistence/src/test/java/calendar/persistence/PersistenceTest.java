@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -47,7 +48,7 @@ public class PersistenceTest {
 
     @Test
     public void testWriteAndReadEvent() throws IOException {
-        Event event = new Event("Title", "Description", new Date(), new Date());
+        Event event = new Event("Title", "Description", LocalDateTime.now(), LocalDateTime.now());
         Persistence.write(event, TEST_FILE_PATH);
 
         Event readEvent = Persistence.read(Event.class, TEST_FILE_PATH);
@@ -108,12 +109,12 @@ public class PersistenceTest {
         String username4 = "D";
 
         ArrayList<Event> eventList1 = new ArrayList<>();
-        eventList1.add(new Event("title1_1", "description1_1", new Date(), new Date()));
-        eventList1.add(new Event("title1_2", "description1_2", new Date(), new Date()));
+        eventList1.add(new Event("title1_1", "description1_1", LocalDateTime.now(), LocalDateTime.now()));
+        eventList1.add(new Event("title1_2", "description1_2", LocalDateTime.now(), LocalDateTime.now()));
         ArrayList<Event> eventList2 = new ArrayList<>();
-        eventList2.add(new Event("title2_1", "description2_1", new Date(), new Date()));
-        eventList2.add(new Event("title2_2", "description2_2", new Date(), new Date()));
-        eventList2.add(new Event("title2_3", "description2_3", new Date(), new Date()));
+        eventList2.add(new Event("title2_1", "description2_1", LocalDateTime.now(), LocalDateTime.now()));
+        eventList2.add(new Event("title2_2", "description2_2", LocalDateTime.now(), LocalDateTime.now()));
+        eventList2.add(new Event("title2_3", "description2_3", LocalDateTime.now(), LocalDateTime.now()));
 
         ArrayList<Calendar> calendar = new ArrayList<>();
         calendar.add(new Calendar(eventList1));

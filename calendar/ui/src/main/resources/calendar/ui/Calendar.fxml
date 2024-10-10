@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="calendar.ui.CalendarController">
+    <!-- Header with month and navigation buttons -->
+    <top>
+        <HBox spacing="10" alignment="CENTER">
+            <Button text="last week" onAction="#previousWeek"/>
+            <Label fx:id="monthYearLabel" text="Week" style="-fx-font-size: 16px;"/>
+            <Button text="next week" onAction="#nextWeek"/>
+        </HBox>
+    </top>
+
+    <!-- GridPane for the days -->
+    <center>
+        <GridPane fx:id="calendarGrid" hgap="10" vgap="10" alignment="CENTER">
+          <padding>
+            <Insets topRightBottomLeft="10"/>
+          </padding>
+            <!-- Days of the week -->
+            <Label text="Mon" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+            <Label text="Tue" GridPane.columnIndex="1" style="-fx-font-weight: bold;"/>
+            <Label text="Wed" GridPane.columnIndex="2" style="-fx-font-weight: bold;"/>
+            <Label text="Thu" GridPane.columnIndex="3" style="-fx-font-weight: bold;"/>
+            <Label text="Fri" GridPane.columnIndex="4" style="-fx-font-weight: bold;"/>
+            <Label text="Sat" GridPane.columnIndex="5" style="-fx-font-weight: bold;"/>
+            <Label text="Sun" GridPane.columnIndex="6" style="-fx-font-weight: bold;"/>
+            
+            <VBox GridPane.rowIndex="1" GridPane.columnIndex="0" alignment="CENTER">
+                <Label text="1"/>
+                <Label text="Event A" style="-fx-text-fill: green;"/>
+            </VBox>
+            
+            <VBox GridPane.rowIndex="1" GridPane.columnIndex="1" alignment="CENTER">
+                <Label text="2"/>
+                <Label text="Event B" style="-fx-text-fill: green;"/>
+            </VBox>
+
+            <VBox GridPane.rowIndex="4" GridPane.columnIndex="3" alignment="CENTER">
+                <Label text="3"/>
+                <Label text="Event C" style="-fx-text-fill: blue;"/>
+            </VBox>
+            <VBox GridPane.columnIndex="7">
+            <Label text="Event form" style="-fx-font-size: 20px;"/>
+
+                <!-- Text field for the event name or description -->
+                <TextField fx:id="eventNameField" promptText="Event name"/>
+
+                
+
+                <!-- ChoiceBox for selecting the day (Monday to Sunday) -->
+                <ChoiceBox fx:id="timeChoiceBox"  />
+
+
+                <!-- Button to add the event -->
+                <Button text="Add event" onAction="#addEvent"/>
+
+                <!-- Message label for feedback -->
+                <Label fx:id="messageLabel"/>
+            </VBox>
+        </GridPane>    
+    </center>
+
+
+</BorderPane>
+
+
+
+

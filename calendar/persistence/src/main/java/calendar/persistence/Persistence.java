@@ -9,6 +9,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import javafx.scene.paint.Color;
 import calendar.persistence.internal.ColorDeserializer;
@@ -27,6 +28,7 @@ public class Persistence {
         module.addSerializer(Color.class, new ColorSerializer());
 
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
         mapper.registerModule(module);
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
@@ -45,6 +47,7 @@ public class Persistence {
         module.addDeserializer(UUID.class, new UUIDDeserializer());
 
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         mapper.registerModule(module);
 
