@@ -25,6 +25,8 @@ We feel this has generally worked very well. We were able to get things done in 
 
 As mentioned in realease 1 we have chosen to use junit5 and jacoco for tests and test coverage reports respectively. Each submodule has a set of its own unit tests and jacoco is run in every submodule to generate a test coverage report for each submodule individually. After every submodules tests have been run and test coverage reports generated, the build-tools submodule runs. Its only purpose, per now, is to go into each individual submodule and compile every test coverage report into one global report, spanning the entire project. This way we have all the information in one spot. We can see the aggregated test coverage percentage across the entire project as well as a test coverage for each submodule seperately.
 
+We have pretty good test coverage on every module except UI, as we had some trouble getting testFX to work. That is something we are going to work on for Group Assignment 3. Aside from that every module is well tested where it makes sense.
+
 ### AI statement
 
 [Own md-file for ai statement](./ai-tools.md)
