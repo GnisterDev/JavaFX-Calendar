@@ -7,15 +7,15 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
 public class CalendarTest {
-    private Event event = new Event("title", "description", new Date(), new Date(123123));
+    private Event event = new Event("title", "description", LocalDateTime.of(2024, 10, 7, 10, 30), LocalDateTime.of(2024, 10, 10, 14, 50));
     private UUID id = UUID.randomUUID();
 
     @Test
@@ -51,13 +51,13 @@ public class CalendarTest {
     public void testImmutability() {
         List<Event> eventList = new ArrayList<>();
         eventList.add(event);
-        eventList.add(new Event("title2", "description2", new Date(), new Date(123123)));
+        eventList.add(new Event("title2", "description2", LocalDateTime.of(2024, 10, 7, 10, 30), LocalDateTime.of(2024, 10, 10, 14, 50)));
 
         // Eventlist does not mutate calendar
         Calendar cal1 = new Calendar(eventList);
         assertEquals(eventList, cal1.getEvents());
         assertEquals(eventList.size(), cal1.eventCount());
-        eventList.add(new Event("title3", "description3", new Date(), new Date(123123)));
+        eventList.add(new Event("title3", "description3", LocalDateTime.of(2024, 10, 7, 10, 30), LocalDateTime.of(2024, 10, 10, 14, 50)));
         assertNotEquals(eventList, cal1.getEvents());
         assertNotEquals(eventList.size(), cal1.eventCount());
 
