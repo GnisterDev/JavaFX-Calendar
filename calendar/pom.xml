@@ -44,12 +44,6 @@
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
-            <dependency>
-                <groupId>org.testfx</groupId>
-                <artifactId>testfx-junit5</artifactId>
-                <version>${testfx.version}</version>
-                <scope>test</scope>
-            </dependency>
 
             <!-- Jackson JSON library -->
             <dependency>
@@ -101,6 +95,20 @@
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
                 <version>${mocito.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- TextFX -->        
+            <dependency>
+                <groupId>org.testfx</groupId>
+                <artifactId>testfx-junit5</artifactId>
+                <version>${testfx.version}</version>
+                <scope>test</scope>
+            </dependency>        
+            <dependency>
+                <groupId>org.testfx</groupId>
+                <artifactId>testfx-core</artifactId>
+                <version>${testfx.version}</version>
                 <scope>test</scope>
             </dependency>
 
