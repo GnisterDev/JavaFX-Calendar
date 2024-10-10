@@ -1,5 +1,6 @@
 package calendar.ui;
 
+import calendar.core.Core;
 import calendar.core.SceneCore;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -58,7 +59,7 @@ public class SignUpController {
         }
 
         // Logic to create the account
-        boolean accountCreated = createNewAccount(username, password);
+        boolean accountCreated = Core.registerUser(username, password);
 
         if (accountCreated) {
             messageLabel.setText("Account has successfully been created!");
@@ -67,11 +68,5 @@ public class SignUpController {
             messageLabel.setText("Failed creating account. Try again.");
             messageLabel.setTextFill(Color.RED);
         }
-    }
-
-    private boolean createNewAccount(String username, String password) {
-        // Add logic to save the account to file
-        // For now just return true to simulate successful account creation
-        return true;
     }
 }
