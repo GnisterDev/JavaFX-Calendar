@@ -1,0 +1,48 @@
+@startuml Architecture
+
+package "ui" {
+    [App]
+    [CalendarController]
+    [LoginController]
+    [TimeSlot]
+} 
+
+package "core" {
+    [CalendarApp]
+    [Core]
+    [SceneCore]
+}
+
+package "types" {
+    [Calendar]
+    [Event]
+    [User]
+    [UserSettings]
+    [UserStore]
+}
+
+package "persistence" {
+    [Persistence]
+}
+
+'Packages'
+core --> [Persistence]
+core --> [UserStore]
+ui --> core
+
+
+'Types'
+[UserStore] --> [User]
+[User] --> [UserSettings]
+[User] --> [Calendar]
+[Calendar] --> [Event]
+
+'Core'
+[Core] --> [CalendarApp]
+
+'UI'
+
+
+'Persistence'
+
+@enduml
