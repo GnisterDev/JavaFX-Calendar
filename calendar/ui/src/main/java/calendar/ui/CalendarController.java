@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import calendar.core.CalendarApp;
+import calendar.core.Core;
 import calendar.types.Event;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -139,12 +140,8 @@ public class CalendarController {
     public void initialize() {
         startTimeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 8));
         endTimeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 12));
-    }
-
-    public void initData(CalendarApp calendarApp) {
-        this.weekDate = LocalDate.now();
-        this.calendarApp = calendarApp;
-        syncUI();
+        calendarApp = Core.getCalendarApp().orElseThrow();
+        weekDate = LocalDate.now();
     }
 
     public void handleBackToLogin(ActionEvent event) {
