@@ -1,6 +1,6 @@
 package calendar.types;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -18,13 +18,13 @@ public class Event {
     @JsonProperty
     private String description;
     @JsonProperty
-    private Date startTime;
+    private LocalDateTime startTime;
     @JsonProperty
-    private Date endTime;
+    private LocalDateTime endTime;
     @JsonProperty
     private Color color;
 
-    public Event(String title, String description, Date startTime, Date endTime) {
+    public Event(String title, String description, LocalDateTime startTime, LocalDateTime endTime) {
         this(title, description, startTime, endTime, EventType.EVENT_TYPE1, Color.BLUE, UUID.randomUUID());
     }
 
@@ -32,8 +32,8 @@ public class Event {
     public Event(
             @JsonProperty("title") String title,
             @JsonProperty("description") String description,
-            @JsonProperty("startTime") Date startTime,
-            @JsonProperty("endTime") Date endTime,
+            @JsonProperty("startTime") LocalDateTime startTime,
+            @JsonProperty("endTime") LocalDateTime endTime,
             @JsonProperty("type") EventType type,
             @JsonProperty("color") Color color,
             @JsonProperty("id") UUID id) {
@@ -58,11 +58,11 @@ public class Event {
         return description;
     }
 
-    public Date getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public Date getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 

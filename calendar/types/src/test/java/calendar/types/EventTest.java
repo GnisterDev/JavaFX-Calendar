@@ -3,7 +3,7 @@ package calendar.types;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test;
 import javafx.scene.paint.Color;
 
 public class EventTest {
-    private Date date1 = new Date();
-    private Date date2 = new Date(123123);
+    private LocalDateTime date1 = LocalDateTime.of(2024, 10, 7, 10, 30);
+    private LocalDateTime date2 = LocalDateTime.of(2024, 10, 10, 14, 50);
 
     @Test
     public void testConstructors() {
