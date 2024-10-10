@@ -1,5 +1,6 @@
 package calendar.ui;
 
+import calendar.core.SceneCore;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,6 +21,16 @@ public class SignUpController {
 
     @FXML
     private Button createAccountButton;
+
+    @FXML
+    private Label signIn;
+
+    @FXML
+    public void initialize() {
+        signIn.setOnMouseClicked(event -> {
+            SceneCore.setScene("Login.fxml");
+        });
+    }
 
     @FXML
     private void handleLogin() {

@@ -29,18 +29,7 @@ public class LoginController {
     @FXML
     public void initialize() {
         signUp.setOnMouseClicked(event -> {
-            try {
-
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/calendar/ui/SignUp.fxml"));
-                Scene calendarScene = new Scene(loader.load());
-
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-                stage.setScene(calendarScene);
-                stage.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            SceneCore.setScene("SignUp.fxml");
         });
     }
 
