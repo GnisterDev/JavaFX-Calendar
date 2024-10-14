@@ -57,6 +57,7 @@ public class CalendarController {
         endTimeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 12));
         calendarApp = Core.getCalendarApp().orElseThrow();
         weekDate = LocalDate.now();
+        syncUI();
     }
 
     public void handleBackToLogin(ActionEvent event) {
