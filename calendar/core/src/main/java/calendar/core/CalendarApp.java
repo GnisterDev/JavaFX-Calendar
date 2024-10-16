@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
-import calendar.types.Calendar;
 import calendar.types.Event;
 import calendar.types.User;
 
@@ -14,7 +13,6 @@ public class CalendarApp {
 
     public CalendarApp(User user) {
         this.user = user;
-        this.user.addCalendar(new Calendar());
     }
 
     private Stream<Event> eventStream() {
