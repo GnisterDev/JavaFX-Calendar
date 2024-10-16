@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,6 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 public class CalendarControllerTest extends ApplicationTest {
-
     private CalendarController controller;
     private MockedStatic<Core> coreMock; // Static mock for Core
 
@@ -56,10 +56,10 @@ public class CalendarControllerTest extends ApplicationTest {
     @Test
     public void testInitialize() {
         // Test Spinner initialization
-        assertNotNull(controller.startTimeSpinner.getValueFactory(), "Start time spinner should be initialized.");
+        assertNotNull(controller.startTimeSpinner.getValueFactory(), "Start timespinner should be initialized.");
         assertNotNull(controller.endTimeSpinner.getValueFactory(), "End time spinner should be initialized.");
         assertEquals(8, controller.startTimeSpinner.getValueFactory().getValue(), "Start time should default to 8.");
-        assertEquals(12, controller.endTimeSpinner.getValueFactory().getValue(), "End time should default to 12.");
+        assertEquals(12, controller.endTimeSpinner.getValueFactory().getValue(), "Endtime should default to 12.");
 
         // Test CalendarApp initialization
         assertNotNull(controller.calendarApp, "calendarApp should be initialized.");
@@ -79,5 +79,16 @@ public class CalendarControllerTest extends ApplicationTest {
         assertEquals("previousWeek pressed", controller.messageLabel.getText(), "Message label should be updated.");
     }
 
-    // Add more test methods here as needed...
+    @Test
+    public void testNextWeek() {
+        LocalDate initialDate = LocalDate.of(2024, 1, 1);
+        controller.weekDate = initialDate;
+
+        controller.nextWeek(mock(ActionEvent.class));
+
+        assertEquals(initialDate.plusWeeks(1), controller.weekDate, "The weekDate should be one week later.");
+        assertEquals("nextWeek pressed", controller.messageLabel.getText(), "Messagelabel should be updated.");
+
+    }
+
 }
