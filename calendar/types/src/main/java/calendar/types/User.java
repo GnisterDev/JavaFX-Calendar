@@ -24,11 +24,17 @@ public class User {
     private UserSettings settings;
 
     public User(String username, String password) {
-        this.userId = UUID.randomUUID();
+        this(UUID.randomUUID(), username, password);
+    }
+
+    public User(UUID userId, String username, String password) {
+        this.userId = userId;
         this.username = username;
         this.password = password;
         this.calendars = new ArrayList<>();
         this.settings = new UserSettings(userId);
+
+        this.addCalendar(new Calendar(userId));
     }
 
     @JsonCreator
