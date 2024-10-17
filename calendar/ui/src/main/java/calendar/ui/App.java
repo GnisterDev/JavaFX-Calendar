@@ -1,8 +1,6 @@
 package calendar.ui;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import calendar.core.Core;
 import calendar.core.SceneCore;
@@ -18,24 +16,8 @@ public class App extends Application {
     }
 
     @Override
-    public void stop() {
-        try {
-            Core.destroy();
-        } catch (IOException e) {
-            throw new IllegalStateException(e.getMessage());
-        }
-    }
-
-    @Override
     public void start(Stage primaryStage) throws IOException {
-        Path filepath = Path.of("userdata.json");
-        if (Files.notExists(filepath) || Files.size(filepath) == 0)
-            Files.write(filepath, "null".getBytes());
-        try {
-            Core.initialize();
-        } catch (IOException e) {
-            throw new IllegalStateException(e.getMessage());
-        }
+        Core.initialize();
 
         SceneCore.setLoader(url -> this.getClass().getResource(url));
         SceneCore.setStage(primaryStage);
@@ -43,5 +25,10 @@ public class App extends Application {
         SceneCore.setStageTitle("Calendar");
         SceneCore.setScene("Login.fxml");
         SceneCore.showStage();
+    }
+
+    @Override
+    public void stop() {
+        Core.destroy();
     }
 }
