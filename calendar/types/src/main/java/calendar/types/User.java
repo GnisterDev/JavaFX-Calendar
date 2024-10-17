@@ -38,7 +38,8 @@ public class User {
     }
 
     @JsonCreator
-    public User(@JsonProperty("userId") UUID userId,
+    public User(
+            @JsonProperty("userId") UUID userId,
             @JsonProperty("username") String username,
             @JsonProperty("password") String password,
             @JsonProperty("calendars") List<Calendar> calendars,

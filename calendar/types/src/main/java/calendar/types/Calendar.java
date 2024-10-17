@@ -27,7 +27,9 @@ public class Calendar {
     }
 
     @JsonCreator
-    public Calendar(@JsonProperty("userId") UUID userId, @JsonProperty("events") List<Event> events) {
+    public Calendar(
+            @JsonProperty("userId") UUID userId,
+            @JsonProperty("events") List<Event> events) {
         this.events = new ArrayList<>(events);
         this.userId = userId;
     }

@@ -3,12 +3,18 @@ package calendar.core;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import calendar.types.Event;
 import calendar.types.User;
 
 public class CalendarApp {
+    private static boolean EVENT_HAS_MAX_LENGTH = false;
+    public static int HOURS_IN_A_DAY = 24;
+    private static int MAX_EVENT_LENGTH_IN_DAYS = 7;
+    private static int MAX_EVENT_LENGTH_IN_HOURS = MAX_EVENT_LENGTH_IN_DAYS * HOURS_IN_A_DAY;
+
     protected User user;
 
     public CalendarApp(User user) {
@@ -34,6 +40,22 @@ public class CalendarApp {
 
     public void addEvent(int index, Event event) {
         user.getCalendar(index).addEvent(event);
+    }
+
+    public Optional<String> createEvent(String title, String description, LocalDateTime startTime,
+            LocalDateTime endTime) {
+        if (title.isBlank())
+            return Optional.of("Title cannot be blank");
+        if (startTime.isAfter(endTime))
+            return Optional.of("Starttime cannot be after endtime");
+        if (EVENT_HAS_MAX_LENGTH && startTime.plusHours(MAX_EVENT_LENGTH_IN_HOURS).isAfter(endTime))
+            return Optional.of("Event can be a maximum of"
+                    + MAX_EVENT_LENGTH_IN_DAYS
+                    + "days ("
+                    + MAX_EVENT_LENGTH_IN_HOURS
+                    + " hours)");
+        addEvent(new Event(title, description, startTime, endTime));
+        return Optional.empty();
     }
 
     public void removeEvent(Event event) {

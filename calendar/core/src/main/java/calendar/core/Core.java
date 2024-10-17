@@ -1,6 +1,7 @@
 package calendar.core;
 
-import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,17 +11,31 @@ import calendar.types.User;
 import calendar.types.UserStore;
 
 public class Core {
+    private static int MIN_PASSWORD_LENGTH = 6;
+
     protected static UserStore userStore;
     private static Optional<CalendarApp> calendarApp = Optional.empty();
 
-    public static void initialize() throws IOException {
-        userStore = Persistence.read(UserStore.class);
+    public static void initialize() {
+        Path filepath = Path.of(Persistence.DEAFULT_FILE_PATH);
+        try {
+            if (Files.notExists(filepath) || Files.size(filepath) == 0)
+                Files.write(filepath, "null".getBytes());
+            userStore = Persistence.read(UserStore.class);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+
         if (userStore == null)
             userStore = new UserStore(new HashMap<>(), new HashMap<>());
     }
 
-    public static void destroy() throws IOException {
-        Persistence.write(userStore);
+    public static void destroy() {
+        try {
+            Persistence.write(userStore);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     public static boolean correctCredentials(String username, String password) {
@@ -41,10 +56,16 @@ public class Core {
         return calendarApp;
     }
 
-    public static boolean registerUser(String username, String password) {
+    public static Optional<String> registerUser(String username, String password) {
         if (userStore.hasUsername(username))
-            return false;
+            return Optional.of("Username already exists.");
+        if (username.isBlank())
+            return Optional.of("Username cannot be empty");
+        if (password.isBlank())
+            return Optional.of("Password cannot be empty.");
+        if (password.length() < MIN_PASSWORD_LENGTH)
+            return Optional.of("Password must be at least 6 characters long.");
         userStore.addUser(new User(username, password));
-        return true;
+        return Optional.empty();
     }
 }
