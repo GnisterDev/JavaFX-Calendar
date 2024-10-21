@@ -33,31 +33,31 @@
                 <Label style="-fx-font-weight: bold;" text="Sat" GridPane.columnIndex="6" />
                 <Label style="-fx-font-weight: bold;" text="Sun" GridPane.columnIndex="7" />
 
-      
-                      <Label prefHeight="17.0" prefWidth="285.0" style="-fx-font-weight: bold;" text="00:00" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <Label style="-fx-font-weight: bold;" text="01:00" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                <Label style="-fx-font-weight: bold;" text="02:00" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                <Label style="-fx-font-weight: bold;" text="03:00" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                <Label style="-fx-font-weight: bold;" text="04:00" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                <Label style="-fx-font-weight: bold;" text="05:00" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                <Label style="-fx-font-weight: bold;" text="06:00" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-                <Label style="-fx-font-weight: bold;" text="07:00" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-                <Label style="-fx-font-weight: bold;" text="08:00" GridPane.columnIndex="0" GridPane.rowIndex="9" />
-                <Label style="-fx-font-weight: bold;" text="09:00" GridPane.columnIndex="0" GridPane.rowIndex="10" />
-                <Label style="-fx-font-weight: bold;" text="10:00" GridPane.columnIndex="0" GridPane.rowIndex="11" />
-                <Label style="-fx-font-weight: bold;" text="11:00" GridPane.columnIndex="0" GridPane.rowIndex="12" />
-                <Label style="-fx-font-weight: bold;" text="12:00" GridPane.columnIndex="0" GridPane.rowIndex="13" />
-                <Label style="-fx-font-weight: bold;" text="13:00" GridPane.columnIndex="0" GridPane.rowIndex="14" />
-                <Label style="-fx-font-weight: bold;" text="14:00" GridPane.columnIndex="0" GridPane.rowIndex="15" />
-                <Label style="-fx-font-weight: bold;" text="15:00" GridPane.columnIndex="0" GridPane.rowIndex="16" />
-                <Label style="-fx-font-weight: bold;" text="16:00" GridPane.columnIndex="0" GridPane.rowIndex="17" />
-                <Label style="-fx-font-weight: bold;" text="17:00" GridPane.columnIndex="0" GridPane.rowIndex="18" />
-                <Label style="-fx-font-weight: bold;" text="18:00" GridPane.columnIndex="0" GridPane.rowIndex="19" />
-                <Label style="-fx-font-weight: bold;" text="19:00" GridPane.columnIndex="0" GridPane.rowIndex="20" />
-                <Label style="-fx-font-weight: bold;" text="20:00" GridPane.columnIndex="0" GridPane.rowIndex="21" />
-                <Label style="-fx-font-weight: bold;" text="21:00" GridPane.columnIndex="0" GridPane.rowIndex="22" />
-                <Label style="-fx-font-weight: bold;" text="22:00" GridPane.columnIndex="0" GridPane.rowIndex="23" />
-                <Label style="-fx-font-weight: bold;" text="23:00" GridPane.columnIndex="0" GridPane.rowIndex="24" />
+
+            <Label text="00:00" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label text="01:00" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Label text="02:00" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <Label text="03:00" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <Label text="04:00" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+            <Label text="05:00" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <Label text="06:00" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+            <Label text="07:00" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+            <Label text="08:00" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+            <Label text="09:00" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+            <Label text="10:00" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+            <Label text="11:00" GridPane.columnIndex="0" GridPane.rowIndex="12" />
+            <Label text="12:00" GridPane.columnIndex="0" GridPane.rowIndex="13" />
+            <Label text="13:00" GridPane.columnIndex="0" GridPane.rowIndex="14" />
+            <Label text="14:00" GridPane.columnIndex="0" GridPane.rowIndex="15" />
+            <Label text="15:00" GridPane.columnIndex="0" GridPane.rowIndex="16" />
+            <Label text="16:00" GridPane.columnIndex="0" GridPane.rowIndex="17" />
+            <Label text="17:00" GridPane.columnIndex="0" GridPane.rowIndex="18" />
+            <Label text="18:00" GridPane.columnIndex="0" GridPane.rowIndex="19" />
+            <Label text="19:00" GridPane.columnIndex="0" GridPane.rowIndex="20" />
+            <Label text="20:00" GridPane.columnIndex="0" GridPane.rowIndex="21" />
+            <Label text="21:00" GridPane.columnIndex="0" GridPane.rowIndex="22" />
+            <Label text="22:00" GridPane.columnIndex="0" GridPane.rowIndex="23" />
+            <Label text="23:00" GridPane.columnIndex="0" GridPane.rowIndex="24" />
             <columnConstraints>
                <ColumnConstraints maxWidth="280.6666463216146" minWidth="36.00001271565756" prefWidth="35.0" />
                <ColumnConstraints prefWidth="70.0" />
@@ -95,9 +95,11 @@
                <RowConstraints />
                <RowConstraints />
             </rowConstraints>
-                
-                  </GridPane>
-        </HBox>
+         </GridPane>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
    </left>
    <center>
          
@@ -120,10 +122,10 @@
                <Cursor fx:constant="HAND" />
             </cursor>
          </Button>
-             
-                <!-- Message label for feedback -->
-             <Label fx:id="messageLabel" />
-         </VBox>
+
+         <!-- Message label for feedback -->
+         <Label fx:id="messageLabel" />
+      </VBox>
    </center>
    <right>
       <AnchorPane prefHeight="693.0" prefWidth="21.0" BorderPane.alignment="CENTER" />
@@ -134,7 +136,7 @@
    <top>
       <AnchorPane prefHeight="89.0" prefWidth="793.0" BorderPane.alignment="CENTER">
          <children>
-            <Button defaultButton="true" layoutX="25.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleBackToLogin" prefHeight="30.0" prefWidth="77.0" style="-fx-background-radius: 12; -fx-background-color: EA454C;" text="Sign out" textFill="WHITE">
+            <Button defaultButton="true" layoutX="25.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleBackToLogin" prefHeight="30.0" prefWidth="77.0" styleClass="button-calendar" text="Sign out" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -144,7 +146,7 @@
             </Button>
             <HBox layoutX="276.0" layoutY="28.0" prefHeight="33.0" prefWidth="242.0">
                <children>
-                  <Button defaultButton="true" mnemonicParsing="false" onAction="#previousWeek" prefHeight="30.0" prefWidth="77.0" style="-fx-background-radius: 12; -fx-background-color: EA454C;" text="last week" textFill="WHITE">
+                  <Button defaultButton="true" mnemonicParsing="false" onAction="#previousWeek" prefHeight="30.0" prefWidth="77.0" styleClass="button-calendar" text="last week" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -152,12 +154,12 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                     <Label fx:id="weekLabel" prefHeight="33.0" prefWidth="67.0" style="-fx-font-size: 16px;" text="Week XX">
+                  <Label fx:id="weekLabel" prefHeight="33.0" prefWidth="67.0" style="-fx-font-size: 16px;" text="Week XX">
                      <HBox.margin>
                         <Insets left="10.0" right="10.0" />
                      </HBox.margin>
                   </Label>
-                  <Button defaultButton="true" mnemonicParsing="false" onAction="#nextWeek" prefHeight="30.0" prefWidth="77.0" style="-fx-background-radius: 12; -fx-background-color: EA454C;" text="next week" textFill="WHITE">
+                  <Button defaultButton="true" mnemonicParsing="false" onAction="#nextWeek" prefHeight="30.0" prefWidth="77.0" styleClass="button-calendar" text="next week" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

@@ -11,36 +11,36 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
-   xmlns="http://javafx.com/javafx/21"
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@css/login.css"
+   xmlns="http://javafx.com/javafx/23"
    xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.LoginController">
    <left>
-      <AnchorPane prefHeight="400.0" prefWidth="351.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="400.0" prefWidth="351.0" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="400.0" fitWidth="365.0">
                <image>
-                  <Image url="@img/login%20page%20img.png" />
+                  <Image url="@img/login.png" />
                </image>
             </ImageView>
          </children>
       </AnchorPane>
    </left>
    <center>
-      <AnchorPane prefHeight="400.0" prefWidth="245.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="400.0" prefWidth="245.0" BorderPane.alignment="CENTER">
          <children>
             <Label layoutY="93.0" text="Username">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="usernameField" layoutY="126.0" prefHeight="40.0" prefWidth="205.0" promptText="Enter your username" style="-fx-background-radius: 12;" />
-            <PasswordField fx:id="passwordField" layoutY="207.0" prefHeight="40.0" prefWidth="205.0" promptText="Enter your password" style="-fx-background-radius: 12;" />
+            <TextField fx:id="usernameField" layoutY="126.0" prefHeight="40.0" prefWidth="205.0" promptText="Enter your username" styleClass="input-text" />
+            <PasswordField fx:id="passwordField" layoutY="207.0" prefHeight="40.0" prefWidth="205.0" promptText="Enter your password" styleClass="input-text" />
             <Label layoutX="2.0" layoutY="174.0" text="Password">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Button fx:id="loginButton" defaultButton="true" layoutY="275.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="40.0" prefWidth="205.0" style="-fx-background-radius: 12; -fx-background-color: EA454C;" text="Sign In" textFill="WHITE">
+            <Button defaultButton="true" layoutY="275.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="40.0" prefWidth="205.0" styleClass="button-login" text="Login" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>

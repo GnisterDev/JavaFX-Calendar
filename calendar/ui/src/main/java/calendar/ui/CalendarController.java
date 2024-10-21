@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.WeekFields;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import calendar.core.CalendarApp;
 import calendar.core.Core;
@@ -23,6 +25,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class CalendarController {
+    private static String DEFAULT_EVENT_CLASS_NAME = "event";
 
     protected CalendarApp calendarApp;
     protected LocalDate weekDate;
@@ -78,11 +81,24 @@ public class CalendarController {
     }
 
     public void clearCalendar() {
-        calendarGrid.getChildren().removeIf(node -> node.getStyleClass().contains("eventBox"));
+        calendarGrid.getChildren().removeIf(node -> node.getStyleClass().contains(DEFAULT_EVENT_CLASS_NAME));
     }
 
     public void updateWeekNr() {
         weekLabel.setText("Week " + weekDate.get(WeekFields.ISO.weekOfWeekBasedYear()));
+
+        // int startDateTime = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN).getDayOfMonth();
+        // int daysInMonth = weekDate.with(DayOfWeek.MONDAY).lengthOfMonth();
+        // IntStream.range(0, CalendarApp.DAYS_IN_A_WEEK)
+        //         .forEach(i -> ((Label) calendarGrid
+        //                 .getChildrenUnmodifiable()
+        //                 .filtered(node -> node instanceof VBox)
+        //                 .stream().collect(Collectors.toList())
+        //                 .stream().map(d -> ((VBox) d).getChildrenUnmodifiable().getLast())
+        //                 .toList().get(i))
+        //                 .setText((i + startDateTime) % daysInMonth == 0
+        //                         ? "" + daysInMonth
+        //                         : "" + (i + startDateTime) % daysInMonth));
     }
 
     public void update() {
@@ -131,9 +147,8 @@ public class CalendarController {
 
     public void createEventRect(Event event, int dayIndex, int startTimeIndex, int length) {
         VBox eventBox = new VBox(10);
-        eventBox.setStyle("-fx-border-color: red");
+        eventBox.getStyleClass().add(DEFAULT_EVENT_CLASS_NAME);
         eventBox.getChildren().add(new Label(event.getTitle()));
-        eventBox.getStyleClass().add("eventBox");
         eventBox.setAlignment(Pos.TOP_CENTER);
 
         GridPane.setRowSpan(eventBox, length);
