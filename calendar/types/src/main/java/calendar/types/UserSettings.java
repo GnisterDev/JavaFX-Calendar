@@ -17,7 +17,8 @@ public class UserSettings {
     private boolean showWeekNr;
 
     @JsonCreator
-    public UserSettings(@JsonProperty("userId") UUID userId,
+    public UserSettings(
+            @JsonProperty("userId") UUID userId,
             @JsonProperty("timezone") TimeZone timezone,
             @JsonProperty("militaryTime") boolean militaryTime,
             @JsonProperty("showWeekNr") boolean showWeekNr) {

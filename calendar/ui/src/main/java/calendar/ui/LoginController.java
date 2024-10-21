@@ -34,17 +34,13 @@ public class LoginController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        // checks if password and username is correct
         if (!Core.correctCredentials(username, password)) {
-            messageLabel.setText("Invalid username or password.");
+            messageLabel.setText("Username or password is incorrect.");
             return;
         }
-
-        // Log user in
         messageLabel.setText("Login successful!");
-        Core.logInAsUser(username);
 
-        // Switch scene
+        Core.logInAsUser(username);
         SceneCore.setScene("Calendar.fxml");
     }
 }

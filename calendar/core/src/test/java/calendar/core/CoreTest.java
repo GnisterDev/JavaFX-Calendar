@@ -19,7 +19,6 @@ public class CoreTest {
     private User user1 = new User("user1", "password1");
     private User user2 = new User("user2", "password2");
 
-
     @BeforeEach
     public void initialize() {
 
@@ -39,11 +38,11 @@ public class CoreTest {
 
     @Test
     public void testRegister() {
-        assertTrue(Core.registerUser("user3", "password3"));
+        assertTrue(Core.registerUser("user3", "password3").isEmpty());
         assertTrue(Core.correctCredentials("user3", "password3"));
         assertFalse(Core.correctCredentials("user3", "password2"));
 
-        assertFalse(Core.registerUser("user1", ""));
+        assertFalse(Core.registerUser("user1", "").isEmpty());
     }
 
     @Test

@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="753.0" prefWidth="793.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.CalendarController">
+<BorderPane prefHeight="753.0" prefWidth="793.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.CalendarController">
    <left>
         <HBox alignment="TOP_CENTER" prefHeight="693.0" prefWidth="576.0" spacing="20" BorderPane.alignment="CENTER">
             <!-- GridPane for the days -->
@@ -152,7 +152,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                     <Label fx:id="monthYearLabel" prefHeight="33.0" prefWidth="67.0" style="-fx-font-size: 16px;" text="Week XX">
+                     <Label fx:id="weekLabel" prefHeight="33.0" prefWidth="67.0" style="-fx-font-size: 16px;" text="Week XX">
                      <HBox.margin>
                         <Insets left="10.0" right="10.0" />
                      </HBox.margin>

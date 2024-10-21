@@ -5,13 +5,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class UserStore {
+
     @JsonProperty
     private Map<String, UUID> usernameToUserId;
+
     @JsonProperty
     private Map<UUID, User> userIdToUser;
 
