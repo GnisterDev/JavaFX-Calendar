@@ -16,11 +16,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="753.0" prefWidth="793.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.CalendarController">
+<BorderPane prefHeight="700.0" prefWidth="793.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.CalendarController">
    <left>
-        <HBox alignment="TOP_CENTER" prefHeight="693.0" prefWidth="576.0" spacing="20" BorderPane.alignment="CENTER">
+        <HBox alignment="TOP_CENTER" prefHeight="617.0" prefWidth="576.0" spacing="20" BorderPane.alignment="CENTER">
             <!-- GridPane for the days -->
-            <GridPane fx:id="calendarGrid" alignment="TOP_CENTER" hgap="10" prefHeight="689.0" prefWidth="539.0" vgap="10">
+            <GridPane fx:id="calendarGrid" alignment="TOP_CENTER" hgap="10" prefHeight="623.0" prefWidth="575.0" vgap="6.0">
                 <padding>
                     <Insets topRightBottomLeft="10" />
                 </padding>
@@ -60,8 +60,8 @@
                 <Label style="-fx-font-weight: bold;" text="23:00" GridPane.columnIndex="0" GridPane.rowIndex="24" />
             <columnConstraints>
                <ColumnConstraints maxWidth="280.6666463216146" minWidth="36.00001271565756" prefWidth="35.0" />
-               <ColumnConstraints maxWidth="275.99998728434247" minWidth="31.333353678385436" prefWidth="70.0" />
-               <ColumnConstraints maxWidth="224.66672261555988" minWidth="26.000020345052064" prefWidth="70.0" />
+               <ColumnConstraints prefWidth="70.0" />
+               <ColumnConstraints prefWidth="70.0" />
                <ColumnConstraints prefWidth="70.0" />
                <ColumnConstraints prefWidth="70.0" />
                <ColumnConstraints prefWidth="70.0" />
@@ -106,12 +106,12 @@
              <Label style="-fx-font-size: 20px;" text="Event form" />
          <TextField fx:id="eventNameField" prefHeight="30.0" prefWidth="197.0" promptText="Enter event name" style="-fx-background-radius: 12;" />
              
+                
                 <DatePicker fx:id="startDatePicker" />
          <DatePicker fx:id="endDatePicker" />
              
                 <Spinner fx:id="startTimeSpinner" style="-fx-primary-color: #007acc;                  -fx-secondary-color: #4B6EAF;                       -fx-focus-color: -fx-secondary-color;" />
-             
-                <Spinner fx:id="endTimeSpinner" />
+               <Spinner fx:id="endTimeSpinner" />
          <Button defaultButton="true" mnemonicParsing="false" onAction="#addEventManually" prefHeight="30.0" prefWidth="107.0" style="-fx-background-radius: 12; -fx-background-color: EA454C;" text="Add event" textFill="WHITE">
             <font>
                <Font name="System Bold" size="14.0" />
@@ -129,7 +129,7 @@
       <AnchorPane prefHeight="693.0" prefWidth="21.0" BorderPane.alignment="CENTER" />
    </right>
    <bottom>
-      <AnchorPane prefHeight="24.0" prefWidth="793.0" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="13.0" prefWidth="793.0" BorderPane.alignment="CENTER" />
    </bottom>
    <top>
       <AnchorPane prefHeight="89.0" prefWidth="793.0" BorderPane.alignment="CENTER">
