@@ -12,6 +12,7 @@ import calendar.types.User;
 public class CalendarApp {
     private static boolean EVENT_HAS_MAX_LENGTH = false;
     public static int HOURS_IN_A_DAY = 24;
+    public static int DAYS_IN_A_WEEK = 7;
     private static int MAX_EVENT_LENGTH_IN_DAYS = 7;
     private static int MAX_EVENT_LENGTH_IN_HOURS = MAX_EVENT_LENGTH_IN_DAYS * HOURS_IN_A_DAY;
 
