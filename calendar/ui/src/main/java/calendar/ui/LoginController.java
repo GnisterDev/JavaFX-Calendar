@@ -11,16 +11,16 @@ import javafx.event.ActionEvent;
 public class LoginController {
 
     @FXML
-    private TextField usernameField;
+    protected TextField usernameField;
 
     @FXML
-    private PasswordField passwordField;
+    protected PasswordField passwordField;
 
     @FXML
-    private Label messageLabel;
+    protected Label messageLabel;
 
     @FXML
-    private Label signUp;
+    protected Label signUp;
 
     @FXML
     public void initialize() {

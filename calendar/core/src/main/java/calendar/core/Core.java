@@ -10,7 +10,7 @@ import calendar.types.User;
 import calendar.types.UserStore;
 
 public class Core {
-    protected static UserStore userStore;
+    public static UserStore userStore;
     private static Optional<CalendarApp> calendarApp = Optional.empty();
 
     public static void initialize() throws IOException {
