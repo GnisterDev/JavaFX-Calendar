@@ -26,6 +26,10 @@ import javafx.stage.Stage;
 
 public class LoginTest extends ApplicationTest {
 
+    private String usernameID = "#usernameField";
+    private String passwordID = "#passwordField";
+    private String loginButtonID = "#loginButton";
+
     private TextField usernameField;
     private PasswordField passwordField;
     private Label messageLabel;
@@ -35,8 +39,8 @@ public class LoginTest extends ApplicationTest {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
         Parent root = loader.load();
 
-        usernameField = (TextField) root.lookup("#usernameField");
-        passwordField = (PasswordField) root.lookup("#passwordField");
+        usernameField = (TextField) root.lookup(usernameID);
+        passwordField = (PasswordField) root.lookup(passwordID);
         messageLabel = (Label) root.lookup("#messageLabel");
 
         stage.setScene(new Scene(root));
@@ -80,10 +84,10 @@ public class LoginTest extends ApplicationTest {
         assertNotNull(passwordField, "passwordField should be initialized!");
         assertNotNull(messageLabel, "messageLabel should be initialized!");
 
-        clickOn("#usernameField").write("validUser");
-        clickOn("#passwordField").write("validPass");
+        clickOn(usernameID).write("validUser");
+        clickOn(passwordID).write("validPass");
 
-        clickOn("#loginButton");
+        clickOn(loginButtonID);
 
         // Verify the message label text is updated for a successful login
         assertEquals("Login successful!", messageLabel.getText());
@@ -96,10 +100,10 @@ public class LoginTest extends ApplicationTest {
 
     @Test
     public void testInvalidPassword() {
-        clickOn("#usernameField").write("validUser");
-        clickOn("#passwordField").write("invalidPass");
+        clickOn(usernameID).write("validUser");
+        clickOn(passwordID).write("invalidPass");
 
-        clickOn("#loginButton");
+        clickOn(loginButtonID);
 
         assertEquals("Username or password is incorrect.", messageLabel.getText());
 
@@ -107,10 +111,10 @@ public class LoginTest extends ApplicationTest {
 
     @Test
     public void testInvalidUsername() {
-        clickOn("#usernameField").write("invalidUser");
-        clickOn("#passwordField").write("validPass");
+        clickOn(usernameID).write("invalidUser");
+        clickOn(passwordID).write("validPass");
 
-        clickOn("#loginButton");
+        clickOn(loginButtonID);
 
         assertEquals("Username or password is incorrect.", messageLabel.getText());
 
