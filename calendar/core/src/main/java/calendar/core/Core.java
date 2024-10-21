@@ -13,7 +13,7 @@ import calendar.types.UserStore;
 public class Core {
     private static int MIN_PASSWORD_LENGTH = 6;
 
-    protected static UserStore userStore;
+    public static UserStore userStore;
     private static Optional<CalendarApp> calendarApp = Optional.empty();
 
     public static void initialize() {

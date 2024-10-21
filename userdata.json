@@ -1,0 +1,25 @@
+{
+  "usernameToUserId" : {
+    "phil" : "ecb5bfe8-8617-4139-b654-4318f4fe61e7"
+  },
+  "userIdToUser" : {
+    "ecb5bfe8-8617-4139-b654-4318f4fe61e7" : {
+      "userId" : "ecb5bfe8-8617-4139-b654-4318f4fe61e7",
+      "username" : "phil",
+      "password" : "123456",
+      "calendars" : [ {
+        "userId" : "ee7c633d-db71-4a19-8d12-9e67c3c4bda4",
+        "events" : [ ]
+      }, {
+        "userId" : "53b85bba-5248-4b62-8af9-f32b6755b0c7",
+        "events" : [ ]
+      } ],
+      "settings" : {
+        "userId" : "ecb5bfe8-8617-4139-b654-4318f4fe61e7",
+        "timezone" : "Europe/Oslo",
+        "militaryTime" : true,
+        "showWeekNr" : false
+      }
+    }
+  }
+}

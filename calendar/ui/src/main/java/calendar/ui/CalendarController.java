@@ -24,32 +24,32 @@ import javafx.scene.layout.VBox;
 
 public class CalendarController {
 
-    private CalendarApp calendarApp;
-    private LocalDate weekDate;
+    protected CalendarApp calendarApp;
+    protected LocalDate weekDate;
 
     @FXML
-    private Label messageLabel;
+    protected Label messageLabel;
 
     @FXML
-    private GridPane calendarGrid;
+    protected GridPane calendarGrid;
 
     @FXML
-    private DatePicker startDatePicker;
+    protected DatePicker startDatePicker;
 
     @FXML
-    private DatePicker endDatePicker;
+    protected DatePicker endDatePicker;
 
     @FXML
-    private TextField eventNameField;
+    protected TextField eventNameField;
 
     @FXML
-    private Spinner<Integer> startTimeSpinner;
+    protected Spinner<Integer> startTimeSpinner;
 
     @FXML
-    private Spinner<Integer> endTimeSpinner;
+    protected Spinner<Integer> endTimeSpinner;
 
     @FXML
-    private Label weekLabel;
+    protected Label weekLabel;
 
     @FXML
     public void initialize() {
