@@ -10,7 +10,7 @@ import java.util.UUID;
 public class UUIDDeserializer extends JsonDeserializer<UUID> {
     @Override
     public UUID deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-        String uuidString = p.getText(); // Read the string value from JSON
-        return UUID.fromString(uuidString); // Convert to UUID
+        String uuidString = p.getText();
+        return UUID.fromString(uuidString);
     }
 }
