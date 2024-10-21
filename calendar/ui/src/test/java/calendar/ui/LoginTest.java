@@ -2,30 +2,20 @@ package calendar.ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import calendar.core.Core;
 import calendar.core.SceneCore;
 import calendar.types.User;
 import calendar.types.UserStore;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -36,8 +26,6 @@ import javafx.stage.Stage;
 
 public class LoginTest extends ApplicationTest {
 
-    private LoginController controller;
-
     private TextField usernameField;
     private PasswordField passwordField;
     private Label messageLabel;
@@ -46,7 +34,6 @@ public class LoginTest extends ApplicationTest {
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
         Parent root = loader.load();
-        this.controller = loader.getController();
 
         usernameField = (TextField) root.lookup("#usernameField");
         passwordField = (PasswordField) root.lookup("#passwordField");
@@ -114,7 +101,7 @@ public class LoginTest extends ApplicationTest {
 
         clickOn("#loginButton");
 
-        assertEquals("Invalid username or password.", messageLabel.getText());
+        assertEquals("Username or password is incorrect.", messageLabel.getText());
 
     }
 
@@ -125,7 +112,7 @@ public class LoginTest extends ApplicationTest {
 
         clickOn("#loginButton");
 
-        assertEquals("Invalid username or password.", messageLabel.getText());
+        assertEquals("Username or password is incorrect.", messageLabel.getText());
 
     }
 }

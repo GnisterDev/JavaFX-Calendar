@@ -24,8 +24,8 @@ import javafx.scene.layout.VBox;
 
 public class CalendarController {
 
-    private CalendarApp calendarApp;
-    private LocalDate weekDate;
+    protected CalendarApp calendarApp;
+    protected LocalDate weekDate;
 
     @FXML
     protected Label messageLabel;
