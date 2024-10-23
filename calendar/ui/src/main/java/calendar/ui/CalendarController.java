@@ -6,8 +6,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.WeekFields;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import calendar.core.CalendarApp;
 import calendar.core.Core;
@@ -16,6 +14,8 @@ import calendar.types.Event;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
@@ -23,6 +23,7 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class CalendarController {
     private static String DEFAULT_EVENT_CLASS_NAME = "event";
@@ -87,18 +88,19 @@ public class CalendarController {
     public void updateWeekNr() {
         weekLabel.setText("Week " + weekDate.get(WeekFields.ISO.weekOfWeekBasedYear()));
 
-        // int startDateTime = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN).getDayOfMonth();
+        // int startDateTime = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY),
+        // LocalTime.MIN).getDayOfMonth();
         // int daysInMonth = weekDate.with(DayOfWeek.MONDAY).lengthOfMonth();
         // IntStream.range(0, CalendarApp.DAYS_IN_A_WEEK)
-        //         .forEach(i -> ((Label) calendarGrid
-        //                 .getChildrenUnmodifiable()
-        //                 .filtered(node -> node instanceof VBox)
-        //                 .stream().collect(Collectors.toList())
-        //                 .stream().map(d -> ((VBox) d).getChildrenUnmodifiable().getLast())
-        //                 .toList().get(i))
-        //                 .setText((i + startDateTime) % daysInMonth == 0
-        //                         ? "" + daysInMonth
-        //                         : "" + (i + startDateTime) % daysInMonth));
+        // .forEach(i -> ((Label) calendarGrid
+        // .getChildrenUnmodifiable()
+        // .filtered(node -> node instanceof VBox)
+        // .stream().collect(Collectors.toList())
+        // .stream().map(d -> ((VBox) d).getChildrenUnmodifiable().getLast())
+        // .toList().get(i))
+        // .setText((i + startDateTime) % daysInMonth == 0
+        // ? "" + daysInMonth
+        // : "" + (i + startDateTime) % daysInMonth));
     }
 
     public void update() {
@@ -150,6 +152,10 @@ public class CalendarController {
         eventBox.getStyleClass().add(DEFAULT_EVENT_CLASS_NAME);
         eventBox.getChildren().add(new Label(event.getTitle()));
         eventBox.setAlignment(Pos.TOP_CENTER);
+        eventBox.setOnMouseClicked(mouseEvent -> {
+            popUpForm(event, event.getTitle(), event.getStartTime().toLocalDate(), event.getEndTime().toLocalDate(),
+                    event.getStartTime().getHour(), event.getEndTime().getHour()).show();
+        });
 
         GridPane.setRowSpan(eventBox, length);
         calendarGrid.add(eventBox, dayIndex, startTimeIndex);
@@ -173,5 +179,93 @@ public class CalendarController {
         calendarApp
                 .createEvent(eventName, eventName, startDateTime, endDateTime)
                 .ifPresentOrElse(msg -> messageLabel.setText(msg), this::update);
+    }
+
+    public void editEvent(Event event, String eventName, LocalDateTime startTime, LocalDateTime endTime) {
+        // Check if new variables are valid
+
+        event.setEndTime(endTime);
+        event.setStartTime(startTime);
+        event.setTitle(eventName);
+        update();
+    }
+
+    // create a popup form for editing
+
+    public Stage popUpForm(Event event, String eventName, LocalDate startDate, LocalDate endDate, int startTime,
+            int endTime) {
+        Stage stage = new Stage();
+        stage.setWidth(250);
+        stage.setHeight(400);
+        stage.setX(50);
+        stage.setY(10);
+
+        // Create the VBox layout
+        VBox vbox = new VBox(10);
+        vbox.setPrefSize(250, 400);
+
+        // Add a label
+        Label formTitle = new Label("Edit event: " + eventName);
+        formTitle.setStyle("-fx-font-size: 20px;");
+
+        // Create a TextField for event name
+        TextField eventNameField = new TextField();
+        eventNameField.setPromptText("Enter new event name");
+        eventNameField.setPrefSize(197, 30);
+        eventNameField.setStyle("-fx-background-radius: 12;");
+        eventNameField.setText(eventName);
+
+        // Create DatePickers for start and end date
+        DatePicker startDatePicker = new DatePicker();
+        DatePicker endDatePicker = new DatePicker();
+        startDatePicker.setValue(startDate);
+        endDatePicker.setValue(endDate);
+
+        // Create Spinners for start and end time
+        Spinner<Integer> startTimeSpinner = new Spinner<>(0, 23, startTime);
+        Spinner<Integer> endTimeSpinner = new Spinner<>(0, 23, endTime);
+
+        // Style spinners
+        startTimeSpinner.setStyle("-fx-primary-color: #007acc;");
+        endTimeSpinner.setStyle("-fx-primary-color: #007acc;");
+
+        // Create the 'Add event' button
+        Button editButton = new Button("Edit event");
+        editButton.setPrefSize(107, 30);
+        editButton.setStyle("-fx-background-radius: 12; -fx-background-color: #EA454C;");
+        editButton.setTextFill(javafx.scene.paint.Color.WHITE);
+
+        // Create messageLabel
+        Label messageLabel = new Label();
+
+        // Handle the button click event
+        editButton.setOnAction(mouseEvent -> {
+            String eventNameInput = eventNameField.getText();
+            LocalDate startDateInput = startDatePicker.getValue();
+            LocalDate endDateInput = endDatePicker.getValue();
+            int startTimeInput = startTimeSpinner.getValue();
+            int endTimeInput = endTimeSpinner.getValue();
+
+            LocalDateTime startDateTime = LocalDateTime.of(startDateInput, LocalTime.of(startTimeInput, 0));
+            LocalDateTime endDateTime = LocalDateTime.of(endDateInput, LocalTime.of(endTimeInput, 0));
+
+            calendarApp.updateEvent(event, eventNameInput, eventName, startDateTime, endDateTime)
+                    .ifPresentOrElse(msg -> messageLabel.setText(msg), () -> {
+                        update();
+                        stage.close();
+                    });
+
+            // Close the stage after the event is added
+        });
+
+        // Add all components to the VBox layout
+        vbox.getChildren().addAll(formTitle, eventNameField, startDatePicker, endDatePicker, startTimeSpinner,
+                endTimeSpinner, editButton, messageLabel);
+
+        // Set the scene and show the stage
+        Scene scene = new Scene(vbox);
+        stage.setScene(scene);
+        return stage;
+
     }
 }

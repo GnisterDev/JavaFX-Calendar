@@ -54,6 +54,10 @@ public class Event {
         return title;
     }
 
+    public void setTitle(String newTitle) {
+        this.title = newTitle;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -62,8 +66,16 @@ public class Event {
         return startTime;
     }
 
+    public void setStartTime(LocalDateTime newStarTime) {
+        this.startTime = newStarTime;
+    }
+
     public LocalDateTime getEndTime() {
         return endTime;
+    }
+
+    public void setEndTime(LocalDateTime newEndTime) {
+        this.endTime = newEndTime;
     }
 
     public EventType getType() {

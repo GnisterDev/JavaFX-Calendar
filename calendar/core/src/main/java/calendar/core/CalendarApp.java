@@ -59,6 +59,24 @@ public class CalendarApp {
         return Optional.empty();
     }
 
+    public Optional<String> updateEvent(Event event, String title, String description, LocalDateTime startTime,
+            LocalDateTime endTime) {
+        if (title.isBlank())
+            return Optional.of("Title cannot be blank");
+        if (startTime.isAfter(endTime))
+            return Optional.of("Starttime cannot be after endtime");
+        if (EVENT_HAS_MAX_LENGTH && startTime.plusHours(MAX_EVENT_LENGTH_IN_HOURS).isAfter(endTime))
+            return Optional.of("Event can be a maximum of"
+                    + MAX_EVENT_LENGTH_IN_DAYS
+                    + "days ("
+                    + MAX_EVENT_LENGTH_IN_HOURS
+                    + " hours)");
+        event.setStartTime(startTime);
+        event.setEndTime(endTime);
+        event.setTitle(title);
+        return Optional.empty();
+    }
+
     public void removeEvent(Event event) {
         removeEvent(0, event);
     }
