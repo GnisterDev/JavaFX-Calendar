@@ -54,7 +54,7 @@ public class NewCalendarController {
 
     @FXML
     private void initialize() {
-        calendarApp = Core.getCalendarApp().orElseThrow();
+        // calendarApp = Core.getCalendarApp().orElseThrow();
         colorCircle.setFill(color);
 
         // Lose focus when clicked of element
