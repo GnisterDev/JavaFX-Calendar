@@ -258,9 +258,20 @@ public class CalendarController {
             // Close the stage after the event is added
         });
 
+        Button deleteButton = new Button("Delete event");
+        deleteButton.setPrefSize(107, 30);
+        deleteButton.setStyle("-fx-background-radius: 12; -fx-background-color: #EA454C;");
+        deleteButton.setTextFill(javafx.scene.paint.Color.WHITE);
+
+        deleteButton.setOnAction(mouseEvent -> {
+            calendarApp.removeEvent(event);
+            update();
+            stage.close();
+        });
+
         // Add all components to the VBox layout
         vbox.getChildren().addAll(formTitle, eventNameField, startDatePicker, endDatePicker, startTimeSpinner,
-                endTimeSpinner, editButton, messageLabel);
+                endTimeSpinner, editButton, deleteButton, messageLabel);
 
         // Set the scene and show the stage
         Scene scene = new Scene(vbox);

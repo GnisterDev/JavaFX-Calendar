@@ -9,7 +9,19 @@
       "password" : "123456",
       "calendars" : [ {
         "userId" : "ee7c633d-db71-4a19-8d12-9e67c3c4bda4",
-        "events" : [ ]
+        "events" : [ {
+          "title" : "event",
+          "description" : "event",
+          "startTime" : [ 2024, 10, 24, 8, 0 ],
+          "endTime" : [ 2024, 10, 25, 12, 0 ],
+          "type" : "EVENT_TYPE1",
+          "color" : {
+            "red" : 0.0,
+            "green" : 0.0,
+            "blue" : 1.0
+          },
+          "id" : "86f50c14-2b97-4606-973b-18f55a600a17"
+        } ]
       }, {
         "userId" : "53b85bba-5248-4b62-8af9-f32b6755b0c7",
         "events" : [ ]
