@@ -9,6 +9,14 @@
 * {
 }
 
+.event {
+    -fx-opacity: 1;
+    -fx-color: #000;
+    -fx-font-weight: bold;
+    -fx-background-color: red;
+    -fx-background-radius: 12px;
+}
+
 /* Header */
 .header-month {
 }
@@ -101,5 +109,5 @@
 }
 
 .calendar-date-today .calendar-date-number {
-    -fx-fill: white;
+    -fx-text-fill: white;
 }

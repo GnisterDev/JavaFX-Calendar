@@ -41,6 +41,6 @@ public class LoginController {
         messageLabel.setText("Login successful!");
 
         Core.logInAsUser(username);
-        SceneCore.setScene("Calendar.fxml");
+        SceneCore.setScene("New_Calendar.fxml");
     }
 }

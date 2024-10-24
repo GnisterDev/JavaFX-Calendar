@@ -23,7 +23,7 @@ public class App extends Application {
         SceneCore.setStage(primaryStage);
         SceneCore.setResizable(true);
         SceneCore.setStageTitle("Calendar");
-        SceneCore.setScene("New_Calendar.fxml");
+        SceneCore.setScene("Login.fxml");
         SceneCore.showStage();
     }
 

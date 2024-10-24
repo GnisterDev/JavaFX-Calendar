@@ -36,16 +36,16 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Text>
-                  <TextField promptText="Title" />
-                  <TextArea maxWidth="-Infinity" prefHeight="40.0" prefWidth="180.0" promptText="Description" wrapText="true" />
+                  <TextField fx:id="eventNameField" promptText="Title" />
+                  <TextArea fx:id="eventDescriptionField" maxWidth="-Infinity" prefHeight="40.0" prefWidth="180.0" promptText="Description" wrapText="true" />
                   <ToggleSwitch prefWidth="200.0" text="All Day" />
                   <HBox alignment="CENTER_LEFT" depthTest="ENABLE" nodeOrientation="LEFT_TO_RIGHT" prefWidth="200.0" spacing="15.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Starts" wrappingWidth="30.0" HBox.hgrow="ALWAYS" />
                         <HBox prefWidth="150.0" spacing="5.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <DatePicker fx:id="startDate" prefHeight="25.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
-                              <TextField alignment="CENTER" minWidth="45.0" prefHeight="25.0" prefWidth="45.0" HBox.hgrow="ALWAYS" />
+                              <DatePicker fx:id="startDateSelect" prefHeight="25.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="startTimeSelect" alignment="CENTER" minWidth="45.0" prefHeight="25.0" prefWidth="45.0" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                      </children>
@@ -55,8 +55,8 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ends" wrappingWidth="30.0" HBox.hgrow="ALWAYS" />
                         <HBox prefHeight="25.0" prefWidth="137.0" spacing="5.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <DatePicker fx:id="endDate" prefHeight="25.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
-                              <TextField alignment="CENTER" minWidth="45.0" prefHeight="25.0" prefWidth="45.0" HBox.hgrow="ALWAYS" />
+                              <DatePicker fx:id="endDateSelect" prefHeight="25.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="endTimeSelect" alignment="CENTER" minWidth="45.0" prefHeight="25.0" prefWidth="45.0" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                      </children>
@@ -71,7 +71,7 @@
                   <HBox alignment="CENTER" spacing="5.0">
                      <children>
                         <Button mnemonicParsing="false" prefWidth="1000.0" styleClass="button-cancel" text="Cancel" HBox.hgrow="ALWAYS" />
-                        <Button mnemonicParsing="false" prefWidth="1000.0" styleClass="button-default" text="Add Event" HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" onAction="#addEvent" prefWidth="1000.0" styleClass="button-default" text="Add Event" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                </children>
@@ -88,7 +88,7 @@
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="BOTTOM_LEFT" maxHeight="-Infinity" prefHeight="50.0" prefWidth="580.0">
+            <HBox fx:id="dateHeader" alignment="BOTTOM_LEFT" maxHeight="-Infinity" prefHeight="50.0" prefWidth="580.0">
                <children>
                   <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0">
                      <HBox.margin>
@@ -101,11 +101,11 @@
                            <children>
                               <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="20.0">
                                  <children>
-                                    <Circle centerY="-14.0" fill="DODGERBLUE" layoutX="10.0" layoutY="25.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="calendar-date-circle" />
-                                    <Text layoutX="4.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-date-number" text="21" wrappingWidth="16.0" />
+                                    <Circle centerY="-14.0" fill="DODGERBLUE" layoutX="10.0" layoutY="24.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="calendar-date-circle" />
+                                    <Label layoutX="4.0" layoutY="2.0" styleClass="calendar-date-number" text="21" />
                                  </children>
                               </Pane>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-date-day" text="Mon" />
+                              <Label text="Mon" />
                            </children>
                         </HBox>
                      </children>
@@ -119,11 +119,11 @@
                            <children>
                               <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="20.0">
                                  <children>
-                                    <Circle centerY="-14.0" fill="DODGERBLUE" layoutX="10.0" layoutY="25.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="calendar-date-circle" />
-                                    <Text layoutX="4.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-date-number" text="22" wrappingWidth="16.0" />
+                                    <Circle centerY="-14.0" fill="DODGERBLUE" layoutX="10.0" layoutY="24.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="calendar-date-circle" />
+                                    <Label layoutX="4.0" layoutY="2.0" styleClass="calendar-date-number" text="21" />
                                  </children>
                               </Pane>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-date-day" text="Tue" />
+                              <Label text="Tue" />
                            </children>
                         </HBox>
                      </children>
@@ -131,8 +131,8 @@
                         <Insets bottom="5.0" />
                      </HBox.margin>
                      <styleClass>
-                        <String fx:value="calendar-date" />
                         <String fx:value="calendar-date-today" />
+                        <String fx:value="calendar-date" />
                      </styleClass>
                   </HBox>
                   <HBox alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="1000.0" styleClass="calendar-date">
@@ -141,11 +141,11 @@
                            <children>
                               <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="20.0">
                                  <children>
-                                    <Circle centerY="-14.0" fill="DODGERBLUE" layoutX="10.0" layoutY="25.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="calendar-date-circle" />
-                                    <Text layoutX="4.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-date-number" text="23" wrappingWidth="16.0" />
+                                    <Circle centerY="-14.0" fill="DODGERBLUE" layoutX="10.0" layoutY="24.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="calendar-date-circle" />
+                                    <Label layoutX="4.0" layoutY="2.0" styleClass="calendar-date-number" text="21" />
                                  </children>
                               </Pane>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-date-day" text="Wed" />
+                              <Label text="Wed" />
                            </children>
                         </HBox>
                      </children>
@@ -159,11 +159,11 @@
                            <children>
                               <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="20.0">
                                  <children>
-                                    <Circle centerY="-14.0" fill="DODGERBLUE" layoutX="10.0" layoutY="25.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="calendar-date-circle" />
-                                    <Text layoutX="4.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-date-number" text="24" wrappingWidth="16.0" />
+                                    <Circle centerY="-14.0" fill="DODGERBLUE" layoutX="10.0" layoutY="24.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="calendar-date-circle" />
+                                    <Label layoutX="4.0" layoutY="2.0" styleClass="calendar-date-number" text="21" />
                                  </children>
                               </Pane>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-date-day" text="Thu" />
+                              <Label text="Thu" />
                            </children>
                         </HBox>
                      </children>
@@ -177,11 +177,11 @@
                            <children>
                               <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="20.0">
                                  <children>
-                                    <Circle centerY="-14.0" fill="DODGERBLUE" layoutX="10.0" layoutY="25.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="calendar-date-circle" />
-                                    <Text layoutX="4.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-date-number" text="25" wrappingWidth="16.0" />
+                                    <Circle centerY="-14.0" fill="DODGERBLUE" layoutX="10.0" layoutY="24.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="calendar-date-circle" />
+                                    <Label layoutX="4.0" layoutY="2.0" styleClass="calendar-date-number" text="21" />
                                  </children>
                               </Pane>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-date-day" text="Fri" />
+                              <Label text="Fri" />
                            </children>
                         </HBox>
                      </children>
@@ -195,11 +195,11 @@
                            <children>
                               <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="20.0">
                                  <children>
-                                    <Circle centerY="-14.0" fill="DODGERBLUE" layoutX="10.0" layoutY="25.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="calendar-date-circle" />
-                                    <Text layoutX="4.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-date-number" text="26" wrappingWidth="16.0" />
+                                    <Circle centerY="-14.0" fill="DODGERBLUE" layoutX="10.0" layoutY="24.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="calendar-date-circle" />
+                                    <Label layoutX="4.0" layoutY="2.0" styleClass="calendar-date-number" text="21" />
                                  </children>
                               </Pane>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-date-day" text="Sat" />
+                              <Label text="Sat" />
                            </children>
                         </HBox>
                      </children>
@@ -213,11 +213,11 @@
                            <children>
                               <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="20.0">
                                  <children>
-                                    <Circle centerY="-14.0" fill="DODGERBLUE" layoutX="10.0" layoutY="25.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="calendar-date-circle" />
-                                    <Text layoutX="4.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-date-number" text="27" wrappingWidth="16.0" />
+                                    <Circle centerY="-14.0" fill="DODGERBLUE" layoutX="10.0" layoutY="24.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="calendar-date-circle" />
+                                    <Label layoutX="4.0" layoutY="2.0" styleClass="calendar-date-number" text="21" />
                                  </children>
                               </Pane>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-date-day" text="Sun" />
+                              <Label text="Sun" />
                            </children>
                         </HBox>
                      </children>
@@ -267,7 +267,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                   </GridPane>
-                  <GridPane gridLinesVisible="true" minHeight="-Infinity" minWidth="-Infinity" styleClass="calednar-grid" HBox.hgrow="ALWAYS">
+                  <GridPane fx:id="calendarGrid" gridLinesVisible="true" minHeight="-Infinity" minWidth="-Infinity" styleClass="calednar-grid" HBox.hgrow="ALWAYS">
                      <columnConstraints>
                         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="75.0" />
                         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="75.0" />
@@ -315,7 +315,7 @@
    <top>
       <HBox fx:id="header" alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="50.0" styleClass="header" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" styleClass="button-default" text="Sign Out" HBox.hgrow="ALWAYS">
+            <Button mnemonicParsing="false" onAction="#signOut" styleClass="button-default" text="Sign Out" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
@@ -332,7 +332,7 @@
                         <Font size="24.0" />
                      </font>
                   </Text>
-                  <Label styleClass="header-week" text="Week 43">
+                  <Label fx:id="weekLabel" styleClass="header-week" text="Week 43">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -344,7 +344,7 @@
             </HBox>
             <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                <children>
-                  <Pane maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="24.0" prefWidth="24.0">
+                  <Pane maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#previousWeek" prefHeight="24.0" prefWidth="24.0">
                      <children>
                         <SVGPath content="m 8.025 -2 l -1.775 -1.775 l 8.225 -8.225 l -8.225 -8.225 l 1.775 -1.775 l 10 10 L 8.025 -2 Z" layoutY="24.0" />
                      </children>
@@ -353,12 +353,12 @@
                         <String fx:value="header-left-arrow" />
                      </styleClass>
                   </Pane>
-                  <Button mnemonicParsing="false" styleClass="button-default" text="Today">
+                  <Button mnemonicParsing="false" onAction="#today" styleClass="button-default" text="Today">
                      <HBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
                   </Button>
-                  <Pane maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="24.0" prefWidth="24.0" styleClass="header-arrow">
+                  <Pane maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#nextWeek" prefHeight="24.0" prefWidth="24.0" styleClass="header-arrow">
                      <children>
                         <SVGPath content="m 8.025 -2 l -1.775 -1.775 l 8.225 -8.225 l -8.225 -8.225 l 1.775 -1.775 l 10 10 L 8.025 -2 Z" layoutY="24.0" />
                      </children>
