@@ -22,7 +22,9 @@
 <?import javafx.scene.text.Text?>
 <?import org.controlsfx.control.ToggleSwitch?>
 
-<BorderPane fx:id="rootPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" scaleZ="2.0" stylesheets="@css/new_calendar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.NewCalendarController">
+<BorderPane fx:id="rootPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" scaleZ="2.0" stylesheets="@css/new_calendar.css"
+   xmlns="http://javafx.com/javafx/21"
+   xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.NewCalendarController">
    <right>
       <Pane BorderPane.alignment="CENTER">
          <children>
@@ -36,16 +38,16 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Text>
-                  <TextField fx:id="eventNameField" promptText="Title" />
-                  <TextArea fx:id="eventDescriptionField" maxWidth="-Infinity" prefHeight="40.0" prefWidth="180.0" promptText="Description" wrapText="true" />
+                  <TextField fx:id="eventNameField" promptText="Title" styleClass="input-text" />
+                  <TextArea fx:id="eventDescriptionField" maxWidth="-Infinity" prefHeight="40.0" prefWidth="180.0" promptText="Description" styleClass="input-text" wrapText="true" />
                   <ToggleSwitch prefWidth="200.0" text="All Day" />
                   <HBox alignment="CENTER_LEFT" depthTest="ENABLE" nodeOrientation="LEFT_TO_RIGHT" prefWidth="200.0" spacing="15.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Starts" wrappingWidth="30.0" HBox.hgrow="ALWAYS" />
                         <HBox prefWidth="150.0" spacing="5.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <DatePicker fx:id="startDateSelect" prefHeight="25.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
-                              <TextField fx:id="startTimeSelect" alignment="CENTER" minWidth="45.0" prefHeight="25.0" prefWidth="45.0" HBox.hgrow="ALWAYS" />
+                              <DatePicker fx:id="startDateSelect" prefHeight="25.0" prefWidth="100.0" styleClass="inputdate" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="startTimeSelect" alignment="CENTER" minWidth="45.0" prefHeight="25.0" prefWidth="45.0" styleClass="input-text" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                      </children>
@@ -55,8 +57,8 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ends" wrappingWidth="30.0" HBox.hgrow="ALWAYS" />
                         <HBox prefHeight="25.0" prefWidth="137.0" spacing="5.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <DatePicker fx:id="endDateSelect" prefHeight="25.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
-                              <TextField fx:id="endTimeSelect" alignment="CENTER" minWidth="45.0" prefHeight="25.0" prefWidth="45.0" HBox.hgrow="ALWAYS" />
+                              <DatePicker fx:id="endDateSelect" prefHeight="25.0" prefWidth="100.0" styleClass="inputdate" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="endTimeSelect" alignment="CENTER" minWidth="45.0" prefHeight="25.0" prefWidth="45.0" styleClass="input-text" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                      </children>
