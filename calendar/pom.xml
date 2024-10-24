@@ -23,6 +23,7 @@
         <maven-failsafe.version>3.5.0</maven-failsafe.version>
         <jacoco.version>0.8.11</jacoco.version>
         <mocito.version>5.14.0</mocito.version>
+        <controlsfx.version>11.2.1</controlsfx.version>
     </properties>
 
     <!-- Define submodules -->
@@ -98,18 +99,25 @@
                 <scope>test</scope>
             </dependency>
 
-            <!-- TextFX -->        
+            <!-- TextFX -->
             <dependency>
                 <groupId>org.testfx</groupId>
                 <artifactId>testfx-junit5</artifactId>
                 <version>${testfx.version}</version>
                 <scope>test</scope>
-            </dependency>        
+            </dependency>
             <dependency>
                 <groupId>org.testfx</groupId>
                 <artifactId>testfx-core</artifactId>
                 <version>${testfx.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <!-- ControlsFX -->
+            <dependency>
+                <groupId>org.controlsfx</groupId>
+                <artifactId>controlsfx</artifactId>
+                <version>${controlsfx.version}</version>
             </dependency>
 
             <!-- Add other dependencies here -->

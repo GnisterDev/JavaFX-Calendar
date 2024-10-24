@@ -1,0 +1,105 @@
+@font-face {
+    font-family: "Inter Light";
+    font-style: light;
+    font-weight: light;
+    src: local("inter light"),
+        url("../fonts/Inter_28pt-Light.ttf") format("truetype");
+}
+
+* {
+}
+
+/* Header */
+.header-month {
+}
+
+.header-year {
+    -fx-font-size: 24px;
+}
+
+.header-week {
+    -fx-background-color: #f09ca0;
+    -fx-background-radius: 2;
+    -fx-font-size: 8px;
+    -fx-text-fill: white;
+}
+
+.header-arrow {
+    -fx-background-radius: 4;
+}
+
+.header-arrow * {
+    -fx-fill: #ea454c;
+}
+
+.header-left-arrow {
+    -fx-rotate: 180;
+}
+
+.date-picker .arrow-button {
+    -fx-opacity: 0;
+    -fx-cursor: default;
+    -fx-padding: 0;
+}
+
+.header {
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #000000;
+}
+
+/* Buttons */
+.button-default {
+    -fx-text-fill: white;
+    -fx-background-color: #ea454c;
+    -fx-background-radius: 8;
+}
+
+.button-default:hover,
+.button-default:focused {
+    -fx-background-color: #a11037;
+}
+
+.button-cancel {
+    -fx-text-fill: white;
+    -fx-background-color: #646464;
+    -fx-background-radius: 8;
+}
+
+.button-cancel:hover,
+.button-cancel:focused {
+    -fx-background-color: #323232;
+}
+
+/* Calendar */
+.calednar-grid {
+    -fx-opacity: 0.25;
+}
+
+/* Date Indicator */
+.calendar-date {
+}
+
+.calendar-date-today {
+}
+
+.calendar-date-number {
+}
+
+.calendar-date-circle {
+}
+
+.calendar-date-day {
+}
+
+.calendar-date .calendar-date-circle {
+    -fx-fill: #ea454c;
+    -fx-opacity: 0;
+}
+
+.calendar-date-today .calendar-date-circle {
+    -fx-opacity: 1;
+}
+
+.calendar-date-today .calendar-date-number {
+    -fx-fill: white;
+}

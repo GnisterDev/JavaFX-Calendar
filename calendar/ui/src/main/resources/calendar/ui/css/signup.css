@@ -9,7 +9,8 @@
     -fx-background-color: #df782b;
 }
 
-.button-signup:hover {
+.button-signup:hover,
+.button-signup:focused {
     -fx-background-color: #b46022;
 }
 
