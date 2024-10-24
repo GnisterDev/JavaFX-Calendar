@@ -7,7 +7,8 @@
     -fx-background-color: #d31548;
 }
 
-.button-login:hover {
+.button-login:hover,
+.button-login:focused {
     -fx-background-color: #a11037;
 }
 
