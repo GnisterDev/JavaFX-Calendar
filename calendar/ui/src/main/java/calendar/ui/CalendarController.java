@@ -13,6 +13,7 @@ import calendar.core.SceneCore;
 import calendar.types.Event;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,6 +23,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -181,15 +183,6 @@ public class CalendarController {
                 .ifPresentOrElse(msg -> messageLabel.setText(msg), this::update);
     }
 
-    public void editEvent(Event event, String eventName, LocalDateTime startTime, LocalDateTime endTime) {
-        // Check if new variables are valid
-
-        event.setEndTime(endTime);
-        event.setStartTime(startTime);
-        event.setTitle(eventName);
-        update();
-    }
-
     // create a popup form for editing
 
     public Stage popUpForm(Event event, String eventName, LocalDate startDate, LocalDate endDate, int startTime,
@@ -209,11 +202,10 @@ public class CalendarController {
         formTitle.setStyle("-fx-font-size: 20px;");
 
         // Create a TextField for event name
-        TextField eventNameField = new TextField();
+        TextField eventNameField = new TextField(eventName);
         eventNameField.setPromptText("Enter new event name");
         eventNameField.setPrefSize(197, 30);
         eventNameField.setStyle("-fx-background-radius: 12;");
-        eventNameField.setText(eventName);
 
         // Create DatePickers for start and end date
         DatePicker startDatePicker = new DatePicker();
@@ -224,12 +216,13 @@ public class CalendarController {
         // Create Spinners for start and end time
         Spinner<Integer> startTimeSpinner = new Spinner<>(0, 23, startTime);
         Spinner<Integer> endTimeSpinner = new Spinner<>(0, 23, endTime);
-
-        // Style spinners
         startTimeSpinner.setStyle("-fx-primary-color: #007acc;");
         endTimeSpinner.setStyle("-fx-primary-color: #007acc;");
 
-        // Create the 'Add event' button
+        HBox buttonContainer = new HBox(10);
+        buttonContainer.setPadding(new Insets(10, 10, 10, 10));
+
+        // Create the 'Edit event' button
         Button editButton = new Button("Edit event");
         editButton.setPrefSize(107, 30);
         editButton.setStyle("-fx-background-radius: 12; -fx-background-color: #EA454C;");
@@ -238,7 +231,7 @@ public class CalendarController {
         // Create messageLabel
         Label messageLabel = new Label();
 
-        // Handle the button click event
+        // Handle the editButton click event
         editButton.setOnAction(mouseEvent -> {
             String eventNameInput = eventNameField.getText();
             LocalDate startDateInput = startDatePicker.getValue();
@@ -254,24 +247,26 @@ public class CalendarController {
                         update();
                         stage.close();
                     });
-
-            // Close the stage after the event is added
         });
 
+        // Create the 'Delete event' button
         Button deleteButton = new Button("Delete event");
         deleteButton.setPrefSize(107, 30);
         deleteButton.setStyle("-fx-background-radius: 12; -fx-background-color: #EA454C;");
         deleteButton.setTextFill(javafx.scene.paint.Color.WHITE);
 
+        // Handle the deleteButton click event
         deleteButton.setOnAction(mouseEvent -> {
             calendarApp.removeEvent(event);
             update();
             stage.close();
         });
 
+        buttonContainer.getChildren().addAll(editButton, deleteButton);
+
         // Add all components to the VBox layout
         vbox.getChildren().addAll(formTitle, eventNameField, startDatePicker, endDatePicker, startTimeSpinner,
-                endTimeSpinner, editButton, deleteButton, messageLabel);
+                endTimeSpinner, buttonContainer, messageLabel);
 
         // Set the scene and show the stage
         Scene scene = new Scene(vbox);

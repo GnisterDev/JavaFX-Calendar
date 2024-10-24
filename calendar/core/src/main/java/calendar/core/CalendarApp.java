@@ -43,34 +43,39 @@ public class CalendarApp {
         user.getCalendar(index).addEvent(event);
     }
 
-    public Optional<String> createEvent(String title, String description, LocalDateTime startTime,
-            LocalDateTime endTime) {
+    public Optional<String> validateEvent(String title, LocalDateTime startTime, LocalDateTime endTime) {
         if (title.isBlank())
             return Optional.of("Title cannot be blank");
         if (startTime.isAfter(endTime))
-            return Optional.of("Starttime cannot be after endtime");
+            return Optional.of("Start time cannot be after end time");
         if (EVENT_HAS_MAX_LENGTH && startTime.plusHours(MAX_EVENT_LENGTH_IN_HOURS).isAfter(endTime))
-            return Optional.of("Event can be a maximum of"
+            return Optional.of("Event can be a maximum of "
                     + MAX_EVENT_LENGTH_IN_DAYS
-                    + "days ("
+                    + " days ("
                     + MAX_EVENT_LENGTH_IN_HOURS
                     + " hours)");
+
+        return Optional.empty();
+    }
+
+    public Optional<String> createEvent(String title, String description, LocalDateTime startTime,
+            LocalDateTime endTime) {
+        Optional<String> validationError = validateEvent(title, startTime, endTime);
+        if (validationError.isPresent()) {
+            return validationError;
+        }
+
         addEvent(new Event(title, description, startTime, endTime));
         return Optional.empty();
     }
 
     public Optional<String> updateEvent(Event event, String title, String description, LocalDateTime startTime,
             LocalDateTime endTime) {
-        if (title.isBlank())
-            return Optional.of("Title cannot be blank");
-        if (startTime.isAfter(endTime))
-            return Optional.of("Starttime cannot be after endtime");
-        if (EVENT_HAS_MAX_LENGTH && startTime.plusHours(MAX_EVENT_LENGTH_IN_HOURS).isAfter(endTime))
-            return Optional.of("Event can be a maximum of"
-                    + MAX_EVENT_LENGTH_IN_DAYS
-                    + "days ("
-                    + MAX_EVENT_LENGTH_IN_HOURS
-                    + " hours)");
+        Optional<String> validationError = validateEvent(title, startTime, endTime);
+        if (validationError.isPresent()) {
+            return validationError;
+        }
+
         event.setStartTime(startTime);
         event.setEndTime(endTime);
         event.setTitle(title);
