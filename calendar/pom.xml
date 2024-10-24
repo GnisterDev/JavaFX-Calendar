@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>gr2404.calendar</groupId>
@@ -18,11 +19,14 @@
         <javafx.version>23</javafx.version>
         <jackson.version>2.17.2</jackson.version>
         <javafx-maven.version>0.0.8</javafx-maven.version>
+        <maven-site.version>4.0.0-M16</maven-site.version>
+        <maven-info.version>3.8.0</maven-info.version>
         <maven-compiler.version>3.13.0</maven-compiler.version>
         <maven-surefire.version>3.5.0</maven-surefire.version>
         <maven-failsafe.version>3.5.0</maven-failsafe.version>
         <jacoco.version>0.8.11</jacoco.version>
         <mocito.version>5.14.0</mocito.version>
+        <checkstyle.version>3.5.0</checkstyle.version>
     </properties>
 
     <!-- Define submodules -->
@@ -98,18 +102,25 @@
                 <scope>test</scope>
             </dependency>
 
-            <!-- TextFX -->        
+            <!-- TextFX -->
             <dependency>
                 <groupId>org.testfx</groupId>
                 <artifactId>testfx-junit5</artifactId>
                 <version>${testfx.version}</version>
                 <scope>test</scope>
-            </dependency>        
+            </dependency>
             <dependency>
                 <groupId>org.testfx</groupId>
                 <artifactId>testfx-core</artifactId>
                 <version>${testfx.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <!-- Checkstyle -->
+            <dependency>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle.version}</version>
             </dependency>
 
             <!-- Add other dependencies here -->
@@ -163,7 +174,8 @@
                         <consoleOutputReporter>
                             <disable>true</disable>
                         </consoleOutputReporter>
-                        <statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporter" />
+                        <statelessTestsetInfoReporter
+                            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporter" />
                     </configuration>
                 </plugin>
                 <plugin>
@@ -196,6 +208,32 @@
                     </executions>
                 </plugin>
 
+                <!-- Project reporting -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${maven-site.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>${maven-info.version}</version>
+                </plugin>
+
+                <!-- Checkstyle -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${checkstyle.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>checkstyle</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
                 <!-- Add other plugins here -->
 
             </plugins>
@@ -208,5 +246,22 @@
             </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
 
