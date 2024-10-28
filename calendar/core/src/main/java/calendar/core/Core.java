@@ -1,7 +1,9 @@
 package calendar.core;
 
-import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -9,42 +11,107 @@ import calendar.persistence.Persistence;
 import calendar.types.User;
 import calendar.types.UserStore;
 
+/**
+ * The {@code Core} class manages user authentication, registration, and the initialization and destruction of the application's user data.
+ * It also provides access to the calendar application for logged-in users.
+ */
 public class Core {
-    protected static UserStore userStore;
+    private static int MIN_PASSWORD_LENGTH = 6;
+
+    public static UserStore userStore;
     private static Optional<CalendarApp> calendarApp = Optional.empty();
 
-    public static void initialize() throws IOException {
-        userStore = Persistence.read(UserStore.class);
+    /**
+     * Initializes the user data by reading from the persistence storage. If no data is found, a new {@link UserStore} is created.
+     * 
+     * @throws IllegalStateException if an error occurs while reading the data
+     */
+    public static void initialize() {
+        Path filepath = Path.of(Persistence.DEAFULT_FILE_PATH);
+        try {
+            if (Files.notExists(filepath) || Files.size(filepath) == 0)
+                Files.write(filepath, "null".getBytes());
+            userStore = Persistence.read(UserStore.class);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+
         if (userStore == null)
             userStore = new UserStore(new HashMap<>(), new HashMap<>());
     }
 
-    public static void destroy() throws IOException {
-        Persistence.write(userStore);
+    /**
+     * Saves the user data to the persistence storage.
+     * 
+     * @throws IllegalStateException if an error occurs while writing the data
+     */
+    public static void destroy() {
+        try {
+            Persistence.write(userStore);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
     }
 
+    /**
+     * Verifies whether the provided username and password match the credentials of an existing user.
+     * 
+     * @param username the username of the user
+     * @param password the password of the user
+     * @return {@code true} if the credentials are correct, {@code false} otherwise
+     */
     public static boolean correctCredentials(String username, String password) {
         return userStore.getUserId(username).flatMap(userStore::getUser).map(user -> user.checkPassword(password))
                 .orElse(false);
     }
 
+    /**
+     * Logs in a user using their username and initializes the {@link CalendarApp} for that user.
+     * 
+     * @param username the username of the user to log in
+     * @throws NoSuchElementException if the username does not exist in the {@link UserStore}
+     */
     public static void logInAsUser(String username) {
         logInAsUser(userStore.getUserId(username)
                 .orElseThrow());
     }
 
+    /**
+     * Logs in a user using their user ID and initializes the {@link CalendarApp} for that user.
+     * 
+     * @param userId the user ID of the user to log in
+     * @throws NoSuchElementException if the user ID does not exist in the {@link UserStore}
+     */
     public static void logInAsUser(UUID userId) {
         calendarApp = Optional.of(new CalendarApp(userStore.getUser(userId).orElseThrow()));
     }
 
+    /**
+     * Returns the {@link CalendarApp} instance for the currently logged-in user.
+     * 
+     * @return an {@code Optional} containing the {@link CalendarApp} if a user is logged in, or an empty {@code Optional} if no user is logged in
+     */
     public static Optional<CalendarApp> getCalendarApp() {
         return calendarApp;
     }
 
-    public static boolean registerUser(String username, String password) {
+    /**
+     * Registers a new user with the provided username and password, performing validation on the inputs.
+     * 
+     * @param username the username for the new user
+     * @param password the password for the new user
+     * @return an {@code Optional} containing an error message if registration fails, or an empty {@code Optional} if registration succeeds
+     */
+    public static Optional<String> registerUser(String username, String password) {
         if (userStore.hasUsername(username))
-            return false;
+            return Optional.of("Username already exists.");
+        if (username.isBlank())
+            return Optional.of("Username cannot be empty");
+        if (password.isBlank())
+            return Optional.of("Password cannot be empty.");
+        if (password.length() < MIN_PASSWORD_LENGTH)
+            return Optional.of("Password must be at least " + MIN_PASSWORD_LENGTH + " characters long.");
         userStore.addUser(new User(username, password));
-        return true;
+        return Optional.empty();
     }
 }

@@ -4,7 +4,10 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.WeekFields;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import calendar.core.CalendarApp;
 import calendar.core.Core;
@@ -21,132 +24,180 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * The {@code CalendarController} class is a JavaFX controller responsible for managing the calendar view.
+ * It handles user interactions for navigating between weeks, adding events, and displaying events within a weekly grid.
+ */
 public class CalendarController {
+    private static String DEFAULT_EVENT_CLASS_NAME = "event";
 
-    private CalendarApp calendarApp;
-
-    private LocalDate weekDate;
-
-    @FXML
-    private Label messageLabel;
+    protected CalendarApp calendarApp;
+    protected LocalDate weekDate;
 
     @FXML
-    private GridPane calendarGrid;
+    protected Label messageLabel;
 
     @FXML
-    private DatePicker startDatePicker;
+    protected GridPane calendarGrid;
 
     @FXML
-    private DatePicker endDatePicker;
+    protected DatePicker startDatePicker;
 
     @FXML
-    private TextField eventNameField;
+    protected DatePicker endDatePicker;
 
     @FXML
-    private Spinner<Integer> startTimeSpinner;
+    protected TextField eventNameField;
 
     @FXML
-    private Spinner<Integer> endTimeSpinner;
+    protected Spinner<Integer> startTimeSpinner;
 
     @FXML
-    private Label weekLabel;
+    protected Spinner<Integer> endTimeSpinner;
 
+    @FXML
+    protected Label weekLabel;
+
+    /**
+     * Initializes the controller, sets up default values for the spinners, loads the calendar app,
+     * sets the current date to the current week, and updates the calendar view.
+     */
     @FXML
     public void initialize() {
         startTimeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 8));
         endTimeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 12));
         calendarApp = Core.getCalendarApp().orElseThrow();
         weekDate = LocalDate.now();
+        updateWeekNr();
+        update();
     }
 
+    /**
+     * Handles the action to navigate back to the login screen.
+     *
+     * @param event the action event triggered by clicking the "Back to Login" button
+     */
     public void handleBackToLogin(ActionEvent event) {
         SceneCore.setScene("Login.fxml");
     }
 
+    /**
+     * Moves the calendar view to the previous week and updates the view.
+     *
+     * @param event the action event triggered by clicking the "Previous Week" button
+     */
     public void previousWeek(ActionEvent event) {
         this.weekDate = this.weekDate.minusWeeks(1);
-        syncUI();
-        messageLabel.setText("previousWeek pressed");
+        updateWeekNr();
+        update();
     }
 
+    /**
+     * Moves the calendar view to the next week and updates the view.
+     *
+     * @param event the action event triggered by clicking the "Next Week" button
+     */
     public void nextWeek(ActionEvent event) {
         this.weekDate = this.weekDate.plusWeeks(1);
-        syncUI();
-        messageLabel.setText("nextWeek pressed");
+        updateWeekNr();
+        update();
     }
 
+    /**
+     * Clears the calendar grid by removing all event nodes.
+     */
     public void clearCalendar() {
-        calendarGrid.getChildren().removeIf(node -> node.getStyleClass().contains("eventBox"));
+        calendarGrid.getChildren().removeIf(node -> node.getStyleClass().contains(DEFAULT_EVENT_CLASS_NAME));
     }
 
-    public void syncUI() {
-        LocalDateTime startDateTime = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN);
-        LocalDateTime endDateTime = LocalDateTime.of(weekDate.with(DayOfWeek.SUNDAY), LocalTime.MAX);
+    /**
+     * Updates the label displaying the current week number based on the current date.
+     */
+    public void updateWeekNr() {
+        weekLabel.setText("Week " + weekDate.get(WeekFields.ISO.weekOfWeekBasedYear()));
 
-        List<Event> events = calendarApp.getEventsBetween(startDateTime, endDateTime);
+        // int startDateTime = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN).getDayOfMonth();
+        // int daysInMonth = weekDate.with(DayOfWeek.MONDAY).lengthOfMonth();
+        // IntStream.range(0, CalendarApp.DAYS_IN_A_WEEK)
+        //         .forEach(i -> ((Label) calendarGrid
+        //                 .getChildrenUnmodifiable()
+        //                 .filtered(node -> node instanceof VBox)
+        //                 .stream().collect(Collectors.toList())
+        //                 .stream().map(d -> ((VBox) d).getChildrenUnmodifiable().getLast())
+        //                 .toList().get(i))
+        //                 .setText((i + startDateTime) % daysInMonth == 0
+        //                         ? "" + daysInMonth
+        //                         : "" + (i + startDateTime) % daysInMonth));
+    }
 
-        // Clearing the current calendar view before rendering new events
+    /**
+     * Updates the calendar view by clearing the current events and re-adding events for the current week.
+     */
+    public void update() {
         clearCalendar();
 
+        LocalDateTime startDateTime = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN);
+        LocalDateTime endDateTime = LocalDateTime.of(weekDate.with(DayOfWeek.SUNDAY), LocalTime.MAX);
+        List<Event> events = calendarApp.getEventsBetween(startDateTime, endDateTime);
+
         for (Event event : events) {
-            VBox vBox = createVBox(event);
 
-            // Get the actual start and end times, but constrain them within the current
-            // week
-            LocalDateTime eventStart = event.getStartTime();
-            LocalDateTime eventEnd = event.getEndTime();
+            LocalDateTime eventStartTime = event.getStartTime();
+            LocalDateTime eventEndTime = event.getEndTime();
 
-            if (eventStart.isBefore(startDateTime)) {
-                eventStart = startDateTime; // constrain start to Monday of the current week
+            if (eventStartTime.isBefore(startDateTime))
+                eventStartTime = startDateTime;
+            if (eventEndTime.isAfter(endDateTime))
+                eventEndTime = startDateTime;
+
+            int startDayIndex = eventStartTime.getDayOfWeek().getValue();
+            int endDayIndex = eventEndTime.getDayOfWeek().getValue();
+
+            int startRowIndex = eventStartTime.getHour();
+            int endRowIndex = eventEndTime.getHour();
+
+            // Single day Event
+            if (eventStartTime.toLocalDate().equals(eventEndTime.toLocalDate())) {
+                createEventRect(event, startDayIndex, startRowIndex + 1, endRowIndex - startRowIndex + 1);
+                continue;
             }
-            if (eventEnd.isAfter(endDateTime)) {
-                eventEnd = endDateTime; // constrain end to Sunday of the current week
-            }
 
-            int startDayIndex = eventStart.getDayOfWeek().ordinal() + 1;
-            int endDayIndex = eventEnd.getDayOfWeek().ordinal() + 1;
-
-            int startRowIndex = eventStart.getHour() + 1;
-            int endRowIndex = eventEnd.getHour() + 1;
-            int rowSpan = endRowIndex - startRowIndex + 1;
-
-            // Handle single-day events
-            if (startDayIndex == endDayIndex) {
-                GridPane.setRowSpan(vBox, rowSpan);
-                calendarGrid.add(vBox, startDayIndex, startRowIndex);
-            }
-            // Handle multi-day events
-            else {
-                for (int dayIndex = startDayIndex; dayIndex <= endDayIndex; dayIndex++) {
-                    VBox dayVBox = createVBox(event);
-
-                    if (dayIndex == startDayIndex) {
-                        // First day (partial if event starts mid-day)
-                        GridPane.setRowSpan(dayVBox, 24 - startRowIndex + 1);
-                        calendarGrid.add(dayVBox, dayIndex, startRowIndex);
-                    } else if (dayIndex == endDayIndex) {
-                        // Last day (partial if event ends mid-day)
-                        GridPane.setRowSpan(dayVBox, endRowIndex);
-                        calendarGrid.add(dayVBox, dayIndex, 1);
-                    } else {
-                        // Full day in the middle
-                        GridPane.setRowSpan(dayVBox, 24);
-                        calendarGrid.add(dayVBox, dayIndex, 1);
-                    }
+            // Multi day Event
+            for (int dayIndex = startDayIndex; dayIndex <= endDayIndex; dayIndex++) {
+                if (dayIndex != startDayIndex && dayIndex != endDayIndex) {
+                    createEventRect(event, dayIndex, 1, CalendarApp.HOURS_IN_A_DAY);
+                    continue;
                 }
+                boolean isStartDay = dayIndex == startDayIndex;
+                createEventRect(event, dayIndex,
+                        isStartDay ? startRowIndex + 1 : 1,
+                        !isStartDay ? endRowIndex + 1 : (CalendarApp.HOURS_IN_A_DAY - startRowIndex));
+
             }
         }
     }
 
-    public VBox createVBox(Event event) {
-        VBox vBox = new VBox(10);
-        vBox.setStyle("-fx-border-color: red");
-        vBox.getChildren().add(new Label(event.getTitle()));
-        vBox.getStyleClass().add("eventBox");
-        vBox.setAlignment(Pos.CENTER);
-        return vBox;
+    /**
+     * Creates and adds a rectangle representing an event in the calendar grid.
+     *
+     * @param event         the event to be displayed
+     * @param dayIndex      the column representing the day of the event
+     * @param startTimeIndex the row representing the start time of the event
+     * @param length        the number of rows the event spans
+     */
+    public void createEventRect(Event event, int dayIndex, int startTimeIndex, int length) {
+        VBox eventBox = new VBox(10);
+        eventBox.getStyleClass().add(DEFAULT_EVENT_CLASS_NAME);
+        eventBox.getChildren().add(new Label(event.getTitle()));
+        eventBox.setAlignment(Pos.TOP_CENTER);
+
+        GridPane.setRowSpan(eventBox, length);
+        calendarGrid.add(eventBox, dayIndex, startTimeIndex);
     }
 
+    /**
+     * Adds an event manually using the values from the input fields, such as event name, start time, and end time.
+     */
     public void addEventManually() {
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
@@ -154,19 +205,16 @@ public class CalendarController {
         int endTime = endTimeSpinner.getValue();
         String eventName = eventNameField.getText();
 
-        // Combine date and time into LocalDateTime
+        if (startDate == null)
+            return;
+        if (endDate == null)
+            return;
+
         LocalDateTime startDateTime = LocalDateTime.of(startDate, LocalTime.of(startTime, 0));
         LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.of(endTime, 0));
 
-        // Check if the start time is after the end time
-        if (startDateTime.isAfter(endDateTime)) {
-            messageLabel.setText("Start date and time cannot be after end date and time.");
-            return;
-        }
-
-        Event newEvent = new Event(eventName, "Temp description", startDateTime, endDateTime);
-        calendarApp.addEvent(newEvent);
-        syncUI();
+        calendarApp
+                .createEvent(eventName, eventName, startDateTime, endDateTime)
+                .ifPresentOrElse(msg -> messageLabel.setText(msg), this::update);
     }
-
 }
