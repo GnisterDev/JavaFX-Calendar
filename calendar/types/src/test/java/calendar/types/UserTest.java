@@ -24,9 +24,9 @@ public class UserTest {
         User user1 = new User("username", "password");
 
         assertEquals("username", user1.getUsername());
-        assertEquals(1, user1.getCalendars().size());
+        assertTrue(user1.getCalendars().isEmpty());
         assertNotNull(user1.getSettings());
-        assertEquals(1, user1.calendarCount());
+        assertEquals(0, user1.calendarCount());
         assertThrows(IndexOutOfBoundsException.class, () -> user1.getCalendar(1));
 
         User user2 = new User(id, "username", "password", List.of(cal1, cal2), set);
@@ -70,28 +70,28 @@ public class UserTest {
         User user = new User("username", "password");
 
         user.addCalendar(cal1);
-        assertEquals(2, user.calendarCount());
-        assertEquals(cal1, user.getCalendar(1));
+        assertEquals(1, user.calendarCount());
+        assertEquals(cal1, user.getCalendar(0));
         assertThrows(IndexOutOfBoundsException.class, () -> user.getCalendar(2));
 
         user.addCalendar(cal2);
-        assertEquals(3, user.calendarCount());
-        assertEquals(cal1, user.getCalendar(1));
-        assertEquals(cal2, user.getCalendar(2));
+        assertEquals(2, user.calendarCount());
+        assertEquals(cal1, user.getCalendar(0));
+        assertEquals(cal2, user.getCalendar(1));
         assertThrows(IndexOutOfBoundsException.class, () -> user.getCalendar(3));
 
-        user.removeCalendar(1);
-        assertEquals(2, user.calendarCount());
-        assertEquals(cal2, user.getCalendar(1));
+        user.removeCalendar(0);
+        assertEquals(1, user.calendarCount());
+        assertEquals(cal2, user.getCalendar(0));
         assertThrows(IndexOutOfBoundsException.class, () -> user.getCalendar(2));
 
         user.removeCalendar(cal1);
-        assertEquals(2, user.calendarCount());
-        assertEquals(cal2, user.getCalendar(1));
+        assertEquals(1, user.calendarCount());
+        assertEquals(cal2, user.getCalendar(0));
         assertThrows(IndexOutOfBoundsException.class, () -> user.getCalendar(2));
 
         user.removeCalendar(cal2);
-        assertEquals(1, user.calendarCount());
+        assertEquals(0, user.calendarCount());
         assertThrows(IndexOutOfBoundsException.class, () -> user.getCalendar(1));
     }
 }

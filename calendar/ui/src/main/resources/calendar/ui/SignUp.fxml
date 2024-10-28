@@ -11,34 +11,34 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@css/signup.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.SignUpController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.SignUpController">
    <left>
-      <AnchorPane prefHeight="400.0" prefWidth="351.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="400.0" prefWidth="351.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="400.0" fitWidth="365.0">
                <image>
-                  <Image url="@img/signup.png" />
+                  <Image url="@img/login%20page%20img.png" />
                </image>
             </ImageView>
          </children>
       </AnchorPane>
    </left>
    <center>
-      <AnchorPane prefHeight="400.0" prefWidth="245.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="400.0" prefWidth="245.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
          <children>
             <Label layoutY="93.0" text="Username">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="usernameField" layoutY="126.0" prefHeight="40.0" prefWidth="205.0" promptText="Make a new username" styleClass="input-text" />
-            <PasswordField fx:id="passwordField" layoutY="207.0" prefHeight="40.0" prefWidth="205.0" promptText="Make a new password" styleClass="input-text" />
+            <TextField fx:id="usernameField" layoutY="126.0" prefHeight="40.0" prefWidth="205.0" promptText="Enter new username" style="-fx-background-radius: 12;" />
+            <PasswordField fx:id="passwordField" layoutY="207.0" prefHeight="40.0" prefWidth="205.0" promptText="Enter new password" style="-fx-background-radius: 12;" />
             <Label layoutX="2.0" layoutY="174.0" text="Password">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Button fx:id="signUpButton" defaultButton="true" layoutY="275.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="40.0" prefWidth="205.0" styleClass="button-signup" text="Create Your Account" textFill="WHITE">
+            <Button defaultButton="true" layoutY="275.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="40.0" prefWidth="205.0" style="-fx-background-radius: 12; -fx-background-color: EA454C;" text="Make New Account" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -56,7 +56,7 @@
                   <Font size="10.0" />
                </font>
             </Label>
-            <Label fx:id="signIn" layoutX="2.0" layoutY="325.0" text="I already have an account" underline="true" />
+            <Label fx:id="signIn" layoutX="6.0" layoutY="324.0" text="I already have an account" underline="true" />
          </children>
       </AnchorPane>
    </center>
