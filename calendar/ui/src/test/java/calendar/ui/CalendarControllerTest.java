@@ -1,4 +1,78 @@
-// package calendar.ui;
+package calendar.ui;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
+import java.time.LocalDate;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.framework.junit5.Start;
+
+import calendar.core.CalendarApp;
+import calendar.core.Core;
+import calendar.core.SceneCore;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
+public class CalendarControllerTest extends ApplicationTest {
+
+    private TextField eventNameField;
+    private CalendarController calendarController;
+    private CalendarApp mockCalendarApp;
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        // Create a mock CalendarApp instance
+        mockCalendarApp = mock(CalendarApp.class);
+
+        // Mock the static Core.getCalendarApp() method
+        try (MockedStatic<Core> mockedCore = mockStatic(Core.class)) {
+            mockedCore.when(Core::getCalendarApp).thenReturn(Optional.of(mockCalendarApp));
+
+            // Load the FXML file and set up the controller
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/calendar/ui/Calendar.fxml"));
+            Pane mainNode = loader.load();
+            calendarController = loader.getController();
+
+            // Set up the scene with the main UI node
+            Scene scene = new Scene(mainNode);
+            stage.setScene(scene);
+            stage.show();
+        }
+    }
+
+    @Test
+    public void testInitializeCalendar() {
+    }
+
+    @Test
+    public void testPreviousWeek() {
+        clickOn("#previousWeek");
+
+    }
+
+    @Test
+    public void testNextWeek() {
+        clickOn("#nextWeek");
+    }
+
+    @Test
+    public void testUpdate() {
+        // mock calendarApp.getEventsBetween
+        //
+    }
+
+}
 
 // import static org.mockito.ArgumentMatchers.any;
 // import static org.mockito.Mockito.*;
