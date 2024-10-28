@@ -22,9 +22,7 @@
 <?import javafx.scene.text.Text?>
 <?import org.controlsfx.control.ToggleSwitch?>
 
-<BorderPane fx:id="rootPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" scaleZ="2.0" stylesheets="@css/new_calendar.css"
-   xmlns="http://javafx.com/javafx/21"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.NewCalendarController">
+<BorderPane fx:id="rootPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" scaleZ="2.0" stylesheets="@css/new_calendar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.NewCalendarController">
    <right>
       <Pane BorderPane.alignment="CENTER">
          <children>
@@ -324,12 +322,12 @@
             </Button>
             <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header-month" text="October">
+                  <Text fx:id="monthLabel" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header-month" text="October">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header-year" text="2024">
+                  <Text fx:id="yearLabel" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header-year" text="2024">
                      <font>
                         <Font size="24.0" />
                      </font>

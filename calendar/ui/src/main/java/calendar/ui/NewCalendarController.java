@@ -6,14 +6,12 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.WeekFields;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import calendar.core.CalendarApp;
 import calendar.core.Core;
 import calendar.core.SceneCore;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -37,6 +35,7 @@ import calendar.types.Event;
 
 public class NewCalendarController {
     private static final String DEFAULT_EVENT_CLASS_NAME = "event";
+    private static final String DATE_IS_TODAY_CLASS_NAME = "calendar-date-today";
 
     private CalendarApp calendarApp;
     private LocalDate weekDate;
@@ -50,6 +49,12 @@ public class NewCalendarController {
 
     @FXML
     private Label weekLabel;
+
+    @FXML
+    private Text monthLabel;
+
+    @FXML
+    private Text yearLabel;
 
     // Input section
     @FXML
@@ -71,7 +76,7 @@ public class NewCalendarController {
     private Circle colorCircle;
     @FXML
     private ColorPicker colorPicker;
-    private Color color = Color.BLUEVIOLET;
+    private Color color = Color.web("#EA454C");
 
     // Calendar Section
     @FXML
@@ -155,25 +160,39 @@ public class NewCalendarController {
         SceneCore.setScene("Login.fxml");
     }
 
-    private void updateWeek() {
+    private void updateDates() {
+        int startDateTime = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN).getDayOfMonth();
+        int daysInMonth = weekDate.with(DayOfWeek.MONDAY).lengthOfMonth();
+
+        // Weeklabel
         weekLabel.setText("Week " + weekDate.get(WeekFields.ISO.weekOfWeekBasedYear()));
 
-        // int startDateTime = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN).getDayOfMonth();
-        // int daysInMonth = weekDate.with(DayOfWeek.MONDAY).lengthOfMonth();
-        // IntStream.range(0, CalendarApp.DAYS_IN_A_WEEK)
-        //         .forEach(i -> ((Label) calendarGrid
-        //                 .getChildrenUnmodifiable()
-        //                 .filtered(node -> node instanceof VBox)
-        //                 .stream().collect(Collectors.toList())
-        //                 .stream().map(d -> ((VBox) d).getChildrenUnmodifiable().getLast())
-        //                 .toList().get(i))
-        //                 .setText((i + startDateTime) % daysInMonth == 0
-        //                         ? "" + daysInMonth
-        //                         : "" + (i + startDateTime) % daysInMonth));
+        //Yearlabel
+        yearLabel.setText("" + weekDate.getYear());
 
-        // IntStream.range(0, CalendarApp.DAYS_IN_A_WEEK)
-        //         .forEach(i -> dateHeader.getChildrenUnmodifiable().filtered(node -> node instanceof HBox).stream()
-        //                 .collect(Collectors.toList()));
+        // Dates
+        IntStream.range(0, CalendarApp.DAYS_IN_A_WEEK).forEach(i -> {
+            HBox outerHBox = (HBox) dateHeader
+                    .getChildrenUnmodifiable()
+                    .filtered(node -> node instanceof HBox)
+                    .get(i);
+            outerHBox.getStyleClass().removeIf(style -> style.equals(DATE_IS_TODAY_CLASS_NAME));
+            HBox innerHBox = (HBox) outerHBox
+                    .getChildrenUnmodifiable()
+                    .get(0);
+            Pane pane = (Pane) innerHBox
+                    .getChildrenUnmodifiable()
+                    .get(0);
+            Label label = (Label) pane.getChildren().stream()
+                    .filter(node -> node instanceof Label)
+                    .findFirst().get();
+            label.setText((i + startDateTime) % daysInMonth == 0
+                    ? "" + daysInMonth
+                    : "" + (i + startDateTime) % daysInMonth);
+
+            if (weekDate.with(DayOfWeek.MONDAY).plusDays(i).equals(LocalDate.now()))
+                outerHBox.getStyleClass().add(DATE_IS_TODAY_CLASS_NAME);
+        });
     }
 
     private void clearCalendar() {
@@ -181,8 +200,8 @@ public class NewCalendarController {
     }
 
     private void update() {
-        updateWeek();
         clearCalendar();
+        updateDates();
 
         LocalDateTime startDateTime = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN);
         LocalDateTime endDateTime = LocalDateTime.of(weekDate.with(DayOfWeek.SUNDAY), LocalTime.MAX);
