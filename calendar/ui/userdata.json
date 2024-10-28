@@ -7,10 +7,7 @@
       "userId" : "3d0c508f-5d64-4fd4-952c-b7ea8adb4699",
       "username" : "1",
       "password" : "1",
-      "calendars" : [ {
-        "userId" : "3d0c508f-5d64-4fd4-952c-b7ea8adb4699",
-        "events" : [ ]
-      } ],
+      "calendars" : [ ],
       "settings" : {
         "userId" : "3d0c508f-5d64-4fd4-952c-b7ea8adb4699",
         "timezone" : "Europe/Oslo",
