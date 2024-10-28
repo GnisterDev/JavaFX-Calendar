@@ -40,7 +40,7 @@
                   </Text>
                   <TextField fx:id="eventNameField" promptText="Title" styleClass="input-text" />
                   <TextArea fx:id="eventDescriptionField" maxWidth="-Infinity" prefHeight="40.0" prefWidth="180.0" promptText="Description" styleClass="input-text" wrapText="true" />
-                  <ToggleSwitch prefWidth="200.0" text="All Day" />
+                  <ToggleSwitch prefWidth="200.0" styleClass="toggle-button" text="All Day" />
                   <HBox alignment="CENTER_LEFT" depthTest="ENABLE" nodeOrientation="LEFT_TO_RIGHT" prefWidth="200.0" spacing="15.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Starts" wrappingWidth="30.0" HBox.hgrow="ALWAYS" />
@@ -66,7 +66,7 @@
                   <Group>
                      <children>
                         <Text layoutY="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color" wrappingWidth="30.0" />
-                        <Circle fx:id="colorCircle" fill="#1f93ff" layoutX="170.0" layoutY="-2.0" onMouseClicked="#colorPicker" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="colorCircle" fill="#1f93ff" layoutX="170.0" layoutY="-2.0" onMouseClicked="#colorPicker" radius="10.0" stroke="BLACK" strokeType="INSIDE" styleClass="color-circle" />
                         <ColorPicker fx:id="colorPicker" layoutX="162.0" layoutY="-10.0" prefHeight="0.0" prefWidth="0.0" visible="false" />
                      </children>
                   </Group>
