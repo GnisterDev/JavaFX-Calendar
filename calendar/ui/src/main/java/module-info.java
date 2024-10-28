@@ -7,5 +7,7 @@ module calendar.ui {
     requires calendar.core;
     requires javafx.graphics;
 
+    requires org.apache.commons.lang3;
+
     opens calendar.ui to javafx.graphics, javafx.fxml;
 }

@@ -24,6 +24,7 @@
         <jacoco.version>0.8.11</jacoco.version>
         <mocito.version>5.14.0</mocito.version>
         <controlsfx.version>11.2.1</controlsfx.version>
+        <apache.version>3.12.0</apache.version>
     </properties>
 
     <!-- Define submodules -->
@@ -118,6 +119,13 @@
                 <groupId>org.controlsfx</groupId>
                 <artifactId>controlsfx</artifactId>
                 <version>${controlsfx.version}</version>
+            </dependency>
+
+            <!-- StringUtils -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${apache.version}</version>
             </dependency>
 
             <!-- Add other dependencies here -->

@@ -322,12 +322,12 @@
             </Button>
             <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header-month" text="October">
+                  <Text fx:id="monthLabel" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header-month" text="October">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header-year" text="2024">
+                  <Text fx:id="yearLabel" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header-year" text="2024">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -342,29 +342,36 @@
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+            <VBox alignment="CENTER">
                <children>
-                  <Pane maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#previousWeek" prefHeight="24.0" prefWidth="24.0">
+                  <HBox alignment="CENTER">
                      <children>
-                        <SVGPath content="m 8.025 -2 l -1.775 -1.775 l 8.225 -8.225 l -8.225 -8.225 l 1.775 -1.775 l 10 10 L 8.025 -2 Z" layoutY="24.0" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#previousWeek" prefHeight="24.0" prefWidth="24.0">
+                           <children>
+                              <SVGPath content="m 8.025 -2 l -1.775 -1.775 l 8.225 -8.225 l -8.225 -8.225 l 1.775 -1.775 l 10 10 L 8.025 -2 Z" layoutY="24.0" />
+                           </children>
+                           <styleClass>
+                              <String fx:value="header-arrow" />
+                              <String fx:value="header-left-arrow" />
+                           </styleClass>
+                        </Pane>
+                        <Button mnemonicParsing="false" onAction="#today" styleClass="button-default" text="Today">
+                           <HBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#nextWeek" prefHeight="24.0" prefWidth="24.0" styleClass="header-arrow">
+                           <children>
+                              <SVGPath content="m 8.025 -2 l -1.775 -1.775 l 8.225 -8.225 l -8.225 -8.225 l 1.775 -1.775 l 10 10 L 8.025 -2 Z" layoutY="24.0" />
+                           </children>
+                        </Pane>
                      </children>
-                     <styleClass>
-                        <String fx:value="header-arrow" />
-                        <String fx:value="header-left-arrow" />
-                     </styleClass>
-                  </Pane>
-                  <Button mnemonicParsing="false" onAction="#today" styleClass="button-default" text="Today">
-                     <HBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Pane maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#nextWeek" prefHeight="24.0" prefWidth="24.0" styleClass="header-arrow">
-                     <children>
-                        <SVGPath content="m 8.025 -2 l -1.775 -1.775 l 8.225 -8.225 l -8.225 -8.225 l 1.775 -1.775 l 10 10 L 8.025 -2 Z" layoutY="24.0" />
-                     </children>
-                  </Pane>
+                  </HBox>
                </children>
-            </HBox>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </VBox>
          </children>
       </HBox>
    </top>
