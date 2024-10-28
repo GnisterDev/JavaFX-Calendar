@@ -83,9 +83,9 @@
 }
 
 /* Calendar */
-.calednar-grid {
-    -fx-opacity: 0.25;
-}
+.calendar-grid Line {
+    -fx-stroke   : #ea454d83;
+  }
 
 /* Date Indicator */
 .calendar-date {
@@ -168,3 +168,7 @@
     -fx-faint-focus-color: transparent;
     -fx-focus-color: -fx-primary-color;
 }
+
+/* Toggle button */
+
+
