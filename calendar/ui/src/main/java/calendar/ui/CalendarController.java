@@ -24,6 +24,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * The {@code CalendarController} class is a JavaFX controller responsible for managing the calendar view.
+ * It handles user interactions for navigating between weeks, adding events, and displaying events within a weekly grid.
+ */
 public class CalendarController {
     private static String DEFAULT_EVENT_CLASS_NAME = "event";
 
@@ -54,6 +58,10 @@ public class CalendarController {
     @FXML
     protected Label weekLabel;
 
+    /**
+     * Initializes the controller, sets up default values for the spinners, loads the calendar app,
+     * sets the current date to the current week, and updates the calendar view.
+     */
     @FXML
     public void initialize() {
         startTimeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 8));
@@ -64,26 +72,47 @@ public class CalendarController {
         update();
     }
 
+    /**
+     * Handles the action to navigate back to the login screen.
+     *
+     * @param event the action event triggered by clicking the "Back to Login" button
+     */
     public void handleBackToLogin(ActionEvent event) {
         SceneCore.setScene("Login.fxml");
     }
 
+    /**
+     * Moves the calendar view to the previous week and updates the view.
+     *
+     * @param event the action event triggered by clicking the "Previous Week" button
+     */
     public void previousWeek(ActionEvent event) {
         this.weekDate = this.weekDate.minusWeeks(1);
         updateWeekNr();
         update();
     }
 
+    /**
+     * Moves the calendar view to the next week and updates the view.
+     *
+     * @param event the action event triggered by clicking the "Next Week" button
+     */
     public void nextWeek(ActionEvent event) {
         this.weekDate = this.weekDate.plusWeeks(1);
         updateWeekNr();
         update();
     }
 
+    /**
+     * Clears the calendar grid by removing all event nodes.
+     */
     public void clearCalendar() {
         calendarGrid.getChildren().removeIf(node -> node.getStyleClass().contains(DEFAULT_EVENT_CLASS_NAME));
     }
 
+    /**
+     * Updates the label displaying the current week number based on the current date.
+     */
     public void updateWeekNr() {
         weekLabel.setText("Week " + weekDate.get(WeekFields.ISO.weekOfWeekBasedYear()));
 
@@ -101,6 +130,9 @@ public class CalendarController {
         //                         : "" + (i + startDateTime) % daysInMonth));
     }
 
+    /**
+     * Updates the calendar view by clearing the current events and re-adding events for the current week.
+     */
     public void update() {
         clearCalendar();
 
@@ -145,6 +177,14 @@ public class CalendarController {
         }
     }
 
+    /**
+     * Creates and adds a rectangle representing an event in the calendar grid.
+     *
+     * @param event         the event to be displayed
+     * @param dayIndex      the column representing the day of the event
+     * @param startTimeIndex the row representing the start time of the event
+     * @param length        the number of rows the event spans
+     */
     public void createEventRect(Event event, int dayIndex, int startTimeIndex, int length) {
         VBox eventBox = new VBox(10);
         eventBox.getStyleClass().add(DEFAULT_EVENT_CLASS_NAME);
@@ -155,6 +195,9 @@ public class CalendarController {
         calendarGrid.add(eventBox, dayIndex, startTimeIndex);
     }
 
+    /**
+     * Adds an event manually using the values from the input fields, such as event name, start time, and end time.
+     */
     public void addEventManually() {
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
