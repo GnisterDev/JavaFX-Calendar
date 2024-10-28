@@ -170,5 +170,17 @@
 }
 
 /* Toggle button */
+.toggle-button:selected .thumb-area {
+    -fx-background-color: -fx-primary-color;
+}
 
+.toggle-button {
+    -fx-background-color: transparent;
+    -fx-padding: 3 0 3 0;
+}
 
+/* Color circle */
+.color-circle {
+    -fx-stroke: -fx-light-grey-color;
+    -fx-stroke-width: 2px;
+}
