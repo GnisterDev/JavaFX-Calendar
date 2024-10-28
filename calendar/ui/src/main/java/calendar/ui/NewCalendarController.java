@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
+
 import calendar.core.CalendarApp;
 import calendar.core.Core;
 import calendar.core.SceneCore;
@@ -161,14 +163,32 @@ public class NewCalendarController {
     }
 
     private void updateDates() {
-        int startDateTime = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN).getDayOfMonth();
+        LocalDateTime dateOfMonday = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN);
+        LocalDateTime dateOfSunday = LocalDateTime.of(weekDate.with(DayOfWeek.SUNDAY), LocalTime.MAX);
         int daysInMonth = weekDate.with(DayOfWeek.MONDAY).lengthOfMonth();
 
         // Weeklabel
-        weekLabel.setText("Week " + weekDate.get(WeekFields.ISO.weekOfWeekBasedYear()));
+        weekLabel.setText("Week " + dateOfMonday.get(WeekFields.ISO.weekOfWeekBasedYear()));
 
-        //Yearlabel
-        yearLabel.setText("" + weekDate.getYear());
+        // Monthlabel
+        boolean isSameMonth = dateOfMonday.getMonth().equals(dateOfSunday.getMonth());
+        String abbreviatedStartMonth = StringUtils
+                .capitalize(dateOfMonday.getMonth().toString().toLowerCase())
+                .substring(0, 3);
+        String abbreviatedEndMonth = StringUtils
+                .capitalize(dateOfSunday.getMonth().toString().toLowerCase())
+                .substring(0, 3);
+        monthLabel.setText(isSameMonth
+                ? StringUtils.capitalize(dateOfMonday.getMonth().toString().toLowerCase())
+                : abbreviatedStartMonth + "-" + abbreviatedEndMonth);
+
+        // Yearlabel
+        boolean isSameYear = dateOfMonday.getYear() == dateOfSunday.getYear();
+        String abbreviatedStartYear = Integer.toString(dateOfMonday.getYear()).substring(2);
+        String abbreviatedEndYear = Integer.toString(dateOfSunday.getYear()).substring(2);
+        yearLabel.setText(isSameYear
+                ? Integer.toString(dateOfMonday.getYear())
+                : abbreviatedStartYear + "-" + abbreviatedEndYear);
 
         // Dates
         IntStream.range(0, CalendarApp.DAYS_IN_A_WEEK).forEach(i -> {
@@ -186,9 +206,9 @@ public class NewCalendarController {
             Label label = (Label) pane.getChildren().stream()
                     .filter(node -> node instanceof Label)
                     .findFirst().get();
-            label.setText((i + startDateTime) % daysInMonth == 0
+            label.setText((i + dateOfMonday.getDayOfMonth()) % daysInMonth == 0
                     ? "" + daysInMonth
-                    : "" + (i + startDateTime) % daysInMonth);
+                    : "" + (i + dateOfMonday.getDayOfMonth()) % daysInMonth);
 
             if (weekDate.with(DayOfWeek.MONDAY).plusDays(i).equals(LocalDate.now()))
                 outerHBox.getStyleClass().add(DATE_IS_TODAY_CLASS_NAME);
@@ -203,26 +223,26 @@ public class NewCalendarController {
         clearCalendar();
         updateDates();
 
-        LocalDateTime startDateTime = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN);
-        LocalDateTime endDateTime = LocalDateTime.of(weekDate.with(DayOfWeek.SUNDAY), LocalTime.MAX);
-        List<Event> events = calendarApp.getEventsBetween(startDateTime, endDateTime);
+        LocalDateTime dateOfMonday = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN);
+        LocalDateTime dateOfSunday = LocalDateTime.of(weekDate.with(DayOfWeek.SUNDAY), LocalTime.MAX);
+        List<Event> events = calendarApp.getEventsBetween(dateOfMonday, dateOfSunday);
 
         for (Event event : events) {
 
             LocalDateTime eventStartTime = event.getStartTime();
             LocalDateTime eventEndTime = event.getEndTime();
 
-            if (eventStartTime.isBefore(startDateTime))
-                eventStartTime = startDateTime;
-            if (eventEndTime.isAfter(endDateTime))
-                eventEndTime = endDateTime;
+            if (eventStartTime.isBefore(dateOfMonday))
+                eventStartTime = dateOfMonday;
+            if (eventEndTime.isAfter(dateOfSunday))
+                eventEndTime = dateOfSunday;
 
             int startDayIndex = eventStartTime.getDayOfWeek().getValue() - 1;
             int endDayIndex = eventEndTime.getDayOfWeek().getValue() - 1;
 
             int startRowIndex = eventStartTime.getHour();
 
-            int endRowIndex = eventEndTime.equals(endDateTime) ? CalendarApp.HOURS_IN_A_DAY : eventEndTime.getHour();
+            int endRowIndex = eventEndTime.equals(dateOfSunday) ? CalendarApp.HOURS_IN_A_DAY : eventEndTime.getHour();
 
             // Single day Event
             if (eventStartTime.toLocalDate().equals(eventEndTime.toLocalDate())) {
@@ -272,11 +292,11 @@ public class NewCalendarController {
         if (endDate == null)
             return;
 
-        LocalDateTime startDateTime = LocalDateTime.of(startDate, LocalTime.of(startTime, 0));
-        LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.of(endTime, 0));
+        LocalDateTime dateOfMonday = LocalDateTime.of(startDate, LocalTime.of(startTime, 0));
+        LocalDateTime dateOfSunday = LocalDateTime.of(endDate, LocalTime.of(endTime, 0));
 
         calendarApp
-                .createEvent(eventName, eventName, startDateTime, endDateTime)
+                .createEvent(eventName, eventName, dateOfMonday, dateOfSunday)
                 .ifPresentOrElse(msg -> System.out.println(msg), this::update);
         // .ifPresentOrElse(msg -> messageLabel.setText(msg), this::update);
     }
