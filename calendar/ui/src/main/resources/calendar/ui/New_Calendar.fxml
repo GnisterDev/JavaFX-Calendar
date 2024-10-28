@@ -267,7 +267,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                   </GridPane>
-                  <GridPane fx:id="calendarGrid" gridLinesVisible="true" minHeight="-Infinity" minWidth="-Infinity" styleClass="calednar-grid" HBox.hgrow="ALWAYS">
+                  <GridPane fx:id="calendarGrid" gridLinesVisible="true" minHeight="-Infinity" minWidth="-Infinity" styleClass="calendar-grid" HBox.hgrow="ALWAYS">
                      <columnConstraints>
                         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="75.0" />
                         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="75.0" />
