@@ -122,17 +122,26 @@ public class CalendarController {
     @FXML
     private void timeSelectKey(KeyEvent event) {
         TextField field = (TextField) event.getSource();
+        field.setText(field.getText().replaceAll("\\D", ""));
+
         switch (field.getLength()) {
             case 2 -> field.setText(field.getText() + ":00");
-            case 6 -> field.setText(event.getCharacter());
+            case 5 -> field.setText(event.getCharacter());
         }
         field.positionCaret(field.getLength() == 6 ? 1 : 5);
-    }
 
-    @FXML
-    private void timeSelectAction(javafx.event.Event event) {
-        TextField field = (TextField) event.getSource();
-        System.out.println("Hello");
+        if (field.getLength() == 1 && Integer.parseInt(field.getText()) >= 3) {
+            field.setText("0" + field.getText() + ":00");
+            return;
+        }
+
+        if (field.getLength() == 1 || field.getLength() == 0)
+            return;
+        if (Integer.parseInt(field.getText().substring(0, 2)) > 24)
+            field.setText("0" + event.getCharacter() + ":00");
+        if (field.getText().matches("^\\d$|^\\d{2}:\\d{2}$"))
+            return;
+        field.setText("");
     }
 
     private void loseFocus(Node root) {
@@ -300,13 +309,17 @@ public class CalendarController {
             return;
         LocalDate startDate = startDateSelect.getValue();
         LocalDate endDate = endDateSelect.getValue();
-        int startTime = Integer.parseInt(startTimeSelect.getText());
-        int endTime = Integer.parseInt(endTimeSelect.getText());
+        int startTime = Integer.parseInt(startTimeSelect.getText().substring(0, 2));
+        int endTime = Integer.parseInt(endTimeSelect.getText().substring(0, 2));
         String eventName = eventNameField.getText();
 
         if (startDate == null)
             return;
         if (endDate == null)
+            return;
+        if (startTime < 0)
+            return;
+        if (endTime > 24)
             return;
 
         LocalDateTime dateOfMonday = LocalDateTime.of(startDate, LocalTime.of(startTime, 0));
