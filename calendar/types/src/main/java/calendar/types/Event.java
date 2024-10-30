@@ -28,6 +28,10 @@ public class Event {
         this(title, description, startTime, endTime, EventType.EVENT_TYPE1, Color.BLUE, UUID.randomUUID());
     }
 
+    public Event(String title, String description, LocalDateTime startTime, LocalDateTime endTime, Color color) {
+        this(title, description, startTime, endTime, EventType.EVENT_TYPE1, color, UUID.randomUUID());
+    }
+
     @JsonCreator
     public Event(
             @JsonProperty("title") String title,

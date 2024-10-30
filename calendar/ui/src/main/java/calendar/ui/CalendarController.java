@@ -294,6 +294,7 @@ public class CalendarController {
     private void createEventRect(Event event, int dayIndex, int startTimeIndex, int length) {
         VBox eventBox = new VBox(10);
         eventBox.getStyleClass().add(DEFAULT_EVENT_CLASS_NAME);
+        eventBox.setStyle("-fx-background-color: #" + event.getColor().toString().substring(2) + " ;");
         eventBox.getChildren().add(new Label(event.getTitle()));
         eventBox.setAlignment(Pos.TOP_CENTER);
 
@@ -312,6 +313,7 @@ public class CalendarController {
         int startTime = Integer.parseInt(startTimeSelect.getText().substring(0, 2));
         int endTime = Integer.parseInt(endTimeSelect.getText().substring(0, 2));
         String eventName = eventNameField.getText();
+        Color color = colorPicker.getValue();
 
         if (startDate == null)
             return;
@@ -326,7 +328,7 @@ public class CalendarController {
         LocalDateTime dateOfSunday = LocalDateTime.of(endDate, LocalTime.of(endTime, 0));
 
         calendarApp
-                .createEvent(eventName, eventName, dateOfMonday, dateOfSunday)
+                .createEvent(eventName, eventName, dateOfMonday, dateOfSunday, color)
                 .ifPresentOrElse(msg -> System.out.println(msg), this::update);
         // .ifPresentOrElse(msg -> messageLabel.setText(msg), this::update);
     }

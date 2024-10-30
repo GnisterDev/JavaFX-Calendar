@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import calendar.types.Event;
 import calendar.types.User;
+import javafx.scene.paint.Color;
 
 public class CalendarApp {
     private static boolean EVENT_HAS_MAX_LENGTH = false;
@@ -44,7 +45,7 @@ public class CalendarApp {
     }
 
     public Optional<String> createEvent(String title, String description, LocalDateTime startTime,
-            LocalDateTime endTime) {
+            LocalDateTime endTime, Color color) {
         if (title.isBlank())
             return Optional.of("Title cannot be blank");
         if (startTime.isAfter(endTime))
@@ -55,7 +56,7 @@ public class CalendarApp {
                     + "days ("
                     + MAX_EVENT_LENGTH_IN_HOURS
                     + " hours)");
-        addEvent(new Event(title, description, startTime, endTime));
+        addEvent(new Event(title, description, startTime, endTime, color));
         return Optional.empty();
     }
 
