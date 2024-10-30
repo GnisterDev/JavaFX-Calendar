@@ -24,6 +24,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -116,6 +117,22 @@ public class CalendarController {
             color = colorPicker.getValue();
             colorCircle.setFill(color);
         });
+    }
+
+    @FXML
+    private void timeSelectKey(KeyEvent event) {
+        TextField field = (TextField) event.getSource();
+        switch (field.getLength()) {
+            case 2 -> field.setText(field.getText() + ":00");
+            case 6 -> field.setText(event.getCharacter());
+        }
+        field.positionCaret(field.getLength() == 6 ? 1 : 5);
+    }
+
+    @FXML
+    private void timeSelectAction(javafx.event.Event event) {
+        TextField field = (TextField) event.getSource();
+        System.out.println("Hello");
     }
 
     private void loseFocus(Node root) {
