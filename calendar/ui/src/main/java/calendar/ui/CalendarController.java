@@ -79,7 +79,6 @@ public class CalendarController {
     private Circle colorCircle;
     @FXML
     private ColorPicker colorPicker;
-    private Color color = Color.web("#EA454C");
 
     // Calendar Section
     @FXML
@@ -95,7 +94,8 @@ public class CalendarController {
     private void initialize() {
         calendarApp = Core.getCalendarApp().orElseThrow();
         weekDate = LocalDate.now();
-        colorCircle.setFill(color);
+        colorPicker.setValue(Color.valueOf("#EA454C"));
+        colorCircle.setFill(colorPicker.getValue());
 
         Stream.of(rootPane).forEach(this::loseFocus);
         Stream.of(startDateSelect, endDateSelect).forEach(this::datePicker);
@@ -113,10 +113,7 @@ public class CalendarController {
     @FXML
     private void colorPicker(javafx.event.Event event) {
         colorPicker.show();
-        colorPicker.setOnAction(e -> {
-            color = colorPicker.getValue();
-            colorCircle.setFill(color);
-        });
+        colorPicker.setOnAction(e -> colorCircle.setFill(colorPicker.getValue()));
     }
 
     @FXML
