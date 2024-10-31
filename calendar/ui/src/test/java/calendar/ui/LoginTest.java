@@ -29,6 +29,7 @@ public class LoginTest extends ApplicationTest {
     private String usernameID = "#usernameField";
     private String passwordID = "#passwordField";
     private String loginButtonID = "#loginButton";
+    private String messageLabelID = "#messageLabel";
 
     private TextField usernameField;
     private PasswordField passwordField;
@@ -41,7 +42,7 @@ public class LoginTest extends ApplicationTest {
 
         usernameField = (TextField) root.lookup(usernameID);
         passwordField = (PasswordField) root.lookup(passwordID);
-        messageLabel = (Label) root.lookup("#messageLabel");
+        messageLabel = (Label) root.lookup(messageLabelID);
 
         stage.setScene(new Scene(root));
         stage.show();
@@ -53,10 +54,7 @@ public class LoginTest extends ApplicationTest {
     @BeforeEach
     public void setUp() throws Exception {
 
-        // Mock UserStore
-
         UserStore mockUserStore = mock(UserStore.class);
-
         Core.userStore = mockUserStore;
 
         UUID validUserId = UUID.randomUUID();
@@ -64,22 +62,13 @@ public class LoginTest extends ApplicationTest {
 
         when(mockUserStore.getUserId("validUser")).thenReturn(Optional.of(validUserId));
         when(mockUserStore.getUser(validUserId)).thenReturn(Optional.of(validUser));
-
         when(validUser.checkPassword("validPass")).thenReturn(true);
-
         when(mockUserStore.getUserId("invalidUser")).thenReturn(Optional.empty());
 
     }
 
     @Test
     public void testValidLogin() {
-        // try (MockedStatic<SceneCore> sceneCoreMock =
-        // Mockito.mockStatic(SceneCore.class)) {
-        // Mock the setScene method to do nothing (since we don't want an actual scene
-        // change)
-        // ceneCoreMock.when(() ->
-        // SceneCore.setScene(anyString())).thenAnswer(invocation -> null);
-
         assertNotNull(usernameField, "usernameField should be initialized!");
         assertNotNull(passwordField, "passwordField should be initialized!");
         assertNotNull(messageLabel, "messageLabel should be initialized!");
@@ -89,34 +78,24 @@ public class LoginTest extends ApplicationTest {
 
         clickOn(loginButtonID);
 
-        // Verify the message label text is updated for a successful login
         assertEquals("Login successful!", messageLabel.getText());
-
-        // Verify that the scene is switched to Calendar.fxml
-        // sceneCoreMock.verify(() -> SceneCore.setScene("Calendar.fxml"), times(1));
-        // }
-
     }
 
     @Test
     public void testInvalidPassword() {
         clickOn(usernameID).write("validUser");
         clickOn(passwordID).write("invalidPass");
-
         clickOn(loginButtonID);
 
         assertEquals("Username or password is incorrect.", messageLabel.getText());
-
     }
 
     @Test
     public void testInvalidUsername() {
         clickOn(usernameID).write("invalidUser");
         clickOn(passwordID).write("validPass");
-
         clickOn(loginButtonID);
 
         assertEquals("Username or password is incorrect.", messageLabel.getText());
-
     }
 }
