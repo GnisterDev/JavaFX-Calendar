@@ -56,7 +56,10 @@ public class CalendarApp {
                     + "days ("
                     + MAX_EVENT_LENGTH_IN_HOURS
                     + " hours)");
-        addEvent(new Event(title, description, startTime, endTime, color));
+        Event newEvent = new Event(title, description, startTime, endTime, color);
+        if (eventStream().anyMatch(p -> p.equals(newEvent)))
+            return Optional.of("Event already exists");
+        addEvent(newEvent);
         return Optional.empty();
     }
 
