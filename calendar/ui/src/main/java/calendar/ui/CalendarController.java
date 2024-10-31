@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
+import org.controlsfx.control.ToggleSwitch;
 
 import calendar.core.CalendarApp;
 import calendar.core.Core;
@@ -24,6 +25,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -80,6 +82,9 @@ public class CalendarController {
     @FXML
     private ColorPicker colorPicker;
 
+    @FXML
+    private ToggleSwitch allDaySwitch;
+
     // Calendar Section
     @FXML
     private GridPane timeStampSection;
@@ -99,6 +104,11 @@ public class CalendarController {
 
         Stream.of(rootPane).forEach(this::loseFocus);
         Stream.of(startDateSelect, endDateSelect).forEach(this::datePicker);
+        Stream.of(startTimeSelect, endTimeSelect)
+                .forEach(l -> l.focusedProperty().addListener((obs, oldVal, newVal) -> {
+                    if (!newVal)
+                        timeSelectLoseFocus(l);
+                }));
 
         IntStream.range(1, CalendarApp.HOURS_IN_A_DAY).forEach(i -> {
             Text timeStamp = new Text(String.format("%02d:00", i));
@@ -139,6 +149,12 @@ public class CalendarController {
         if (field.getText().matches("^\\d$|^\\d{2}:\\d{2}$"))
             return;
         field.setText("");
+    }
+
+    private void timeSelectLoseFocus(TextField field) {
+        if (field.getText().matches("^\\d{2}:\\d{2}$"))
+            return;
+        field.setText(field.getText().matches("^\\d$") ? "0" + field.getText() + ":00" : "");
     }
 
     private void loseFocus(Node root) {
