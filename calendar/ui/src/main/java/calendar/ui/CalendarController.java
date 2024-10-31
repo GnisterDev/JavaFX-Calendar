@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
+import org.controlsfx.control.ToggleSwitch;
 
 import calendar.core.CalendarApp;
 import calendar.core.Core;
@@ -24,6 +25,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -78,7 +80,9 @@ public class CalendarController {
     private Circle colorCircle;
     @FXML
     private ColorPicker colorPicker;
-    private Color color = Color.web("#EA454C");
+
+    @FXML
+    private ToggleSwitch allDaySwitch;
 
     // Calendar Section
     @FXML
@@ -94,10 +98,16 @@ public class CalendarController {
     private void initialize() {
         calendarApp = Core.getCalendarApp().orElseThrow();
         weekDate = LocalDate.now();
-        colorCircle.setFill(color);
+        colorPicker.setValue(Color.valueOf("#EA454C"));
+        colorCircle.setFill(colorPicker.getValue());
 
         Stream.of(rootPane).forEach(this::loseFocus);
         Stream.of(startDateSelect, endDateSelect).forEach(this::datePicker);
+        Stream.of(startTimeSelect, endTimeSelect)
+                .forEach(l -> l.focusedProperty().addListener((obs, oldVal, newVal) -> {
+                    if (!newVal)
+                        timeSelectLoseFocus(l);
+                }));
 
         IntStream.range(1, CalendarApp.HOURS_IN_A_DAY).forEach(i -> {
             Text timeStamp = new Text(String.format("%02d:00", i));
@@ -112,10 +122,38 @@ public class CalendarController {
     @FXML
     private void colorPicker(javafx.event.Event event) {
         colorPicker.show();
-        colorPicker.setOnAction(e -> {
-            color = colorPicker.getValue();
-            colorCircle.setFill(color);
-        });
+        colorPicker.setOnAction(e -> colorCircle.setFill(colorPicker.getValue()));
+    }
+
+    @FXML
+    private void timeSelectKey(KeyEvent event) {
+        TextField field = (TextField) event.getSource();
+        field.setText(field.getText().replaceAll("\\D", ""));
+
+        switch (field.getLength()) {
+            case 2 -> field.setText(field.getText() + ":00");
+            case 5 -> field.setText(event.getCharacter());
+        }
+        field.positionCaret(field.getLength() == 6 ? 1 : 5);
+
+        if (field.getLength() == 1 && Integer.parseInt(field.getText()) >= 3) {
+            field.setText("0" + field.getText() + ":00");
+            return;
+        }
+
+        if (field.getLength() == 1 || field.getLength() == 0)
+            return;
+        if (Integer.parseInt(field.getText().substring(0, 2)) > 24)
+            field.setText("0" + event.getCharacter() + ":00");
+        if (field.getText().matches("^\\d$|^\\d{2}:\\d{2}$"))
+            return;
+        field.setText("");
+    }
+
+    private void timeSelectLoseFocus(TextField field) {
+        if (field.getText().matches("^\\d{2}:\\d{2}$"))
+            return;
+        field.setText(field.getText().matches("^\\d$") ? "0" + field.getText() + ":00" : "");
     }
 
     private void loseFocus(Node root) {
@@ -268,6 +306,7 @@ public class CalendarController {
     private void createEventRect(Event event, int dayIndex, int startTimeIndex, int length) {
         VBox eventBox = new VBox(10);
         eventBox.getStyleClass().add(DEFAULT_EVENT_CLASS_NAME);
+        eventBox.setStyle("-fx-background-color: #" + event.getColor().toString().substring(2) + " ;");
         eventBox.getChildren().add(new Label(event.getTitle()));
         eventBox.setAlignment(Pos.TOP_CENTER);
 
@@ -283,20 +322,25 @@ public class CalendarController {
             return;
         LocalDate startDate = startDateSelect.getValue();
         LocalDate endDate = endDateSelect.getValue();
-        int startTime = Integer.parseInt(startTimeSelect.getText());
-        int endTime = Integer.parseInt(endTimeSelect.getText());
+        int startTime = Integer.parseInt(startTimeSelect.getText().substring(0, 2));
+        int endTime = Integer.parseInt(endTimeSelect.getText().substring(0, 2));
         String eventName = eventNameField.getText();
+        Color color = colorPicker.getValue();
 
         if (startDate == null)
             return;
         if (endDate == null)
+            return;
+        if (startTime < 0)
+            return;
+        if (endTime > 24)
             return;
 
         LocalDateTime dateOfMonday = LocalDateTime.of(startDate, LocalTime.of(startTime, 0));
         LocalDateTime dateOfSunday = LocalDateTime.of(endDate, LocalTime.of(endTime, 0));
 
         calendarApp
-                .createEvent(eventName, eventName, dateOfMonday, dateOfSunday)
+                .createEvent(eventName, eventName, dateOfMonday, dateOfSunday, color)
                 .ifPresentOrElse(msg -> System.out.println(msg), this::update);
         // .ifPresentOrElse(msg -> messageLabel.setText(msg), this::update);
     }
