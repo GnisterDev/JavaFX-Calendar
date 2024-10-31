@@ -20,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -117,5 +118,25 @@ public class CalendarControllerTest extends ApplicationTest {
 
         clickOn(startTimeFieldID).write("65638523").clickOn(endTimeFieldID);
         assertEquals(startTimeField.getText(), "23:00");
+
+    }
+
+    @Test
+    public void testTimeIvalidSelect() throws InterruptedException {
+        String startTimeFieldID = "#startTimeSelect";
+        String endTimeFieldID = "#endTimeSelect";
+        TextField startTimeField = lookup(startTimeFieldID).queryAs(TextField.class);
+        TextField endTimeField = lookup(endTimeFieldID).queryAs(TextField.class);
+
+        clickOn(startTimeFieldID).write("0").clickOn(endTimeFieldID);
+        assertEquals(startTimeField.getText(), "00:00");
+        clickOn(startTimeFieldID).press(KeyCode.BACK_SPACE);
+        assertEquals(startTimeField.getText(), "");
+
+        clickOn(startTimeFieldID).write("12").clickOn(endTimeFieldID);
+        assertEquals(startTimeField.getText(), "12:00");
+        clickOn(startTimeFieldID).press(KeyCode.RIGHT);
+        press(KeyCode.BACK_SPACE);
+        assertEquals(startTimeField.getText(), "");
     }
 }
