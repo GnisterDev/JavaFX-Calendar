@@ -2,6 +2,7 @@ package calendar.types;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -25,7 +26,7 @@ public class EventTest {
         assertEquals(date1, event1.getStartTime());
         assertEquals(date2, event1.getEndTime());
 
-        assertNotEquals(event1, event2);
+        assertNotSame(event1, event2);
         assertNotEquals(event1.getId(), event2.getId());
 
         assertEquals(event1.getTitle(), event2.getTitle());
