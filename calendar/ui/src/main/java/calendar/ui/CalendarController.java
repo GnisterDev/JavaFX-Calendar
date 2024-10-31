@@ -29,6 +29,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -84,7 +85,6 @@ public class CalendarController {
     private Circle colorCircle;
     @FXML
     private ColorPicker colorPicker;
-    private Color color = Color.web("#EA454C");
 
     // Calendar Section
     @FXML
@@ -100,7 +100,8 @@ public class CalendarController {
     private void initialize() {
         calendarApp = Core.getCalendarApp().orElseThrow();
         weekDate = LocalDate.now();
-        colorCircle.setFill(color);
+        colorPicker.setValue(Color.valueOf("#EA454C"));
+        colorCircle.setFill(colorPicker.getValue());
 
         Stream.of(rootPane).forEach(this::loseFocus);
         Stream.of(startDateSelect, endDateSelect).forEach(this::datePicker);
@@ -118,10 +119,32 @@ public class CalendarController {
     @FXML
     private void colorPicker(javafx.event.Event event) {
         colorPicker.show();
-        colorPicker.setOnAction(e -> {
-            color = colorPicker.getValue();
-            colorCircle.setFill(color);
-        });
+        colorPicker.setOnAction(e -> colorCircle.setFill(colorPicker.getValue()));
+    }
+
+    @FXML
+    private void timeSelectKey(KeyEvent event) {
+        TextField field = (TextField) event.getSource();
+        field.setText(field.getText().replaceAll("\\D", ""));
+
+        switch (field.getLength()) {
+            case 2 -> field.setText(field.getText() + ":00");
+            case 5 -> field.setText(event.getCharacter());
+        }
+        field.positionCaret(field.getLength() == 6 ? 1 : 5);
+
+        if (field.getLength() == 1 && Integer.parseInt(field.getText()) >= 3) {
+            field.setText("0" + field.getText() + ":00");
+            return;
+        }
+
+        if (field.getLength() == 1 || field.getLength() == 0)
+            return;
+        if (Integer.parseInt(field.getText().substring(0, 2)) > 24)
+            field.setText("0" + event.getCharacter() + ":00");
+        if (field.getText().matches("^\\d$|^\\d{2}:\\d{2}$"))
+            return;
+        field.setText("");
     }
 
     private void loseFocus(Node root) {
@@ -225,7 +248,7 @@ public class CalendarController {
         calendarGrid.getChildren().removeIf(node -> node.getStyleClass().contains(DEFAULT_EVENT_CLASS_NAME));
     }
 
-    private void update() {
+    protected void update() {
         clearCalendar();
         updateDates();
 
@@ -274,6 +297,7 @@ public class CalendarController {
     private void createEventRect(Event event, int dayIndex, int startTimeIndex, int length) {
         VBox eventBox = new VBox(10);
         eventBox.getStyleClass().add(DEFAULT_EVENT_CLASS_NAME);
+        eventBox.setStyle("-fx-background-color: #" + event.getColor().toString().substring(2) + " ;");
         eventBox.getChildren().add(new Label(event.getTitle()));
         eventBox.setAlignment(Pos.TOP_CENTER);
         eventBox.setOnMouseClicked(mouseEvent -> {
@@ -293,20 +317,25 @@ public class CalendarController {
             return;
         LocalDate startDate = startDateSelect.getValue();
         LocalDate endDate = endDateSelect.getValue();
-        int startTime = Integer.parseInt(startTimeSelect.getText());
-        int endTime = Integer.parseInt(endTimeSelect.getText());
+        int startTime = Integer.parseInt(startTimeSelect.getText().substring(0, 2));
+        int endTime = Integer.parseInt(endTimeSelect.getText().substring(0, 2));
         String eventName = eventNameField.getText();
+        Color color = colorPicker.getValue();
 
         if (startDate == null)
             return;
         if (endDate == null)
+            return;
+        if (startTime < 0)
+            return;
+        if (endTime > 24)
             return;
 
         LocalDateTime dateOfMonday = LocalDateTime.of(startDate, LocalTime.of(startTime, 0));
         LocalDateTime dateOfSunday = LocalDateTime.of(endDate, LocalTime.of(endTime, 0));
 
         calendarApp
-                .createEvent(eventName, eventName, dateOfMonday, dateOfSunday)
+                .createEvent(eventName, eventName, dateOfMonday, dateOfSunday, color)
                 .ifPresentOrElse(msg -> System.out.println(msg), this::update);
         // .ifPresentOrElse(msg -> messageLabel.setText(msg), this::update);
     }
@@ -321,7 +350,7 @@ public class CalendarController {
 
             // Get the controller and initialize it with necessary data
             PopupController controller = loader.getController();
-            controller.initialize(event, calendarApp, this::update); // Pass event, app reference, and update callback
+            controller.initialize(event, calendarApp, this);
 
             Stage stage = new Stage();
             stage.setWidth(250);

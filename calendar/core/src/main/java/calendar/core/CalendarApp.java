@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import calendar.types.Event;
 import calendar.types.User;
+import javafx.scene.paint.Color;
 
 public class CalendarApp {
     private static boolean EVENT_HAS_MAX_LENGTH = false;
@@ -59,26 +60,26 @@ public class CalendarApp {
     }
 
     public Optional<String> createEvent(String title, String description, LocalDateTime startTime,
-            LocalDateTime endTime) {
+            LocalDateTime endTime, Color color) {
         Optional<String> validationError = validateEvent(title, startTime, endTime);
         if (validationError.isPresent()) {
             return validationError;
         }
 
-        addEvent(new Event(title, description, startTime, endTime));
+        addEvent(new Event(title, description, startTime, endTime, color));
         return Optional.empty();
     }
 
     public Optional<String> updateEvent(Event event, String title, String description, LocalDateTime startTime,
-            LocalDateTime endTime) {
+            LocalDateTime endTime, Color color) {
         Optional<String> validationError = validateEvent(title, startTime, endTime);
-        if (validationError.isPresent()) {
+        if (validationError.isPresent())
             return validationError;
-        }
 
         event.setStartTime(startTime);
         event.setEndTime(endTime);
         event.setTitle(title);
+        event.setColor(color);
         return Optional.empty();
     }
 

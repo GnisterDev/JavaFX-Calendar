@@ -11,6 +11,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -32,23 +33,24 @@ public class PopupController {
     private Circle colorCircle;
     @FXML
     private ColorPicker colorPicker;
-    private Color color = Color.web("#EA454C");
 
     private Event event;
     private CalendarApp calendarApp;
-    private Runnable updateCallback;
+    private CalendarController calendarController;
     private Stage stage;
 
-    public void initialize(Event event, CalendarApp calendarApp, Runnable updateCallback) {
+    public void initialize(Event event, CalendarApp calendarApp, CalendarController calendarController) {
         this.event = event;
         this.calendarApp = calendarApp;
-        this.updateCallback = updateCallback;
+        this.calendarController = calendarController;
 
         eventNameField.setText(event.getTitle());
         startDateSelect.setValue(event.getStartTime().toLocalDate());
         endDateSelect.setValue(event.getEndTime().toLocalDate());
         startTimeSelect.setText(String.valueOf(event.getStartTime().getHour()));
         endTimeSelect.setText(String.valueOf(event.getEndTime().getHour()));
+        colorPicker.setValue(event.getColor());
+        colorCircle.setFill(colorPicker.getValue());
     }
 
     public void setStage(Stage stage) {
@@ -58,10 +60,7 @@ public class PopupController {
     @FXML
     private void colorPicker(javafx.event.Event event) {
         colorPicker.show();
-        colorPicker.setOnAction(e -> {
-            color = colorPicker.getValue();
-            colorCircle.setFill(color);
-        });
+        colorPicker.setOnAction(e -> colorCircle.setFill(colorPicker.getValue()));
     }
 
     @FXML
@@ -75,18 +74,20 @@ public class PopupController {
         LocalDateTime startDateTime = LocalDateTime.of(startDate, LocalTime.of(startTime, 0));
         LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.of(endTime, 0));
 
-        calendarApp.updateEvent(event, newEventName, "Not implemented", startDateTime, endDateTime)
+        calendarApp
+                .updateEvent(event, newEventName, "Not implemented", startDateTime, endDateTime, colorPicker.getValue())
                 .ifPresentOrElse(msg -> messageLabel.setText(msg), () -> {
-                    updateCallback.run();
+                    calendarController.update();
                     stage.close();
                 });
+
     }
 
     @FXML
     private void handleDelete() {
         // Handle the delete event logic here
         calendarApp.removeEvent(event);
-        updateCallback.run();
+        calendarController.update();
         stage.close();
     }
 }
