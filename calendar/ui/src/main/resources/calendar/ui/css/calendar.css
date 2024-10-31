@@ -41,17 +41,17 @@
 }
 
 .header-arrow * {
-    -fx-fill: #ea454c;
+    -fx-fill: -fx-primary-color;
 }
+
+.header-arrow :hover {
+    -fx-background-color: -fx-secondary-color;
+    -fx-cursor: hand;
+}
+
 
 .header-left-arrow {
     -fx-rotate: 180;
-}
-
-.date-picker .arrow-button {
-    -fx-opacity: 0;
-    -fx-cursor: default;
-    -fx-padding: 0;
 }
 
 .header {
@@ -62,13 +62,14 @@
 /* Buttons */
 .button-default {
     -fx-text-fill: white;
-    -fx-background-color: #ea454c;
+    -fx-background-color: -fx-primary-color;
     -fx-background-radius: 8;
 }
 
 .button-default:hover,
 .button-default:focused {
-    -fx-background-color: #a11037;
+    -fx-background-color: -fx-secondary-color;
+    -fx-cursor: hand;
 }
 
 .button-cancel {
@@ -80,6 +81,7 @@
 .button-cancel:hover,
 .button-cancel:focused {
     -fx-background-color: #323232;
+    -fx-cursor: hand;
 }
 
 /* Calendar */
@@ -104,7 +106,7 @@
 }
 
 .calendar-date .calendar-date-circle {
-    -fx-fill: #ea454c;
+    -fx-fill: -fx-primary-color;
     -fx-opacity: 0;
 }
 
@@ -117,6 +119,20 @@
 }
 
 /* Date picker */
+
+.inputdate .arrow-button {
+	-fx-background-color: -fx-primary-color;
+	-fx-background-radius: 0;
+    -fx-padding: 4px;
+}
+.inputdate .arrow-button:hover {
+	-fx-background-color: -fx-secondary-color;
+    -fx-cursor: hand;
+}
+.inputdate .arrow-button .arrow {
+	-fx-background-color: white;
+}
+
 .inputdate {
     -fx-faint-focus-color: transparent;
     -fx-focus-color: -fx-primary-color;
@@ -161,6 +177,7 @@
     -fx-background-color: -fx-primary-color;
 }
 
+
 /* Input field */
 .input-text {
     -fx-background-radius: 5px;
@@ -178,8 +195,16 @@
     -fx-padding: 3 0 3 0;
 }
 
+.toggle-button:hover .thumb-area {
+    -fx-cursor: hand;
+}
+
 /* Color circle */
 .color-circle {
     -fx-stroke: -fx-light-grey-color;
     -fx-stroke-width: 2px;
+}
+
+.color-circle:hover {
+    -fx-cursor: hand;
 }
