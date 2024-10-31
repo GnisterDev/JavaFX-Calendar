@@ -15,6 +15,7 @@ import calendar.core.CalendarApp;
 import calendar.core.Core;
 import calendar.core.SceneCore;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -36,6 +37,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import calendar.types.Event;
 
@@ -313,92 +315,128 @@ public class CalendarController {
 
     public Stage popUpForm(Event event, String eventName, LocalDate startDate, LocalDate endDate, int startTime,
             int endTime) {
-        Stage stage = new Stage();
-        stage.setWidth(250);
-        stage.setHeight(400);
-        stage.setX(50);
-        stage.setY(10);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("popup_form.fxml"));
+            VBox vbox = loader.load();
 
-        // Create the VBox layout
-        VBox vbox = new VBox(10);
-        vbox.setPrefSize(250, 400);
+            // Get the controller and initialize it with necessary data
+            PopupController controller = loader.getController();
+            controller.initialize(event, calendarApp, this::update); // Pass event, app reference, and update callback
 
-        // Add a label
-        Label formTitle = new Label("Edit event: " + eventName);
-        formTitle.setStyle("-fx-font-size: 20px;");
+            Stage stage = new Stage();
+            stage.setWidth(250);
+            stage.setHeight(400);
+            stage.setX(50);
+            stage.setY(10);
+            stage.setScene(new Scene(vbox));
+            stage.initModality(Modality.APPLICATION_MODAL);
 
-        // Create a TextField for event name
-        TextField eventNameField = new TextField(eventName);
-        eventNameField.setPromptText("Enter new event name");
-        eventNameField.setPrefSize(197, 30);
-        eventNameField.setStyle("-fx-background-radius: 12;");
+            controller.setStage(stage);
 
-        // Create DatePickers for start and end date
-        DatePicker startDatePicker = new DatePicker();
-        DatePicker endDatePicker = new DatePicker();
-        startDatePicker.setValue(startDate);
-        endDatePicker.setValue(endDate);
+            stage.show();
 
-        // Create Spinners for start and end time
-        Spinner<Integer> startTimeSpinner = new Spinner<>(0, 23, startTime);
-        Spinner<Integer> endTimeSpinner = new Spinner<>(0, 23, endTime);
-        startTimeSpinner.setStyle("-fx-primary-color: #007acc;");
-        endTimeSpinner.setStyle("-fx-primary-color: #007acc;");
-
-        HBox buttonContainer = new HBox(10);
-        buttonContainer.setPadding(new Insets(10, 10, 10, 10));
-
-        // Create the 'Edit event' button
-        Button editButton = new Button("Edit event");
-        editButton.setPrefSize(107, 30);
-        editButton.setStyle("-fx-background-radius: 12; -fx-background-color: #EA454C;");
-        editButton.setTextFill(javafx.scene.paint.Color.WHITE);
-
-        // Create messageLabel
-        Label messageLabel = new Label();
-
-        // Handle the editButton click event
-        editButton.setOnAction(mouseEvent -> {
-            String eventNameInput = eventNameField.getText();
-            LocalDate startDateInput = startDatePicker.getValue();
-            LocalDate endDateInput = endDatePicker.getValue();
-            int startTimeInput = startTimeSpinner.getValue();
-            int endTimeInput = endTimeSpinner.getValue();
-
-            LocalDateTime startDateTime = LocalDateTime.of(startDateInput, LocalTime.of(startTimeInput, 0));
-            LocalDateTime endDateTime = LocalDateTime.of(endDateInput, LocalTime.of(endTimeInput, 0));
-
-            calendarApp.updateEvent(event, eventNameInput, eventName, startDateTime, endDateTime)
-                    .ifPresentOrElse(msg -> messageLabel.setText(msg), () -> {
-                        update();
-                        stage.close();
-                    });
-        });
-
-        // Create the 'Delete event' button
-        Button deleteButton = new Button("Delete event");
-        deleteButton.setPrefSize(107, 30);
-        deleteButton.setStyle("-fx-background-radius: 12; -fx-background-color: #EA454C;");
-        deleteButton.setTextFill(javafx.scene.paint.Color.WHITE);
-
-        // Handle the deleteButton click event
-        deleteButton.setOnAction(mouseEvent -> {
-            calendarApp.removeEvent(event);
-            update();
-            stage.close();
-        });
-
-        buttonContainer.getChildren().addAll(editButton, deleteButton);
-
-        // Add all components to the VBox layout
-        vbox.getChildren().addAll(formTitle, eventNameField, startDatePicker, endDatePicker, startTimeSpinner,
-                endTimeSpinner, buttonContainer, messageLabel);
-
-        // Set the scene and show the stage
-        Scene scene = new Scene(vbox);
-        stage.setScene(scene);
-        return stage;
-
+            return stage;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
+
+    // public Stage popUpForm(Event event, String eventName, LocalDate startDate,
+    // LocalDate endDate, int startTime,
+    // int endTime) {
+    // Stage stage = new Stage();
+    // stage.setWidth(250);
+    // stage.setHeight(400);
+    // stage.setX(50);
+    // stage.setY(10);
+
+    // // Create the VBox layout
+    // VBox vbox = new VBox(10);
+    // vbox.setPrefSize(250, 400);
+
+    // // Add a label
+    // Label formTitle = new Label("Edit event: " + eventName);
+    // formTitle.setStyle("-fx-font-size: 20px;");
+
+    // // Create a TextField for event name
+    // TextField eventNameField = new TextField(eventName);
+    // eventNameField.setPromptText("Enter new event name");
+    // eventNameField.setPrefSize(197, 30);
+    // eventNameField.setStyle("-fx-background-radius: 12;");
+
+    // // Create DatePickers for start and end date
+    // DatePicker startDatePicker = new DatePicker();
+    // DatePicker endDatePicker = new DatePicker();
+    // startDatePicker.setValue(startDate);
+    // endDatePicker.setValue(endDate);
+
+    // // Create Spinners for start and end time
+    // Spinner<Integer> startTimeSpinner = new Spinner<>(0, 23, startTime);
+    // Spinner<Integer> endTimeSpinner = new Spinner<>(0, 23, endTime);
+    // startTimeSpinner.setStyle("-fx-primary-color: #007acc;");
+    // endTimeSpinner.setStyle("-fx-primary-color: #007acc;");
+
+    // HBox buttonContainer = new HBox(10);
+    // buttonContainer.setPadding(new Insets(10, 10, 10, 10));
+
+    // // Create the 'Edit event' button
+    // Button editButton = new Button("Edit event");
+    // editButton.setPrefSize(107, 30);
+    // editButton.setStyle("-fx-background-radius: 12; -fx-background-color:
+    // #EA454C;");
+    // editButton.setTextFill(javafx.scene.paint.Color.WHITE);
+
+    // // Create messageLabel
+    // Label messageLabel = new Label();
+
+    // // Handle the editButton click event
+    // editButton.setOnAction(mouseEvent -> {
+    // String eventNameInput = eventNameField.getText();
+    // LocalDate startDateInput = startDatePicker.getValue();
+    // LocalDate endDateInput = endDatePicker.getValue();
+    // int startTimeInput = startTimeSpinner.getValue();
+    // int endTimeInput = endTimeSpinner.getValue();
+
+    // LocalDateTime startDateTime = LocalDateTime.of(startDateInput,
+    // LocalTime.of(startTimeInput, 0));
+    // LocalDateTime endDateTime = LocalDateTime.of(endDateInput,
+    // LocalTime.of(endTimeInput, 0));
+
+    // calendarApp.updateEvent(event, eventNameInput, eventName, startDateTime,
+    // endDateTime)
+    // .ifPresentOrElse(msg -> messageLabel.setText(msg), () -> {
+    // update();
+    // stage.close();
+    // });
+    // });
+
+    // // Create the 'Delete event' button
+    // Button deleteButton = new Button("Delete event");
+    // deleteButton.setPrefSize(107, 30);
+    // deleteButton.setStyle("-fx-background-radius: 12; -fx-background-color:
+    // #EA454C;");
+    // deleteButton.setTextFill(javafx.scene.paint.Color.WHITE);
+
+    // // Handle the deleteButton click event
+    // deleteButton.setOnAction(mouseEvent -> {
+    // calendarApp.removeEvent(event);
+    // update();
+    // stage.close();
+    // });
+
+    // buttonContainer.getChildren().addAll(editButton, deleteButton);
+
+    // // Add all components to the VBox layout
+    // vbox.getChildren().addAll(formTitle, eventNameField, startDatePicker,
+    // endDatePicker, startTimeSpinner,
+    // endTimeSpinner, buttonContainer, messageLabel);
+
+    // // Set the scene and show the stage
+    // Scene scene = new Scene(vbox);
+    // stage.setScene(scene);
+    // return stage;
+
+    // }
 
 }
