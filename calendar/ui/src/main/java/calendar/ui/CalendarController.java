@@ -44,6 +44,7 @@ import calendar.types.Event;
 public class CalendarController {
     private static final String DEFAULT_EVENT_CLASS_NAME = "event";
     private static final String DATE_IS_TODAY_CLASS_NAME = "calendar-date-today";
+    private static final String DEFAULT_EVENT_COLOR = "#EA454C";
 
     private CalendarApp calendarApp;
     private LocalDate weekDate;
@@ -102,7 +103,9 @@ public class CalendarController {
     private void initialize() {
         calendarApp = Core.getCalendarApp().orElseThrow();
         weekDate = LocalDate.now();
-        colorPicker.setValue(Color.valueOf("#EA454C"));
+
+        colorPicker.setValue(Color.valueOf(DEFAULT_EVENT_COLOR));
+        colorPicker.setOnAction(e -> colorCircle.setFill(colorPicker.getValue()));
         colorCircle.setFill(colorPicker.getValue());
 
         Stream.of(rootPane).forEach(this::loseFocus);
@@ -126,7 +129,6 @@ public class CalendarController {
     @FXML
     private void colorPicker(javafx.event.Event event) {
         colorPicker.show();
-        colorPicker.setOnAction(e -> colorCircle.setFill(colorPicker.getValue()));
     }
 
     @FXML
@@ -207,12 +209,16 @@ public class CalendarController {
     private void updateDates() {
         LocalDateTime dateOfMonday = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN);
         LocalDateTime dateOfSunday = LocalDateTime.of(weekDate.with(DayOfWeek.SUNDAY), LocalTime.MAX);
-        int daysInMonth = weekDate.with(DayOfWeek.MONDAY).lengthOfMonth();
 
         // Weeklabel
         weekLabel.setText("Week " + dateOfMonday.get(WeekFields.ISO.weekOfWeekBasedYear()));
 
-        // Monthlabel
+        updateDates(dateOfMonday);
+        updateMonth(dateOfMonday, dateOfSunday);
+        updateYear(dateOfMonday, dateOfSunday);
+    }
+
+    private void updateMonth(LocalDateTime dateOfMonday, LocalDateTime dateOfSunday) {
         boolean isSameMonth = dateOfMonday.getMonth().equals(dateOfSunday.getMonth());
         String abbreviatedStartMonth = StringUtils
                 .capitalize(dateOfMonday.getMonth().toString().toLowerCase())
@@ -223,16 +229,19 @@ public class CalendarController {
         monthLabel.setText(isSameMonth
                 ? StringUtils.capitalize(dateOfMonday.getMonth().toString().toLowerCase())
                 : abbreviatedStartMonth + "-" + abbreviatedEndMonth);
+    }
 
-        // Yearlabel
+    private void updateYear(LocalDateTime dateOfMonday, LocalDateTime dateOfSunday) {
         boolean isSameYear = dateOfMonday.getYear() == dateOfSunday.getYear();
         String abbreviatedStartYear = Integer.toString(dateOfMonday.getYear()).substring(2);
         String abbreviatedEndYear = Integer.toString(dateOfSunday.getYear()).substring(2);
         yearLabel.setText(isSameYear
                 ? Integer.toString(dateOfMonday.getYear())
                 : abbreviatedStartYear + "-" + abbreviatedEndYear);
+    }
 
-        // Dates
+    private void updateDates(LocalDateTime dateOfMonday) {
+        int daysInMonth = weekDate.with(DayOfWeek.MONDAY).lengthOfMonth();
         IntStream.range(0, CalendarApp.DAYS_IN_A_WEEK).forEach(i -> {
             HBox outerHBox = (HBox) dateHeader
                     .getChildrenUnmodifiable()

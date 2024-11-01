@@ -83,6 +83,7 @@ public class CalendarApp {
         user.getCalendar(index).addEvent(event);
     }
 
+    @SuppressWarnings("unused")
     public Optional<String> createEvent(String title, String description, LocalDateTime startTime,
             LocalDateTime endTime, Color color) {
         if (title.isBlank())
