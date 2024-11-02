@@ -1,10 +1,14 @@
 package calendar.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.function.Function;
 
@@ -56,6 +60,15 @@ public class SceneCoreTest {
         URL sceneUrl = SceneCore.getSceneUrl("Login.fxml");
         assertEquals(mockUrl, sceneUrl);
         verify(mockLoader).apply("Login.fxml");
+    }
+
+    @Test
+    void testNotValidURL() throws MalformedURLException, URISyntaxException {
+        URI uri = new URI("http://example.com/nonValidPath");
+        URL notValidURL = uri.toURL();
+
+        Scene notValidScene = SceneCore.getScene(notValidURL);
+        assertNull(notValidScene, "Expected null Scene for a non-valid URL.");
     }
 
     @Test

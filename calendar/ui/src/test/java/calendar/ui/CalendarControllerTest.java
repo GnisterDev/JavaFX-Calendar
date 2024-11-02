@@ -10,7 +10,9 @@ import static org.mockito.Mockito.mockStatic;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
@@ -21,9 +23,11 @@ import calendar.core.Core;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -122,12 +126,16 @@ public class CalendarControllerTest extends ApplicationTest {
         Label currentWeekElm = lookup("#weekLabel").queryAs(Label.class);
         int currentWeekNr = Integer.parseInt(currentWeekElm.getText().split(" ")[1]);
 
+        Button todayButton = lookup("Today").queryAs(Button.class);
+
         String nextWeekClass = ".header-arrow";
         Set<Pane> buttons = lookup(nextWeekClass).queryAllAs(Pane.class);
         List<Pane> buttonsList = new ArrayList<>(buttons);
 
         Pane previousWeek = buttonsList.get(0);
         Pane nextWeek = buttonsList.get(1);
+
+        assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]), currentWeekNr);
 
         clickOn(nextWeek);
         assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]), currentWeekNr + 1);
@@ -138,6 +146,9 @@ public class CalendarControllerTest extends ApplicationTest {
         assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]), currentWeekNr - 1);
         clickOn(previousWeek);
         assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]), currentWeekNr - 2);
+
+        clickOn(todayButton);
+        assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]), currentWeekNr);
     }
 
     @Test
@@ -213,6 +224,8 @@ public class CalendarControllerTest extends ApplicationTest {
 
     @Test
     public void testColorPicker() {
+        Random random = new Random();
+
         Circle colorCircle = lookup("#colorCircle").queryAs(Circle.class);
         ColorPicker colorPicker = lookup("#colorPicker").queryAs(ColorPicker.class);
 
@@ -220,7 +233,11 @@ public class CalendarControllerTest extends ApplicationTest {
         assertTrue(colorPicker.isShowing(), "Color picker should be visible after clicking");
 
         Color currentColor = colorPicker.getValue();
-        moveBy(10, 25).press(MouseButton.PRIMARY).release(MouseButton.PRIMARY); //TODO: This way of doing this is stupid and should be changed...
+        press(KeyCode.TAB).release(KeyCode.TAB);
+        IntStream.range(0, random.nextInt(12)).forEach(i -> press(KeyCode.RIGHT).release(KeyCode.RIGHT));
+        IntStream.range(0, random.nextInt(11)).forEach(i -> press(KeyCode.DOWN).release(KeyCode.DOWN));
+        press(KeyCode.ENTER).release(KeyCode.ENTER);
+
         assertNotEquals(currentColor, colorPicker.getValue(), "Color circle should update with the selected color");
     }
 
@@ -230,5 +247,48 @@ public class CalendarControllerTest extends ApplicationTest {
 
         clickOn(startDateSelect);
         assertTrue(startDateSelect.isShowing(), "Date picker should be visible after clicking");
+    }
+
+    @Test
+    public void testAddEvent_Valid() throws InterruptedException {
+        Random random = new Random();
+        int eventDayLength = random.nextInt(0, 3);
+        int startHour = random.nextInt(12);
+        int eventLength = random.nextInt(12);
+
+        TextField eventTitle = lookup("#eventNameField").queryAs(TextField.class);
+        TextArea eventDescription = lookup("#eventDescriptionField").queryAs(TextArea.class);
+        DatePicker startDate = lookup("#startDateSelect").queryAs(DatePicker.class);
+        TextField startTime = lookup("#startTimeSelect").queryAs(TextField.class);
+        DatePicker endDate = lookup("#endDateSelect").queryAs(DatePicker.class);
+        TextField endTime = lookup("#endTimeSelect").queryAs(TextField.class);
+
+        Button addEventButton = (Button) lookup("Add Event")
+                .queryAll().stream()
+                .filter(node -> node instanceof Button)
+                .findFirst().get();
+
+        clickOn(eventTitle).write("testEvent");
+        clickOn(eventDescription).write("testDescription");
+
+        clickOn(startDate).press(KeyCode.ENTER).release(KeyCode.ENTER);
+        clickOn(startTime).write(Integer.toString(startHour));
+
+        clickOn(endDate);
+        IntStream.range(0, eventDayLength).forEach(i -> press(KeyCode.RIGHT).release(KeyCode.RIGHT));
+        press(KeyCode.ENTER).release(KeyCode.ENTER);
+        clickOn(endTime).write(Integer.toString(startHour + eventLength));
+
+        clickOn(addEventButton);
+    }
+
+    @Test
+    public void testAddEvent_Invalid() {
+
+    }
+
+    @Test
+    public void testAddEvent_Cancel() {
+
     }
 }
