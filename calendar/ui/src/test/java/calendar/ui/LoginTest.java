@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import calendar.core.Core;
+import calendar.core.Error;
 import calendar.core.SceneCore;
 import calendar.types.User;
 import calendar.types.UserStore;
@@ -85,7 +86,7 @@ public class LoginTest extends ApplicationTest {
         clickOn(passwordID).write("invalidPass");
         clickOn(loginButtonID);
 
-        assertEquals("Username or password is incorrect.", messageLabel.getText());
+        assertEquals(Error.LOGIN_USERNAME_PASSWORD_INCORRECT, messageLabel.getText());
     }
 
     @Test
@@ -94,6 +95,6 @@ public class LoginTest extends ApplicationTest {
         clickOn(passwordID).write("validPass");
         clickOn(loginButtonID);
 
-        assertEquals("Username or password is incorrect.", messageLabel.getText());
+        assertEquals(Error.LOGIN_USERNAME_PASSWORD_INCORRECT, messageLabel.getText());
     }
 }
