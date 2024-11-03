@@ -22,11 +22,13 @@
 <?import javafx.scene.text.Text?>
 <?import org.controlsfx.control.ToggleSwitch?>
 
-<BorderPane fx:id="rootPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" scaleZ="2.0" stylesheets="@css/calendar.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.CalendarController">
+<BorderPane fx:id="rootPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" scaleZ="2.0" stylesheets="@css/calendar.css"
+   xmlns="http://javafx.com/javafx/23"
+   xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.CalendarController">
    <right>
       <Pane BorderPane.alignment="CENTER">
          <children>
-            <VBox maxWidth="400.0" minWidth="-Infinity" prefWidth="200.0" spacing="10.0">
+            <VBox alignment="CENTER_LEFT" maxWidth="400.0" minWidth="-Infinity" prefWidth="250.0" spacing="10.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Add Event">
                      <font>
@@ -37,15 +39,15 @@
                      </VBox.margin>
                   </Text>
                   <TextField fx:id="eventNameField" promptText="Title" styleClass="input-text" />
-                  <TextArea fx:id="eventDescriptionField" maxWidth="-Infinity" prefHeight="40.0" prefWidth="180.0" promptText="Description" styleClass="input-text" wrapText="true" />
-                  <ToggleSwitch fx:id="allDaySwitch" prefWidth="200.0" styleClass="toggle-button" text="All Day" />
+                  <TextArea fx:id="eventDescriptionField" maxWidth="-Infinity" prefHeight="60.0" promptText="Description" styleClass="input-text" wrapText="true" />
+                  <ToggleSwitch fx:id="allDaySwitch" prefWidth="1000.0" styleClass="toggle-button" text="All Day" />
                   <HBox alignment="CENTER_LEFT" depthTest="ENABLE" nodeOrientation="LEFT_TO_RIGHT" prefWidth="200.0" spacing="15.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Starts" wrappingWidth="30.0" HBox.hgrow="ALWAYS" />
                         <HBox alignment="CENTER_RIGHT" prefWidth="150.0" spacing="5.0" HBox.hgrow="ALWAYS">
                            <children>
                               <DatePicker fx:id="startDateSelect" prefHeight="25.0" prefWidth="100.0" styleClass="inputdate" HBox.hgrow="ALWAYS" />
-                              <TextField fx:id="startTimeSelect" alignment="CENTER" minWidth="45.0" onKeyTyped="#timeSelectKey" prefHeight="25.0" prefWidth="45.0" styleClass="input-text" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="startTimeSelect" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" onKeyTyped="#timeSelectKey" prefHeight="25.0" prefWidth="45.0" styleClass="input-text" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                      </children>
@@ -56,7 +58,7 @@
                         <HBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="137.0" spacing="5.0" HBox.hgrow="ALWAYS">
                            <children>
                               <DatePicker fx:id="endDateSelect" prefHeight="25.0" prefWidth="100.0" styleClass="inputdate" HBox.hgrow="ALWAYS" />
-                              <TextField fx:id="endTimeSelect" alignment="CENTER" minWidth="45.0" onKeyTyped="#timeSelectKey" prefHeight="25.0" prefWidth="45.0" styleClass="input-text" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="endTimeSelect" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" onKeyTyped="#timeSelectKey" prefHeight="25.0" prefWidth="45.0" styleClass="input-text" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                      </children>
@@ -64,10 +66,11 @@
                   <Group>
                      <children>
                         <Text layoutY="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color" wrappingWidth="30.0" />
-                        <Circle fx:id="colorCircle" fill="#1f93ff" layoutX="170.0" layoutY="-2.0" onMouseClicked="#colorPicker" radius="10.0" stroke="BLACK" strokeType="INSIDE" styleClass="color-circle" />
-                        <ColorPicker fx:id="colorPicker" layoutX="162.0" layoutY="-10.0" prefHeight="0.0" prefWidth="0.0" visible="false" />
+                        <Circle fx:id="colorCircle" fill="#1f93ff" layoutX="220.0" layoutY="-2.0" onMouseClicked="#colorPicker" radius="10.0" stroke="BLACK" strokeType="INSIDE" styleClass="color-circle" />
+                        <ColorPicker fx:id="colorPicker" layoutX="212.0" layoutY="-10.0" prefHeight="0.0" prefWidth="0.0" visible="false" />
                      </children>
                   </Group>
+                  <Label fx:id="errorLabel" VBox.vgrow="ALWAYS" />
                   <HBox alignment="CENTER" spacing="5.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#cancelEvent" prefWidth="1000.0" styleClass="button-cancel" text="Cancel" HBox.hgrow="ALWAYS" />
