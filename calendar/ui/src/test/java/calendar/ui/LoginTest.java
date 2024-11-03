@@ -25,11 +25,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class LoginTest extends ApplicationTest {
-
     private String usernameID = "#usernameField";
     private String passwordID = "#passwordField";
     private String loginButtonID = "#loginButton";
-    private String messageLabelID = "#messageLabel";
 
     private TextField usernameField;
     private PasswordField passwordField;
@@ -42,7 +40,7 @@ public class LoginTest extends ApplicationTest {
 
         usernameField = (TextField) root.lookup(usernameID);
         passwordField = (PasswordField) root.lookup(passwordID);
-        messageLabel = (Label) root.lookup(messageLabelID);
+        messageLabel = (Label) root.lookup("#messageLabel");
 
         stage.setScene(new Scene(root));
         stage.show();
