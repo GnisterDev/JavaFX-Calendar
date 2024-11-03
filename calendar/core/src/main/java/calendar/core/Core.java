@@ -16,7 +16,7 @@ import calendar.types.UserStore;
  * It also provides access to the calendar application for logged-in users.
  */
 public class Core {
-    private static int MIN_PASSWORD_LENGTH = 6;
+    protected static final int MIN_PASSWORD_LENGTH = 6;
 
     public static UserStore userStore;
     private static Optional<CalendarApp> calendarApp = Optional.empty();
@@ -104,13 +104,13 @@ public class Core {
      */
     public static Optional<String> registerUser(String username, String password) {
         if (userStore.hasUsername(username))
-            return Optional.of("Username already exists.");
+            return Optional.of(Error.SIGNUP_USERNAME_ALREADY_EXISTS);
         if (username.isBlank())
-            return Optional.of("Username cannot be empty");
+            return Optional.of(Error.SIGNUP_USERNAME_IS_EMPTY);
         if (password.isBlank())
-            return Optional.of("Password cannot be empty.");
+            return Optional.of(Error.SIGNUP_PASSWORD_IS_EMPTY);
         if (password.length() < MIN_PASSWORD_LENGTH)
-            return Optional.of("Password must be at least " + MIN_PASSWORD_LENGTH + " characters long.");
+            return Optional.of(Error.SIGNUP_PASSWORD_TOO_SHORT);
         userStore.addUser(new User(username, password));
         return Optional.empty();
     }

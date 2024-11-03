@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import calendar.core.Core;
+import calendar.core.Error;
 import calendar.core.SceneCore;
 import javafx.event.ActionEvent;
 
@@ -49,10 +50,9 @@ public class LoginController {
         String password = passwordField.getText();
 
         if (!Core.correctCredentials(username, password)) {
-            messageLabel.setText("Username or password is incorrect.");
+            messageLabel.setText(Error.LOGIN_USERNAME_PASSWORD_INCORRECT);
             return;
         }
-        messageLabel.setText("Login successful!");
 
         Core.logInAsUser(username);
         SceneCore.setScene("Calendar.fxml");
