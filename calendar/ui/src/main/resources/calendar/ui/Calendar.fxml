@@ -22,9 +22,7 @@
 <?import javafx.scene.text.Text?>
 <?import org.controlsfx.control.ToggleSwitch?>
 
-<BorderPane fx:id="rootPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" scaleZ="2.0" stylesheets="@css/calendar.css"
-   xmlns="http://javafx.com/javafx/21"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.CalendarController">
+<BorderPane fx:id="rootPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" scaleZ="2.0" stylesheets="@css/calendar.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.CalendarController">
    <right>
       <Pane BorderPane.alignment="CENTER">
          <children>
@@ -72,7 +70,7 @@
                   </Group>
                   <HBox alignment="CENTER" spacing="5.0">
                      <children>
-                        <Button mnemonicParsing="false" prefWidth="1000.0" styleClass="button-cancel" text="Cancel" HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" onAction="#cancelEvent" prefWidth="1000.0" styleClass="button-cancel" text="Cancel" HBox.hgrow="ALWAYS" />
                         <Button mnemonicParsing="false" onAction="#addEvent" prefWidth="1000.0" styleClass="button-default" text="Add Event" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>

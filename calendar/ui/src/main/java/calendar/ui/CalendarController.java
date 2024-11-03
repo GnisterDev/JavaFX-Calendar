@@ -357,4 +357,15 @@ public class CalendarController {
                 .ifPresentOrElse(msg -> System.out.println(msg), this::update);
         // .ifPresentOrElse(msg -> messageLabel.setText(msg), this::update);
     }
+
+    @FXML
+    private void cancelEvent() {
+        startDateSelect.setValue(null);
+        endDateSelect.setValue(null);
+        startTimeSelect.setText("");
+        endTimeSelect.setText("");
+        eventNameField.setText("");
+        colorPicker.setValue(Color.web(DEFAULT_EVENT_COLOR));
+        colorCircle.setFill(colorPicker.getValue());
+    }
 }
