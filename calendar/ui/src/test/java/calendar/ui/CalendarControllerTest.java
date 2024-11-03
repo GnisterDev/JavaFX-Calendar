@@ -3,6 +3,8 @@ package calendar.ui;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -14,7 +16,9 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.IntStream;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.testfx.framework.junit5.ApplicationTest;
 
@@ -41,8 +45,9 @@ import javafx.stage.Stage;
 
 public class CalendarControllerTest extends ApplicationTest {
 
-    @SuppressWarnings("unused") //TODO: This is stupid
     private CalendarController calendarController;
+
+    @Mock
     private CalendarApp mockCalendarApp;
 
     @Override
@@ -249,46 +254,112 @@ public class CalendarControllerTest extends ApplicationTest {
         assertTrue(startDateSelect.isShowing(), "Date picker should be visible after clicking");
     }
 
-    @Test
-    public void testAddEvent_Valid() throws InterruptedException {
+    private TextField eventTitleNode;
+    private TextArea eventDescriptionNode;
+    private DatePicker startDateNode;
+    private TextField startTimeNode;
+    private DatePicker endDateNode;
+    private TextField endTimeNode;
+
+    @BeforeEach
+    public void addEvent_BeforeEach() {
+        eventTitleNode = lookup("#eventNameField").queryAs(TextField.class);
+        eventDescriptionNode = lookup("#eventDescriptionField").queryAs(TextArea.class);
+        startDateNode = lookup("#startDateSelect").queryAs(DatePicker.class);
+        startTimeNode = lookup("#startTimeSelect").queryAs(TextField.class);
+        endDateNode = lookup("#endDateSelect").queryAs(DatePicker.class);
+        endTimeNode = lookup("#endTimeSelect").queryAs(TextField.class);
+    }
+
+    private void writeEventInfo(
+            String eventTitle,
+            String eventDescription,
+            boolean writeStartDate,
+            boolean writeStartTime,
+            boolean writeEndDate,
+            boolean writeEndTime) {
+
         Random random = new Random();
         int eventDayLength = random.nextInt(0, 3);
         int startHour = random.nextInt(12);
         int eventLength = random.nextInt(12);
 
-        TextField eventTitle = lookup("#eventNameField").queryAs(TextField.class);
-        TextArea eventDescription = lookup("#eventDescriptionField").queryAs(TextArea.class);
-        DatePicker startDate = lookup("#startDateSelect").queryAs(DatePicker.class);
-        TextField startTime = lookup("#startTimeSelect").queryAs(TextField.class);
-        DatePicker endDate = lookup("#endDateSelect").queryAs(DatePicker.class);
-        TextField endTime = lookup("#endTimeSelect").queryAs(TextField.class);
+        clickOn(eventTitleNode).write(eventTitle);
+        clickOn(eventDescriptionNode).write(eventDescription);
+
+        if (writeStartDate)
+            clickOn(startDateNode).press(KeyCode.ENTER).release(KeyCode.ENTER);
+        if (writeStartTime)
+            clickOn(startTimeNode).write(Integer.toString(startHour));
+
+        if (writeEndDate) {
+            clickOn(endDateNode);
+            IntStream.range(0, eventDayLength).forEach(i -> press(KeyCode.RIGHT).release(KeyCode.RIGHT));
+            press(KeyCode.ENTER).release(KeyCode.ENTER);
+        }
+        if (writeEndTime)
+            clickOn(endTimeNode).write(Integer.toString(startHour + eventLength));
+    }
+
+    @Test
+    public void testAddEvent_Valid() {
+        String eventName = "testEvent";
+        String eventDescription = "testDescription";
+        writeEventInfo(eventName, eventDescription, true, true, true, true);
 
         Button addEventButton = (Button) lookup("Add Event")
                 .queryAll().stream()
                 .filter(node -> node instanceof Button)
                 .findFirst().get();
-
-        clickOn(eventTitle).write("testEvent");
-        clickOn(eventDescription).write("testDescription");
-
-        clickOn(startDate).press(KeyCode.ENTER).release(KeyCode.ENTER);
-        clickOn(startTime).write(Integer.toString(startHour));
-
-        clickOn(endDate);
-        IntStream.range(0, eventDayLength).forEach(i -> press(KeyCode.RIGHT).release(KeyCode.RIGHT));
-        press(KeyCode.ENTER).release(KeyCode.ENTER);
-        clickOn(endTime).write(Integer.toString(startHour + eventLength));
-
         clickOn(addEventButton);
+
+        assertEquals(eventName, eventTitleNode.getText());
+        assertEquals(eventDescription, eventDescriptionNode.getText());
+        assertNotNull(startDateNode.getValue());
+        assertNotEquals(startTimeNode.getText(), "");
+        assertNotNull(endDateNode.getValue());
+        assertNotEquals(endTimeNode.getText(), "");
     }
 
     @Test
-    public void testAddEvent_Invalid() {
+    public void testAddEvent_Invalid() throws InterruptedException {
+        // Button addEventButton = (Button) lookup("Add Event")
+        //         .queryAll().stream()
+        //         .filter(node -> node instanceof Button)
+        //         .findFirst().get();
+        // Label errorLabel = lookup("#errorLabel").queryAs(Label.class);
 
+        // writeEventInfo("testEvent", "testDescription", false, true, true, true);
+        // clickOn(addEventButton);
+        // Thread.sleep(2000);
+        // assertEquals("Start and end times must be selected.", errorLabel.getText());
+
+        // writeEventInfo("testEvent", "testDescription", true, false, true, true);
+        // clickOn(addEventButton);
+        // assertEquals("Start and end times must be selected.", errorLabel.getText());
+
+        // writeEventInfo("", "testDescription", true, true, true, true);
+        // clickOn(addEventButton);
+        // assertEquals("Title cannot be blank", errorLabel.getText());
     }
 
     @Test
     public void testAddEvent_Cancel() {
+        String eventName = "testEvent";
+        String eventDescription = "testDescription";
+        writeEventInfo(eventName, eventDescription, true, true, true, true);
 
+        Button cancelEventButton = (Button) lookup("Cancel")
+                .queryAll().stream()
+                .filter(node -> node instanceof Button)
+                .findFirst().get();
+        clickOn(cancelEventButton);
+
+        assertEquals("", eventTitleNode.getText());
+        assertEquals("", eventDescriptionNode.getText());
+        assertNull(startDateNode.getValue());
+        assertEquals(startTimeNode.getText(), "");
+        assertNull(endDateNode.getValue());
+        assertEquals(endTimeNode.getText(), "");
     }
 }
