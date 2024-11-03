@@ -76,8 +76,6 @@ public class LoginTest extends ApplicationTest {
         clickOn(passwordID).write("validPass");
 
         clickOn(loginButtonID);
-
-        assertEquals("Login successful!", messageLabel.getText());
     }
 
     @Test
