@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 public class SignUpTest extends ApplicationTest {
 
     private Label messageLabel;
+    private Label login;
 
     private String usernameID = "#usernameField";
     private String passwordID = "#passwordField";
@@ -36,6 +37,7 @@ public class SignUpTest extends ApplicationTest {
         Parent root = loader.load();
 
         messageLabel = (Label) root.lookup("#messageLabel");
+        login = (Label) root.lookup("#signIn");
 
         stage.setScene(new Scene(root));
         stage.show();
@@ -115,5 +117,10 @@ public class SignUpTest extends ApplicationTest {
 
         // Verify error message for empty password
         assertEquals(Error.SIGNUP_PASSWORD_IS_EMPTY, messageLabel.getText());
+    }
+
+    @Test
+    public void testGotoSignup() {
+        clickOn(login);
     }
 }

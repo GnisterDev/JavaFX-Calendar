@@ -33,6 +33,7 @@ public class LoginTest extends ApplicationTest {
     private TextField usernameField;
     private PasswordField passwordField;
     private Label messageLabel;
+    private Label signUp;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -42,6 +43,7 @@ public class LoginTest extends ApplicationTest {
         usernameField = (TextField) root.lookup(usernameID);
         passwordField = (PasswordField) root.lookup(passwordID);
         messageLabel = (Label) root.lookup("#messageLabel");
+        signUp = (Label) root.lookup("#signUp");
 
         stage.setScene(new Scene(root));
         stage.show();
@@ -94,5 +96,10 @@ public class LoginTest extends ApplicationTest {
         clickOn(loginButtonID);
 
         assertEquals(Error.LOGIN_USERNAME_PASSWORD_INCORRECT, messageLabel.getText());
+    }
+
+    @Test
+    public void testGotoSignup() {
+        clickOn(signUp);
     }
 }
