@@ -50,7 +50,7 @@ public class LoginController {
         String password = passwordField.getText();
 
         if (!Core.correctCredentials(username, password)) {
-            messageLabel.setText(Error.LOGIN_USERNAME_PASSWORD_INCORRECT);
+            messageLabel.setText(Error.LOGIN_USERNAME_OR_PASSWORD_INCORRECT);
             return;
         }
 

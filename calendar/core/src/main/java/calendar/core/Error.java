@@ -11,7 +11,7 @@ public class Error {
             + CalendarApp.MAX_EVENT_LENGTH_IN_HOURS
             + " hours)";
 
-    public static final String LOGIN_USERNAME_PASSWORD_INCORRECT = "Username or password is incorrect.";
+    public static final String LOGIN_USERNAME_OR_PASSWORD_INCORRECT = "Username or password is incorrect.";
 
     public static final String SIGNUP_USERNAME_ALREADY_EXISTS = "Username already exists.";
     public static final String SIGNUP_USERNAME_IS_EMPTY = "Username cannot be empty";

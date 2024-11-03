@@ -86,7 +86,7 @@ public class LoginTest extends ApplicationTest {
         clickOn(passwordID).write("invalidPass");
         clickOn(loginButtonID);
 
-        assertEquals(Error.LOGIN_USERNAME_PASSWORD_INCORRECT, messageLabel.getText());
+        assertEquals(Error.LOGIN_USERNAME_OR_PASSWORD_INCORRECT, messageLabel.getText());
     }
 
     @Test
@@ -95,7 +95,7 @@ public class LoginTest extends ApplicationTest {
         clickOn(passwordID).write("validPass");
         clickOn(loginButtonID);
 
-        assertEquals(Error.LOGIN_USERNAME_PASSWORD_INCORRECT, messageLabel.getText());
+        assertEquals(Error.LOGIN_USERNAME_OR_PASSWORD_INCORRECT, messageLabel.getText());
     }
 
     @Test
