@@ -26,6 +26,8 @@
         <maven-failsafe.version>3.5.0</maven-failsafe.version>
         <jacoco.version>0.8.11</jacoco.version>
         <mocito.version>5.14.0</mocito.version>
+        <controlsfx.version>11.2.1</controlsfx.version>
+        <apache.version>3.12.0</apache.version>
         <checkstyle.version>3.5.0</checkstyle.version>
     </properties>
 
@@ -115,7 +117,18 @@
                 <version>${testfx.version}</version>
                 <scope>test</scope>
             </dependency>
+            <!-- ControlsFX -->
+            <dependency>
+                <groupId>org.controlsfx</groupId>
+                <artifactId>controlsfx</artifactId>
+                <version>${controlsfx.version}</version>
+            </dependency>
 
+            <!-- StringUtils -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${apache.version}</version>
             <!-- Checkstyle -->
             <dependency>
                 <groupId>org.apache.maven.plugins</groupId>
