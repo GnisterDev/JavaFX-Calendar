@@ -18,7 +18,7 @@ public class EventTest {
     @Test
     public void testConstructors() {
         Event event1 = new Event("title", "description", date1, date2);
-        Event event2 = new Event("title", "description", date1, date2, EventType.EVENT_TYPE1, Color.BLUE,
+        Event event2 = new Event("title", "description", date1, date2, EventType.REGULAR, Color.BLUE,
                 UUID.randomUUID());
 
         assertEquals("title", event1.getTitle());

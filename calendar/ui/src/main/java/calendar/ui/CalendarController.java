@@ -11,11 +11,13 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.controlsfx.control.ToggleSwitch;
+import org.controlsfx.control.spreadsheet.Grid;
 
 import calendar.core.CalendarApp;
 import calendar.core.Core;
 import calendar.core.Error;
 import calendar.core.SceneCore;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -24,6 +26,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -37,6 +40,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 import calendar.types.Event;
+import calendar.types.EventType;
 
 /**
  * The {@code CalendarController} class is a JavaFX controller responsible for managing the calendar view.
@@ -101,6 +105,12 @@ public class CalendarController {
     private GridPane calendarGrid;
 
     @FXML
+    private GridPane allDayGrid;
+
+    @FXML
+    private ScrollPane allDayScrollPane;
+
+    @FXML
     private HBox dateHeader;
 
     @FXML
@@ -127,7 +137,18 @@ public class CalendarController {
             GridPane.setValignment(timeStamp, VPos.CENTER);
         });
 
+        allDaySwitch.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            setTimeSelectorsVisibility(!newValue);
+        });
+
         update();
+    }
+
+    private void setTimeSelectorsVisibility(boolean isVisible) {
+        Stream.of(startTimeSelect, endTimeSelect).forEach(node -> {
+            node.setVisible(isVisible);
+            node.setManaged(isVisible);
+        });
     }
 
     @FXML
@@ -272,6 +293,7 @@ public class CalendarController {
 
     private void clearCalendar() {
         calendarGrid.getChildren().removeIf(node -> node.getStyleClass().contains(DEFAULT_EVENT_CLASS_NAME));
+        allDayGrid.getChildren().removeIf(node -> node.getStyleClass().contains(DEFAULT_EVENT_CLASS_NAME));
     }
 
     private void update() {
@@ -282,6 +304,9 @@ public class CalendarController {
         LocalDateTime startTime = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN);
         LocalDateTime endTime = LocalDateTime.of(weekDate.with(DayOfWeek.SUNDAY), LocalTime.MAX);
         List<Event> events = calendarApp.getEventsBetween(startTime, endTime);
+
+        int allDayRow = 0; //TODO check if this can be removed
+        //TODO add scroll
 
         for (Event event : events) {
 
@@ -295,6 +320,12 @@ public class CalendarController {
 
             int startDayIndex = eventStartTime.getDayOfWeek().getValue() - 1;
             int endDayIndex = eventEndTime.getDayOfWeek().getValue() - 1;
+
+            if (event.getType().equals(EventType.ALL_DAY)) {
+                // createEventRect(event, startDayIndex, allDayGrid.getRowCount(), endDayIndex - startDayIndex + 1);
+                createEventRect(event, startDayIndex, allDayRow++, endDayIndex - startDayIndex + 1);
+                continue;
+            }
 
             int startRowIndex = eventStartTime.getHour();
 
@@ -319,17 +350,23 @@ public class CalendarController {
 
             }
         }
+        Platform.runLater(() -> allDayScrollPane.setVvalue(1D));
     }
 
-    private void createEventRect(Event event, int dayIndex, int startTimeIndex, int length) {
+    private void createEventRect(Event event, int columnIndex, int rowIndex, int length) {
         VBox eventBox = new VBox(10);
         eventBox.getStyleClass().add(DEFAULT_EVENT_CLASS_NAME);
         eventBox.setStyle("-fx-background-color: #" + event.getColor().toString().substring(2) + " ;");
         eventBox.getChildren().add(new Label(event.getTitle()));
         eventBox.setAlignment(Pos.TOP_CENTER);
 
-        GridPane.setRowSpan(eventBox, length);
-        calendarGrid.add(eventBox, dayIndex, startTimeIndex);
+        switch (event.getType()) {
+            case EventType.REGULAR -> GridPane.setRowSpan(eventBox, length);
+            case EventType.ALL_DAY -> GridPane.setColumnSpan(eventBox, length);
+        }
+
+        GridPane targetGrid = event.getType().equals(EventType.REGULAR) ? calendarGrid : allDayGrid;
+        targetGrid.add(eventBox, columnIndex, rowIndex);
     }
 
     @FXML
@@ -338,8 +375,8 @@ public class CalendarController {
         int endTime;
 
         try {
-            startTime = Integer.parseInt(startTimeSelect.getText().substring(0, 2));
-            endTime = Integer.parseInt(endTimeSelect.getText().substring(0, 2));
+            startTime = !allDaySwitch.isSelected() ? Integer.parseInt(startTimeSelect.getText().substring(0, 2)) : 0;
+            endTime = !allDaySwitch.isSelected() ? Integer.parseInt(endTimeSelect.getText().substring(0, 2)) : 1;
         } catch (Exception e) {
             errorLabel.setText(Error.EVENT_START_END_TIME_NOT_SELECTED);
             return;
@@ -350,7 +387,8 @@ public class CalendarController {
                 eventDescriptionField.getText(),
                 LocalDateTime.of(startDateSelect.getValue(), LocalTime.of(startTime, 0)),
                 LocalDateTime.of(endDateSelect.getValue(), LocalTime.of(endTime, 0)),
-                colorPicker.getValue())
+                colorPicker.getValue(),
+                !allDaySwitch.isSelected() ? EventType.REGULAR : EventType.ALL_DAY)
                 .ifPresentOrElse(msg -> errorLabel.setText(msg), this::update);
     }
 

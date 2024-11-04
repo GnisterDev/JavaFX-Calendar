@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import calendar.types.Event;
+import calendar.types.EventType;
 import calendar.types.User;
 import javafx.scene.paint.Color;
 
@@ -89,7 +90,8 @@ public class CalendarApp {
             String description,
             LocalDateTime startTime,
             LocalDateTime endTime,
-            Color color) {
+            Color color,
+            EventType type) {
 
         if (title.isBlank())
             return Optional.of(Error.EVENT_TITLE_IS_BLANK);
@@ -98,7 +100,7 @@ public class CalendarApp {
         if (EVENT_HAS_MAX_LENGTH && startTime.plusHours(MAX_EVENT_LENGTH_IN_HOURS).isAfter(endTime))
             return Optional.of(Error.EVENT_TOO_LONG);
 
-        Event newEvent = new Event(title, description, startTime, endTime, color);
+        Event newEvent = new Event(title, description, startTime, endTime, color, type);
         if (eventStream().anyMatch(p -> p.equals(newEvent)))
             return Optional.of(Error.EVENT_ALREADY_EXISTS);
         addEvent(newEvent);
