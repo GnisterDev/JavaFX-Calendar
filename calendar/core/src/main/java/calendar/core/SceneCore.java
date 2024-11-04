@@ -12,6 +12,10 @@ import javafx.stage.Stage;
  * It provides static methods for setting a scene loader, configuring the stage, and switching scenes by name.
  */
 public class SceneCore {
+    private SceneCore() {
+
+    }
+
     private static Function<String, URL> loader;
     private static Stage stage;
 

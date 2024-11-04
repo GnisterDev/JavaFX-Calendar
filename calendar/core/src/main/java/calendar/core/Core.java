@@ -16,6 +16,10 @@ import calendar.types.UserStore;
  * It also provides access to the calendar application for logged-in users.
  */
 public class Core {
+    private Core() {
+
+    }
+
     protected static final int MIN_PASSWORD_LENGTH = 6;
 
     public static UserStore userStore;

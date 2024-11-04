@@ -1,3 +1,4 @@
+
 package calendar.ui;
 
 import java.io.IOException;
@@ -8,9 +9,12 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 /**
- * The {@code App} class serves as the main entry point for the JavaFX application.
- * It extends the {@link Application} class, initializing the core components and setting up the primary stage.
- * The application starts by loading the login scene and performs cleanup when the application is stopped.
+ * The {@code App} class serves as the main entry
+ * point for the JavaFX application.
+ * It extends the {@link Application} class, initializing
+ * the core components and setting up the primary stage.
+ * The application starts by loading the login scene and
+ * performs cleanup when the application is stopped.
  */
 public class App extends Application {
 
