@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -22,9 +23,7 @@
 <?import javafx.scene.text.Text?>
 <?import org.controlsfx.control.ToggleSwitch?>
 
-<BorderPane fx:id="rootPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" scaleZ="2.0" stylesheets="@css/calendar.css"
-   xmlns="http://javafx.com/javafx/23"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.CalendarController">
+<BorderPane fx:id="rootPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" scaleZ="2.0" stylesheets="@css/calendar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.CalendarController">
    <right>
       <Pane BorderPane.alignment="CENTER">
          <children>
@@ -40,7 +39,7 @@
                   </Text>
                   <TextField fx:id="eventNameField" promptText="Title" styleClass="input-text" />
                   <TextArea fx:id="eventDescriptionField" maxWidth="-Infinity" prefHeight="60.0" promptText="Description" styleClass="input-text" wrapText="true" />
-                  <ToggleSwitch fx:id="allDaySwitch" prefWidth="1000.0" styleClass="toggle-button" text="All Day" />
+                  <ToggleSwitch fx:id="allDaySwitch" maxWidth="1.7976931348623157E308" styleClass="toggle-button" text="All Day" />
                   <HBox alignment="CENTER_LEFT" depthTest="ENABLE" nodeOrientation="LEFT_TO_RIGHT" prefWidth="200.0" spacing="15.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Starts" wrappingWidth="30.0" HBox.hgrow="ALWAYS" />
@@ -93,7 +92,7 @@
          <children>
             <HBox fx:id="dateHeader" alignment="BOTTOM_LEFT" maxHeight="-Infinity" prefHeight="50.0" prefWidth="580.0">
                <children>
-                  <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0">
+                  <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="55.0">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
@@ -233,6 +232,36 @@
                   <Insets />
                </VBox.margin>
             </HBox>
+            <HBox>
+               <children>
+                  <VBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefWidth="50.0">
+                     <children>
+                        <Label text="All Day" />
+                     </children>
+                  </VBox>
+                  <ScrollPane fx:id="allDayScrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" prefHeight="40.0" vbarPolicy="NEVER" HBox.hgrow="ALWAYS">
+                     <content>
+                        <GridPane fx:id="allDayGrid" gridLinesVisible="true" styleClass="alldaygridpane">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints vgrow="ALWAYS" />
+                           </rowConstraints>
+                        </GridPane>
+                     </content>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </ScrollPane>
+               </children>
+            </HBox>
             <HBox VBox.vgrow="ALWAYS">
                <children>
                   <GridPane fx:id="timeStampSection" alignment="CENTER_RIGHT">
@@ -308,6 +337,9 @@
                      </rowConstraints>
                   </GridPane>
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
          </children>
          <BorderPane.margin>
