@@ -1,7 +1,5 @@
 package calendar.ui;
 
-import java.util.Optional;
-
 import calendar.core.Core;
 import calendar.core.SceneCore;
 import javafx.fxml.FXML;
@@ -50,8 +48,7 @@ public class SignUpController {
     private void handleLogin() {
         String username = usernameField.getText();
         String password = passwordField.getText();
-        Optional<String> createdUserError = Core.registerUser(username, password);
-        createdUserError.ifPresentOrElse(l -> messageLabel.setText(l), () -> {
+        Core.registerUser(username, password).ifPresentOrElse(l -> messageLabel.setText(l), () -> {
             Core.logInAsUser(username);
             SceneCore.setScene("Calendar.fxml");
         });

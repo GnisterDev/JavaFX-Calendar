@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import calendar.core.Core;
+import calendar.core.Error;
 import calendar.core.SceneCore;
 import calendar.types.User;
 import calendar.types.UserStore;
@@ -24,6 +25,11 @@ import javafx.stage.Stage;
 public class SignUpTest extends ApplicationTest {
 
     private Label messageLabel;
+    private Label login;
+
+    private String usernameID = "#usernameField";
+    private String passwordID = "#passwordField";
+    private String signupButtonID = "#signUpButton";
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -31,6 +37,7 @@ public class SignUpTest extends ApplicationTest {
         Parent root = loader.load();
 
         messageLabel = (Label) root.lookup("#messageLabel");
+        login = (Label) root.lookup("#signIn");
 
         stage.setScene(new Scene(root));
         stage.show();
@@ -62,54 +69,58 @@ public class SignUpTest extends ApplicationTest {
 
     @Test
     public void testExistingUser() {
-        clickOn("#usernameField").write("existingUser");
-        clickOn("#passwordField").write("validPass");
+        clickOn(usernameID).write("existingUser");
+        clickOn(passwordID).write("validPass");
 
-        clickOn("#signUpButton");
+        clickOn(signupButtonID);
 
         // Verify the error message for existing username
-        assertEquals("Username already exists.", messageLabel.getText());
+        assertEquals(Error.SIGNUP_USERNAME_ALREADY_EXISTS, messageLabel.getText());
     }
 
     @Test
     public void testShortPassword() {
-        clickOn("#usernameField").write("newUser");
-        clickOn("#passwordField").write("short");
+        clickOn(usernameID).write("newUser");
+        clickOn(passwordID).write("short");
 
-        clickOn("#signUpButton");
+        clickOn(signupButtonID);
 
         // Verify the error message for short password
-        assertEquals("Password must be at least 6 characters long.", messageLabel.getText());
+        assertEquals(Error.SIGNUP_PASSWORD_TOO_SHORT, messageLabel.getText());
     }
 
     @Test
     public void testValidSignUp() {
-        clickOn("#usernameField").write("newUser");
-        clickOn("#passwordField").write("validPass");
+        clickOn(usernameID).write("newUser");
+        clickOn(passwordID).write("validPass");
 
-        clickOn("#signUpButton");
-
+        clickOn(signupButtonID);
     }
 
     @Test
     public void testEmptyUsername() {
-        clickOn("#usernameField").write("");
-        clickOn("#passwordField").write("validPass");
+        clickOn(usernameID).write("");
+        clickOn(passwordID).write("validPass");
 
-        clickOn("#signUpButton");
+        clickOn(signupButtonID);
 
         // Verify error message for empty username
-        assertEquals("Username cannot be empty", messageLabel.getText());
+        assertEquals(Error.SIGNUP_USERNAME_IS_EMPTY, messageLabel.getText());
     }
 
     @Test
     public void testEmptyPassword() {
-        clickOn("#usernameField").write("newUser");
-        clickOn("#passwordField").write("");
+        clickOn(usernameID).write("newUser");
+        clickOn(passwordID).write("");
 
-        clickOn("#signUpButton");
+        clickOn(signupButtonID);
 
         // Verify error message for empty password
-        assertEquals("Password cannot be empty.", messageLabel.getText());
+        assertEquals(Error.SIGNUP_PASSWORD_IS_EMPTY, messageLabel.getText());
+    }
+
+    @Test
+    public void testGotoSignup() {
+        clickOn(login);
     }
 }

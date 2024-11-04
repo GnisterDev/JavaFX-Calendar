@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import calendar.types.Event;
+import calendar.types.EventType;
 import calendar.types.User;
 import javafx.scene.paint.Color;
 
@@ -19,8 +20,8 @@ public class CalendarApp {
     public static final int DAYS_IN_A_WEEK = 7;
 
     private static final boolean EVENT_HAS_MAX_LENGTH = false;
-    private static final int MAX_EVENT_LENGTH_IN_DAYS = 7;
-    private static final int MAX_EVENT_LENGTH_IN_HOURS = MAX_EVENT_LENGTH_IN_DAYS * HOURS_IN_A_DAY;
+    public static final int MAX_EVENT_LENGTH_IN_DAYS = 7;
+    public static final int MAX_EVENT_LENGTH_IN_HOURS = MAX_EVENT_LENGTH_IN_DAYS * HOURS_IN_A_DAY;
 
     protected User user;
 
@@ -83,35 +84,25 @@ public class CalendarApp {
         user.getCalendar(index).addEvent(event);
     }
 
-    /**
-     * Creates a new event with validation for title, start, and end times.
-     * 
-     * @param title       the title of the event
-     * @param description a description of the event
-     * @param startTime   the start time of the event
-     * @param endTime     the end time of the event
-     * @return an {@code Optional<String>} containing an error message if validation fails, or an empty {@code Optional} if the event is created successfully
-     */
     @SuppressWarnings("unused")
     public Optional<String> createEvent(
             String title,
             String description,
             LocalDateTime startTime,
             LocalDateTime endTime,
-            Color color) {
+            Color color,
+            EventType type) {
+
         if (title.isBlank())
-            return Optional.of("Title cannot be blank");
+            return Optional.of(Error.EVENT_TITLE_IS_BLANK);
         if (startTime.isAfter(endTime))
-            return Optional.of("Start time cannot be after end time");
+            return Optional.of(Error.EVENT_START_IS_AFTER_END);
         if (EVENT_HAS_MAX_LENGTH && startTime.plusHours(MAX_EVENT_LENGTH_IN_HOURS).isAfter(endTime))
-            return Optional.of("Event can be a maximum of "
-                    + MAX_EVENT_LENGTH_IN_DAYS
-                    + " days ("
-                    + MAX_EVENT_LENGTH_IN_HOURS
-                    + " hours)");
-        Event newEvent = new Event(title, description, startTime, endTime, color);
+            return Optional.of(Error.EVENT_TOO_LONG);
+
+        Event newEvent = new Event(title, description, startTime, endTime, color, type);
         if (eventStream().anyMatch(p -> p.equals(newEvent)))
-            return Optional.of("Event already exists");
+            return Optional.of(Error.EVENT_ALREADY_EXISTS);
         addEvent(newEvent);
         return Optional.empty();
     }

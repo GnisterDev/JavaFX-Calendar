@@ -136,6 +136,20 @@
                 <version>${checkstyle.version}</version>
             </dependency>
 
+            <!-- ControlsFX -->
+            <dependency>
+                <groupId>org.controlsfx</groupId>
+                <artifactId>controlsfx</artifactId>
+                <version>${controlsfx.version}</version>
+            </dependency>
+
+            <!-- StringUtils -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${apache.version}</version>
+            </dependency>
+
             <!-- Add other dependencies here -->
 
         </dependencies>

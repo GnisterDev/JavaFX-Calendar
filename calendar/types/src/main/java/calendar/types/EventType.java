@@ -10,11 +10,11 @@ package calendar.types;
  * 
  * The current types are:
  * <ul>
- *     <li>{@link #EVENT_TYPE1} - Represents the first type of event.</li>
- *     <li>{@link #EVENT_TYPE2} - Represents the second type of event.</li>
+ *     <li>{@link #REGULAR} - Represents the first type of event.</li>
+ *     <li>{@link #ALL_DAY} - Represents the second type of event.</li>
  * </ul>
  */
 public enum EventType {
-    EVENT_TYPE1,
-    EVENT_TYPE2
+    REGULAR,
+    ALL_DAY
 }

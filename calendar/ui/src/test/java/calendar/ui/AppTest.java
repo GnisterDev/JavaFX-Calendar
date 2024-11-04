@@ -1,19 +1,38 @@
 package calendar.ui;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
+import org.testfx.api.FxAssert;
+import org.testfx.matcher.base.NodeMatchers;
+import org.testfx.matcher.base.WindowMatchers;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest {
+import javafx.stage.Stage;
+import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.framework.junit5.Start;
 
-    /**
-     * Rigorous Test :-)
-     */
+public class AppTest extends ApplicationTest {
+
+    @Start
+    public void start(Stage stage) throws Exception {
+        // Manually initialize and start the application
+        App app = new App();
+        app.start(stage);
+    }
+
     @Test
-    public void shouldAnswerWithTrue() {
-        assertTrue(true);
+    public void testStageTitleIsSetCorrectly() {
+        FxAssert.verifyThat(window("Calendar"), WindowMatchers.isShowing());
+    }
+
+    @Test
+    public void testInitialSceneIsLoginScene() {
+        FxAssert.verifyThat("#loginButton", NodeMatchers.isVisible());
+    }
+
+    @Test
+    public void testCoreCleanupOnStop() {
+        interact(() -> {
+            App app = new App();
+            app.stop();
+        });
     }
 }

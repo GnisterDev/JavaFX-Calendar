@@ -58,6 +58,5 @@ public class CoreTest {
         calApp = Core.getCalendarApp();
         assertTrue(calApp.isPresent());
         assertEquals(user2, calApp.get().user);
-
     }
 }
