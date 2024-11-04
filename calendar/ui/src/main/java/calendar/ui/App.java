@@ -30,7 +30,7 @@ public class App extends Application {
 
     /**
      * This method is called when the JavaFX application is started.
-     * It initializes the core logic of the application, sets up the 
+     * It initializes the core logic of the application, sets up the
      * primary stage, and loads the initial scene.
      *
      * @param primaryStage the primary stage for the JavaFX application
@@ -50,7 +50,7 @@ public class App extends Application {
 
     /**
      * This method is called when the JavaFX application is about to stop.
-     * It ensures that the core logic (e.g., persistence) is properly 
+     * It ensures that the core logic (e.g., persistence) is properly
      * cleaned up before exiting.
      */
     @Override
