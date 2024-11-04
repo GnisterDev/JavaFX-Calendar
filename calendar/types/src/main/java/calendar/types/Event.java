@@ -93,4 +93,20 @@ public class Event {
     public void setColor(Color color) {
         this.color = color;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+        if (obj instanceof Event) {
+            Event other = (Event) obj;
+            return type.equals(other.getType())
+                    && title.equals(other.getTitle())
+                    && description.equals(other.getDescription())
+                    && startTime.equals(other.getStartTime())
+                    && endTime.equals(other.getEndTime())
+                    && color.equals(other.getColor());
+        } else
+            return false;
+    }
 }

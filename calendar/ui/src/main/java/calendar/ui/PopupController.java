@@ -3,20 +3,26 @@ package calendar.ui;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.stream.Stream;
 
 import calendar.core.CalendarApp;
 import calendar.types.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class PopupController {
+
+    @FXML
+    private VBox rootVBox;
     @FXML
     private TextField eventNameField;
     @FXML
@@ -44,13 +50,30 @@ public class PopupController {
         this.calendarApp = calendarApp;
         this.calendarController = calendarController;
 
+        Stream.of(rootVBox).forEach(this::loseFocus);
+        Stream.of(startDateSelect, endDateSelect).forEach(this::datePicker);
+        Stream.of(startTimeSelect, endTimeSelect)
+                .forEach(l -> l.focusedProperty().addListener((obs, oldVal, newVal) -> {
+                    if (!newVal)
+                        timeSelectLoseFocus(l);
+                }));
+
         eventNameField.setText(event.getTitle());
         startDateSelect.setValue(event.getStartTime().toLocalDate());
         endDateSelect.setValue(event.getEndTime().toLocalDate());
-        startTimeSelect.setText(String.valueOf(event.getStartTime().getHour()));
-        endTimeSelect.setText(String.valueOf(event.getEndTime().getHour()));
+        if (event.getStartTime().getHour() < 10) {
+            startTimeSelect.setText("0" + String.valueOf(event.getStartTime().getHour()) + ":00");
+        } else {
+            startTimeSelect.setText(String.valueOf(event.getStartTime().getHour()) + ":00");
+        }
+        if (event.getEndTime().getHour() < 10) {
+            endTimeSelect.setText("0" + String.valueOf(event.getEndTime().getHour()) + ":00");
+        } else {
+            endTimeSelect.setText(String.valueOf(event.getEndTime().getHour()) + ":00");
+        }
         colorPicker.setValue(event.getColor());
         colorCircle.setFill(colorPicker.getValue());
+
     }
 
     public void setStage(Stage stage) {
@@ -64,13 +87,40 @@ public class PopupController {
     }
 
     @FXML
+    private void timeSelectKey(KeyEvent event) {
+        calendarController.timeSelectKey(event);
+    }
+
+    protected void loseFocus(Node root) {
+        root.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+            Node focusedNode = root.getScene().getFocusOwner();
+
+            if (focusedNode == null)
+                return;
+            if (focusedNode.equals(root))
+                return;
+            if (focusedNode.getBoundsInParent().contains(event.getX(), event.getY()))
+                return;
+            root.requestFocus();
+        });
+    }
+
+    private void datePicker(DatePicker datePicker) {
+        calendarController.datePicker(datePicker);
+    }
+
+    private void timeSelectLoseFocus(TextField textField) {
+        calendarController.timeSelectLoseFocus(textField);
+    }
+
+    @FXML
     private void handleEdit() {
         // Handle the edit event logic here
         String newEventName = eventNameField.getText();
         LocalDate startDate = startDateSelect.getValue();
         LocalDate endDate = endDateSelect.getValue();
-        int startTime = Integer.parseInt(startTimeSelect.getText());
-        int endTime = Integer.parseInt(endTimeSelect.getText());
+        int startTime = Integer.parseInt(startTimeSelect.getText().substring(0, 2));
+        int endTime = Integer.parseInt(endTimeSelect.getText().substring(0, 2));
         LocalDateTime startDateTime = LocalDateTime.of(startDate, LocalTime.of(startTime, 0));
         LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.of(endTime, 0));
 

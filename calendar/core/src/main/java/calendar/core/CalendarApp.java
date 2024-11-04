@@ -65,8 +65,10 @@ public class CalendarApp {
         if (validationError.isPresent()) {
             return validationError;
         }
-
-        addEvent(new Event(title, description, startTime, endTime, color));
+        Event newEvent = new Event(title, description, startTime, endTime, color);
+        if (eventStream().anyMatch(p -> p.equals(newEvent)))
+            return Optional.of("Event already exists");
+        addEvent(newEvent);
         return Optional.empty();
     }
 

@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
+import org.controlsfx.control.ToggleSwitch;
 
 import calendar.core.CalendarApp;
 import calendar.core.Core;
@@ -17,16 +18,13 @@ import calendar.core.SceneCore;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -86,6 +84,9 @@ public class CalendarController {
     @FXML
     private ColorPicker colorPicker;
 
+    @FXML
+    private ToggleSwitch allDaySwitch;
+
     // Calendar Section
     @FXML
     private GridPane timeStampSection;
@@ -105,6 +106,11 @@ public class CalendarController {
 
         Stream.of(rootPane).forEach(this::loseFocus);
         Stream.of(startDateSelect, endDateSelect).forEach(this::datePicker);
+        Stream.of(startTimeSelect, endTimeSelect)
+                .forEach(l -> l.focusedProperty().addListener((obs, oldVal, newVal) -> {
+                    if (!newVal)
+                        timeSelectLoseFocus(l);
+                }));
 
         IntStream.range(1, CalendarApp.HOURS_IN_A_DAY).forEach(i -> {
             Text timeStamp = new Text(String.format("%02d:00", i));
@@ -123,7 +129,7 @@ public class CalendarController {
     }
 
     @FXML
-    private void timeSelectKey(KeyEvent event) {
+    protected void timeSelectKey(KeyEvent event) {
         TextField field = (TextField) event.getSource();
         field.setText(field.getText().replaceAll("\\D", ""));
 
@@ -147,7 +153,13 @@ public class CalendarController {
         field.setText("");
     }
 
-    private void loseFocus(Node root) {
+    protected void timeSelectLoseFocus(TextField field) {
+        if (field.getText().matches("^\\d{2}:\\d{2}$"))
+            return;
+        field.setText(field.getText().matches("^\\d$") ? "0" + field.getText() + ":00" : "");
+    }
+
+    protected void loseFocus(Node root) {
         root.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
             Node focusedNode = root.getScene().getFocusOwner();
 
@@ -161,7 +173,7 @@ public class CalendarController {
         });
     }
 
-    private void datePicker(DatePicker datePicker) {
+    protected void datePicker(DatePicker datePicker) {
         datePicker.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
             if (isNowFocused)
                 datePicker.show();
@@ -345,12 +357,12 @@ public class CalendarController {
     public Stage popUpForm(Event event, String eventName, LocalDate startDate, LocalDate endDate, int startTime,
             int endTime) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("popup_form.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Popup_form.fxml"));
             VBox vbox = loader.load();
+            // vbox.setId("rootVBox");
 
             // Get the controller and initialize it with necessary data
             PopupController controller = loader.getController();
-            controller.initialize(event, calendarApp, this);
 
             Stage stage = new Stage();
             stage.setWidth(250);
@@ -361,6 +373,7 @@ public class CalendarController {
             stage.initModality(Modality.APPLICATION_MODAL);
 
             controller.setStage(stage);
+            controller.initialize(event, calendarApp, this);
 
             stage.show();
 

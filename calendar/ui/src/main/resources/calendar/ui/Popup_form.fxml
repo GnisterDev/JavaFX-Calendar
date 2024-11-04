@@ -24,25 +24,8 @@
 <?import org.controlsfx.control.ToggleSwitch?>
 
 
-<!-- <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" spacing="10" alignment="CENTER" fx:controller="calendar.ui.PopupController">
-    <Label fx:id="formTitle" text="Edit Event" style="-fx-font-size: 20px;"  />
-    
-    <TextField fx:id="eventNameField" promptText="Enter new event name" style="-fx-background-radius: 12;" />
-    
-    <DatePicker fx:id="startDatePicker" />
-    <DatePicker fx:id="endDatePicker" />
-    
-    <Spinner fx:id="startTimeSpinner" />
-    <Spinner fx:id="endTimeSpinner" />
-    
-    <HBox spacing="10">
-        <Button fx:id="editButton" onAction="#handleEditAction" text="Edit Event" style="-fx-background-radius: 12; -fx-background-color: #EA454C;" />
-        <Button fx:id="deleteButton" onAction="#handleDeleteAction" text="Delete Event" style="-fx-background-radius: 12; -fx-background-color: #EA454C;" />
-    </HBox>
-    
-    <Label fx:id="messageLabel" />
-</VBox> -->
- <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" spacing="10" alignment="CENTER" fx:controller="calendar.ui.PopupController" stylesheets="@css/calendar.css">
+
+ <VBox fx:id="rootVBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" spacing="10" alignment="CENTER" fx:controller="calendar.ui.PopupController" stylesheets="@css/calendar.css">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edit event">
                      <font>
@@ -61,7 +44,7 @@
                         <HBox prefWidth="150.0" spacing="5.0" HBox.hgrow="ALWAYS">
                            <children>
                               <DatePicker fx:id="startDateSelect" prefHeight="25.0" prefWidth="100.0" styleClass="inputdate" HBox.hgrow="ALWAYS" />
-                              <TextField fx:id="startTimeSelect" alignment="CENTER" minWidth="45.0" prefHeight="25.0" prefWidth="45.0" styleClass="input-text" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="startTimeSelect" alignment="CENTER" minWidth="45.0" prefHeight="25.0" prefWidth="45.0" onKeyTyped="#timeSelectKey" styleClass="input-text" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                      </children>
@@ -72,7 +55,7 @@
                         <HBox prefHeight="25.0" prefWidth="137.0" spacing="5.0" HBox.hgrow="ALWAYS">
                            <children>
                               <DatePicker fx:id="endDateSelect" prefHeight="25.0" prefWidth="100.0" styleClass="inputdate" HBox.hgrow="ALWAYS" />
-                              <TextField fx:id="endTimeSelect" alignment="CENTER" minWidth="45.0" prefHeight="25.0" prefWidth="45.0" styleClass="input-text" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="endTimeSelect" alignment="CENTER" minWidth="45.0" prefHeight="25.0" prefWidth="45.0" onKeyTyped="#timeSelectKey" styleClass="input-text" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                      </children>
