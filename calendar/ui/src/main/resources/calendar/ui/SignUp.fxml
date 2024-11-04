@@ -56,7 +56,7 @@
                   <Font size="10.0" />
                </font>
             </Label>
-            <Label fx:id="signIn" layoutX="2.0" layoutY="325.0" text="I already have an account" underline="true" />
+            <Label fx:id="signIn" layoutX="2.0" layoutY="325.0" styleClass="have-user-label" text="I already have an account" underline="true" />
          </children>
       </AnchorPane>
    </center>

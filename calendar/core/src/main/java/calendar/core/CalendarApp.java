@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import calendar.types.Event;
 import calendar.types.User;
+import javafx.scene.paint.Color;
 
 /**
  * The {@code CalendarApp} class provides functionalities to manage events for a specific user within their calendars.
@@ -107,7 +108,10 @@ public class CalendarApp {
                     + " days ("
                     + MAX_EVENT_LENGTH_IN_HOURS
                     + " hours)");
-        addEvent(new Event(title, description, startTime, endTime));
+        Event newEvent = new Event(title, description, startTime, endTime, color);
+        if (eventStream().anyMatch(p -> p.equals(newEvent)))
+            return Optional.of("Event already exists");
+        addEvent(newEvent);
         return Optional.empty();
     }
 
