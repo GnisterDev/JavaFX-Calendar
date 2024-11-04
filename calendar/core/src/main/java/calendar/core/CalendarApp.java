@@ -97,7 +97,8 @@ public class CalendarApp {
             String title,
             String description,
             LocalDateTime startTime,
-            LocalDateTime endTime) {
+            LocalDateTime endTime,
+            Color color) {
         if (title.isBlank())
             return Optional.of("Title cannot be blank");
         if (startTime.isAfter(endTime))
