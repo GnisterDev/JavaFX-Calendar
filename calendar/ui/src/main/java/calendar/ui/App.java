@@ -24,19 +24,20 @@ public class App extends Application {
      *
      * @param args command-line arguments (not used in this application)
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         Application.launch();
     }
 
     /**
      * This method is called when the JavaFX application is started.
-     * It initializes the core logic of the application, sets up the primary stage, and loads the initial scene.
+     * It initializes the core logic of the application, sets up the 
+     * primary stage, and loads the initial scene.
      *
      * @param primaryStage the primary stage for the JavaFX application
      * @throws IOException if there is an issue loading resources or scenes
      */
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(final Stage primaryStage) throws IOException {
         Core.initialize();
 
         SceneCore.setLoader(url -> this.getClass().getResource(url));
@@ -49,7 +50,8 @@ public class App extends Application {
 
     /**
      * This method is called when the JavaFX application is about to stop.
-     * It ensures that the core logic (e.g., persistence) is properly cleaned up before exiting.
+     * It ensures that the core logic (e.g., persistence) is properly 
+     * cleaned up before exiting.
      */
     @Override
     public void stop() {
