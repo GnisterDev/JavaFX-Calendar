@@ -14,7 +14,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -80,8 +79,12 @@ public class PopupController {
         this.stage = stage;
     }
 
+    public Stage getStage() {
+        return this.stage;
+    }
+
     @FXML
-    private void colorPicker(javafx.event.Event event) {
+    protected void colorPicker() {
         colorPicker.show();
         colorPicker.setOnAction(e -> colorCircle.setFill(colorPicker.getValue()));
     }
@@ -92,17 +95,7 @@ public class PopupController {
     }
 
     protected void loseFocus(Node root) {
-        root.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
-            Node focusedNode = root.getScene().getFocusOwner();
-
-            if (focusedNode == null)
-                return;
-            if (focusedNode.equals(root))
-                return;
-            if (focusedNode.getBoundsInParent().contains(event.getX(), event.getY()))
-                return;
-            root.requestFocus();
-        });
+        calendarController.loseFocus(root);
     }
 
     private void datePicker(DatePicker datePicker) {
@@ -126,7 +119,7 @@ public class PopupController {
 
         calendarApp
                 .updateEvent(event, newEventName, "Not implemented", startDateTime, endDateTime, colorPicker.getValue())
-                .ifPresentOrElse(msg -> messageLabel.setText(msg), () -> {
+                .ifPresentOrElse(msg -> System.out.println(msg), () -> {
                     calendarController.update();
                     stage.close();
                 });

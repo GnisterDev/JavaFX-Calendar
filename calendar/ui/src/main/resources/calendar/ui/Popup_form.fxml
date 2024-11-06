@@ -25,7 +25,7 @@
 
 
 
- <VBox fx:id="rootVBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" spacing="10" alignment="CENTER" fx:controller="calendar.ui.PopupController" stylesheets="@css/calendar.css">
+ <VBox fx:id="rootVBox" maxWidth="400.0" minWidth="-Infinity" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" spacing="10" alignment="CENTER" fx:controller="calendar.ui.PopupController" stylesheets="@css/calendar.css">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edit event">
                      <font>
@@ -69,8 +69,8 @@
                   </Group>
                   <HBox alignment="CENTER" spacing="5.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#handleDelete" prefWidth="1000.0" styleClass="button-default" text="Delete Event" HBox.hgrow="ALWAYS" />
-                        <Button mnemonicParsing="false" onAction="#handleEdit" prefWidth="1000.0" styleClass="button-default" text="Edit Event" HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" fx:id="handleDelete" onAction="#handleDelete" prefWidth="1000.0" styleClass="button-default" text="Delete Event" HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" fx:id="handleEdit" onAction="#handleEdit" prefWidth="1000.0" styleClass="button-default" text="Edit Event" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                </children>
