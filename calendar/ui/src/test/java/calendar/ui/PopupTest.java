@@ -20,6 +20,7 @@ import org.testfx.util.WaitForAsyncUtils;
 
 import calendar.core.CalendarApp;
 import calendar.types.Event;
+import calendar.types.EventType;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -153,7 +154,7 @@ public class PopupTest extends ApplicationTest {
 
     @Test
     public void testHandleEdit_Success() {
-        when(mockCalendarApp.updateEvent(any(), any(), any(), any(), any(), any())).thenReturn(Optional.empty());
+        when(mockCalendarApp.createEvent(any(), any(), any(), any(), any(), any())).thenReturn(Optional.empty());
 
         Platform.runLater(() -> {
             eventNameField.setText("Updated Event");
@@ -167,16 +168,17 @@ public class PopupTest extends ApplicationTest {
         clickOn(handleEdit);
 
         // Validate that the calendarController's update method is call ed
-        verify(mockCalendarApp).updateEvent(eq(mockEvent), eq("Updated Event"), any(),
+        verify(mockCalendarApp).createEvent(eq("Updated Event"), any(),
                 eq(LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0))),
-                eq(LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(11, 0))), eq(Color.BLUE));
+                eq(LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(11, 0))), eq(Color.BLUE),
+                eq(EventType.REGULAR));
         verify(mockCalendarController).update();
         assertFalse(popupController.getStage().isShowing());
     }
 
     @Test
     public void testHandleEdit_InvalidInputs() {
-        when(mockCalendarApp.updateEvent(any(), any(), any(), any(), any(), any()))
+        when(mockCalendarApp.createEvent(any(), any(), any(), any(), any(), any()))
                 .thenReturn(Optional.of("Start date must be before end date."));
 
         Platform.runLater(() -> {

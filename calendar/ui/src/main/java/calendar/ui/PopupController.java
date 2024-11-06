@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import calendar.core.CalendarApp;
 import calendar.types.Event;
+import calendar.types.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
@@ -117,8 +118,10 @@ public class PopupController {
         LocalDateTime startDateTime = LocalDateTime.of(startDate, LocalTime.of(startTime, 0));
         LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.of(endTime, 0));
 
+        calendarApp.removeEvent(event);
         calendarApp
-                .updateEvent(event, newEventName, "Not implemented", startDateTime, endDateTime, colorPicker.getValue())
+                .createEvent(newEventName, "Not implemented", startDateTime, endDateTime, colorPicker.getValue(),
+                        EventType.REGULAR)
                 .ifPresentOrElse(msg -> System.out.println(msg), () -> {
                     calendarController.update();
                     stage.close();

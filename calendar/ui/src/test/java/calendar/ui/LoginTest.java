@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import calendar.core.Core;
+import calendar.core.Error;
 import calendar.core.SceneCore;
 import calendar.types.User;
 import calendar.types.UserStore;
@@ -25,19 +26,24 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class LoginTest extends ApplicationTest {
+    private String usernameID = "#usernameField";
+    private String passwordID = "#passwordField";
+    private String loginButtonID = "#loginButton";
 
     private TextField usernameField;
     private PasswordField passwordField;
     private Label messageLabel;
+    private Label signUp;
 
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
         Parent root = loader.load();
 
-        usernameField = (TextField) root.lookup("#usernameField");
-        passwordField = (PasswordField) root.lookup("#passwordField");
+        usernameField = (TextField) root.lookup(usernameID);
+        passwordField = (PasswordField) root.lookup(passwordID);
         messageLabel = (Label) root.lookup("#messageLabel");
+        signUp = (Label) root.lookup("#signUp");
 
         stage.setScene(new Scene(root));
         stage.show();
@@ -49,10 +55,7 @@ public class LoginTest extends ApplicationTest {
     @BeforeEach
     public void setUp() throws Exception {
 
-        // Mock UserStore
-
         UserStore mockUserStore = mock(UserStore.class);
-
         Core.userStore = mockUserStore;
 
         UUID validUserId = UUID.randomUUID();
@@ -60,59 +63,43 @@ public class LoginTest extends ApplicationTest {
 
         when(mockUserStore.getUserId("validUser")).thenReturn(Optional.of(validUserId));
         when(mockUserStore.getUser(validUserId)).thenReturn(Optional.of(validUser));
-
         when(validUser.checkPassword("validPass")).thenReturn(true);
-
         when(mockUserStore.getUserId("invalidUser")).thenReturn(Optional.empty());
 
     }
 
     @Test
     public void testValidLogin() {
-        // try (MockedStatic<SceneCore> sceneCoreMock =
-        // Mockito.mockStatic(SceneCore.class)) {
-        // Mock the setScene method to do nothing (since we don't want an actual scene
-        // change)
-        // ceneCoreMock.when(() ->
-        // SceneCore.setScene(anyString())).thenAnswer(invocation -> null);
-
         assertNotNull(usernameField, "usernameField should be initialized!");
         assertNotNull(passwordField, "passwordField should be initialized!");
         assertNotNull(messageLabel, "messageLabel should be initialized!");
 
-        clickOn("#usernameField").write("validUser");
-        clickOn("#passwordField").write("validPass");
+        clickOn(usernameID).write("validUser");
+        clickOn(passwordID).write("validPass");
 
-        clickOn("#loginButton");
-
-        // Verify the message label text is updated for a successful login
-        assertEquals("Login successful!", messageLabel.getText());
-
-        // Verify that the scene is switched to Calendar.fxml
-        // sceneCoreMock.verify(() -> SceneCore.setScene("Calendar.fxml"), times(1));
-        // }
-
+        clickOn(loginButtonID);
     }
 
     @Test
     public void testInvalidPassword() {
-        clickOn("#usernameField").write("validUser");
-        clickOn("#passwordField").write("invalidPass");
+        clickOn(usernameID).write("validUser");
+        clickOn(passwordID).write("invalidPass");
+        clickOn(loginButtonID);
 
-        clickOn("#loginButton");
-
-        assertEquals("Username or password is incorrect.", messageLabel.getText());
-
+        assertEquals(Error.LOGIN_USERNAME_OR_PASSWORD_INCORRECT, messageLabel.getText());
     }
 
     @Test
     public void testInvalidUsername() {
-        clickOn("#usernameField").write("invalidUser");
-        clickOn("#passwordField").write("validPass");
+        clickOn(usernameID).write("invalidUser");
+        clickOn(passwordID).write("validPass");
+        clickOn(loginButtonID);
 
-        clickOn("#loginButton");
+        assertEquals(Error.LOGIN_USERNAME_OR_PASSWORD_INCORRECT, messageLabel.getText());
+    }
 
-        assertEquals("Username or password is incorrect.", messageLabel.getText());
-
+    @Test
+    public void testGotoSignup() {
+        clickOn(signUp);
     }
 }

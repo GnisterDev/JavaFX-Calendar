@@ -8,6 +8,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javafx.scene.paint.Color;
 
+/**
+ * The {@code Event} class represents an event with a title, description, start
+ * and end times, type, color, and a unique ID.
+ * 
+ * <p>
+ * Events are designed to be used in conjunction with a {@link Calendar}, and
+ * can be serialized and deserialized
+ * using the Jackson library with support for JSON properties through
+ * annotations like {@link JsonProperty}
+ * and {@link JsonCreator}.
+ * </p>
+ * 
+ * <p>
+ * Each event has a default type of {@link EventType#REGULAR}, a default color
+ * of {@link Color#BLUE},
+ * and a randomly generated {@link UUID} as its unique identifier if not
+ * explicitly provided.
+ * </p>
+ */
 public class Event {
     @JsonProperty
     private UUID id;
@@ -24,12 +43,39 @@ public class Event {
     @JsonProperty
     private Color color;
 
+    /**
+     * Constructs a new {@code Event} with default values for type, color, and a
+     * random ID.
+     * 
+     * <p>
+     * This constructor initializes the event with the specified title, description,
+     * start and end times,
+     * while defaulting the type to {@link EventType#REGULAR}, the color to
+     * {@link Color#BLUE},
+     * and generating a random {@link UUID} for the event ID.
+     * </p>
+     * 
+     * @param title       the title of the event
+     * @param description a brief description of the event
+     * @param startTime   the start time of the event
+     * @param endTime     the end time of the event
+     */
     public Event(String title, String description, LocalDateTime startTime, LocalDateTime endTime) {
-        this(title, description, startTime, endTime, EventType.EVENT_TYPE1, Color.BLUE, UUID.randomUUID());
+        this(title, description, startTime, endTime, EventType.REGULAR, Color.BLUE, UUID.randomUUID());
     }
 
     public Event(String title, String description, LocalDateTime startTime, LocalDateTime endTime, Color color) {
-        this(title, description, startTime, endTime, EventType.EVENT_TYPE1, color, UUID.randomUUID());
+        this(title, description, startTime, endTime, EventType.REGULAR, color, UUID.randomUUID());
+    }
+
+    public Event(
+            String title,
+            String description,
+            LocalDateTime startTime,
+            LocalDateTime endTime,
+            Color color,
+            EventType type) {
+        this(title, description, startTime, endTime, type, color, UUID.randomUUID());
     }
 
     @JsonCreator
@@ -50,10 +96,20 @@ public class Event {
         this.id = id;
     }
 
+    /**
+     * Gets the unique identifier for the event.
+     * 
+     * @return the {@link UUID} representing the event's ID
+     */
     public UUID getId() {
         return id;
     }
 
+    /**
+     * Gets the title of the event.
+     * 
+     * @return the title of the event
+     */
     public String getTitle() {
         return title;
     }
@@ -62,10 +118,20 @@ public class Event {
         this.title = newTitle;
     }
 
+    /**
+     * Gets the description of the event.
+     * 
+     * @return the description of the event
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Gets the start time of the event.
+     * 
+     * @return the {@link LocalDateTime} representing the start time of the event
+     */
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -74,6 +140,11 @@ public class Event {
         this.startTime = newStarTime;
     }
 
+    /**
+     * Gets the end time of the event.
+     * 
+     * @return the {@link LocalDateTime} representing the end time of the event
+     */
     public LocalDateTime getEndTime() {
         return endTime;
     }
@@ -82,10 +153,20 @@ public class Event {
         this.endTime = newEndTime;
     }
 
+    /**
+     * Gets the type of the event.
+     * 
+     * @return the {@link EventType} representing the type of the event
+     */
     public EventType getType() {
         return type;
     }
 
+    /**
+     * Gets the color associated with the event.
+     * 
+     * @return the {@link Color} representing the color of the event
+     */
     public Color getColor() {
         return color;
     }
