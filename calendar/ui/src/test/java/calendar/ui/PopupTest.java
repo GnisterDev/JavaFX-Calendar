@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
 
-import calendar.core.CalendarApp;
 import calendar.types.Event;
 import calendar.types.EventType;
 import javafx.application.Platform;
@@ -38,7 +37,6 @@ public class PopupTest extends ApplicationTest {
 
     private PopupController popupController;
     private Event mockEvent;
-    private CalendarApp mockCalendarApp;
     private CalendarController mockCalendarController;
 
     private TextField eventNameField;
@@ -54,7 +52,6 @@ public class PopupTest extends ApplicationTest {
     @Override
     public void start(Stage stage) throws Exception {
         mockEvent = mock(Event.class);
-        mockCalendarApp = mock(CalendarApp.class);
         mockCalendarController = mock(CalendarController.class);
 
         LocalDateTime startTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(1, 0, 0));
@@ -70,7 +67,7 @@ public class PopupTest extends ApplicationTest {
         popupController.setStage(stage);
 
         // Set up the popup controller with mocks
-        popupController.initialize(mockEvent, mockCalendarApp, mockCalendarController);
+        popupController.initialize(mockEvent, mockCalendarController);
 
         Scene scene = new Scene(mainNode);
         stage.setScene(scene);
@@ -154,7 +151,6 @@ public class PopupTest extends ApplicationTest {
 
     @Test
     public void testHandleEdit_Success() {
-        when(mockCalendarApp.createEvent(any(), any(), any(), any(), any(), any())).thenReturn(Optional.empty());
 
         Platform.runLater(() -> {
             eventNameField.setText("Updated Event");
@@ -168,18 +164,12 @@ public class PopupTest extends ApplicationTest {
         clickOn(handleEdit);
 
         // Validate that the calendarController's update method is call ed
-        verify(mockCalendarApp).createEvent(eq("Updated Event"), any(),
-                eq(LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0))),
-                eq(LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(11, 0))), eq(Color.BLUE),
-                eq(EventType.REGULAR));
         verify(mockCalendarController).update();
         assertFalse(popupController.getStage().isShowing());
     }
 
     @Test
     public void testHandleEdit_InvalidInputs() {
-        when(mockCalendarApp.createEvent(any(), any(), any(), any(), any(), any()))
-                .thenReturn(Optional.of("Start date must be before end date."));
 
         Platform.runLater(() -> {
             startDateSelect.setValue(LocalDate.now());
@@ -196,7 +186,6 @@ public class PopupTest extends ApplicationTest {
     public void testHandleDelete() {
         clickOn(handleDelete);
 
-        verify(mockCalendarApp).removeEvent(mockEvent);
         verify(mockCalendarController).update();
 
         assertFalse(popupController.getStage().isShowing());

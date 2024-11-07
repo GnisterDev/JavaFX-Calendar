@@ -49,7 +49,6 @@ import javafx.util.StringConverter;
 import calendar.types.Calendar;
 import calendar.types.Event;
 import calendar.types.EventType;
-import calendar.types.User;
 
 /**
  * The {@code CalendarController} class is a JavaFX controller responsible for
