@@ -66,9 +66,8 @@ public class SignUpController {
         RestHelper.setCredentials(usernameField.getText(), passwordField.getText());
         RestHelper.addUser().consumeError(messageLabel::setText)
                 .runIfSuccess(() -> {
-                    SceneCore.setScene("Calendar.fxml");
-
                     RestHelper.addCalendar(Optional.of("Default")); // Temp
+                    SceneCore.setScene("Calendar.fxml");
                 });
     }
 }

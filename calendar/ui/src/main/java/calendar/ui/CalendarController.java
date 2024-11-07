@@ -62,8 +62,6 @@ public class CalendarController {
     /** The default color of the color picker. */
     private static final String DEFAULT_EVENT_COLOR = "#EA454C";
 
-    private User user;
-
     /**
      * A localdate to keep track of which week the user currently has displayed.
      */
@@ -187,7 +185,7 @@ public class CalendarController {
             };
 
             public Calendar fromString(String str) {
-                return user.getCalendars().stream()
+                return calendarSelect.getItems().stream()
                         .filter(cal -> cal.getName().equals(str)).findFirst().orElse(null);
             };
         });
@@ -195,11 +193,13 @@ public class CalendarController {
             if (calendarSelect.getValue() == null)
                 return;
             RestHelper.setCaledarId(calendarSelect.getValue().getCalendarId());
+            System.out.println(calendarSelect.getValue().getName());
             update();
         });
         calendarSelect.getItems()
                 .addAll(RestHelper.getUser().map(user -> user.getCalendars()).orElse(new ArrayList<>()));
         calendarSelect.setValue(calendarSelect.getItems().stream().findFirst().orElse(null));
+        RestHelper.setCaledarId(calendarSelect.getValue().getCalendarId());
 
         Stream.of(rootPane).forEach(this::loseFocus);
         Stream.of(startDateSelect, endDateSelect).forEach(this::datePicker);
@@ -407,10 +407,6 @@ public class CalendarController {
         errorLabel.setText("");
         clearCalendar();
         updateDates();
-
-        user = RestHelper.getUser().orElseThrow(err -> {
-            throw new IllegalStateException("Error fetching user");
-        });
 
         LocalDateTime startTime = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN);
         LocalDateTime endTime = LocalDateTime.of(weekDate.with(DayOfWeek.SUNDAY), LocalTime.MAX);
