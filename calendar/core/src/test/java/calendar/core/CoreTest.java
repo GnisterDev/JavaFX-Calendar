@@ -47,7 +47,8 @@ public class CoreTest {
 
     @Test
     public void testLogin() {
-        assertThrows(NoSuchElementException.class, () -> Core.logInAsUser("user3"));
+        assertThrows(NoSuchElementException.class,
+                     () -> Core.logInAsUser("user3"));
 
         Core.logInAsUser("user1");
         Optional<CalendarApp> calApp = Core.getCalendarApp();
