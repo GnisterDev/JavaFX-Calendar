@@ -205,9 +205,12 @@ public class CalendarController {
 
     @SuppressWarnings("unchecked")
     private void calendarSelectDropdown(ChoiceBox dropdown) {
-        ArrayList<UUID> temp = new ArrayList<>();
+        // ArrayList<UUID> temp = new ArrayList<>();
 
-        temp.forEach(uuid -> dropdown.getItems().add(uuid.toString()));
+        // temp.forEach(uuid -> dropdown.getItems().add(uuid.toString()));
+
+        dropdown.getItems().addAll("Item 1", "Item 2", "Item 3");
+        dropdown.setValue("Item 1");
     }
 
     @FXML
