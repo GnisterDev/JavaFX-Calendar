@@ -8,23 +8,30 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * SceneCore is a utility class for managing the primary {@link Stage} and switching between {@link Scene} objects in a JavaFX application.
- * It provides static methods for setting a scene loader, configuring the stage, and switching scenes by name.
+ * SceneCore is a utility class for managing the primary {@link Stage} and
+ * switching between {@link Scene} objects in a JavaFX application. It provides
+ * static methods for setting a scene loader, configuring the stage, and
+ * switching scenes by name.
  */
-public class SceneCore {
+public final class SceneCore {
     private SceneCore() {
 
     }
 
+    /** The loader function to load the scene provided. */
     private static Function<String, URL> loader;
+
+    /** The stage of the application. */
     private static Stage stage;
 
     /**
-    * Sets the scene loader function, which converts a scene name into a {@link URL}.
-    *
-    * @param loader a {@code Function<String, URL>} that returns the {@link URL} of the scene's FXML file
-    */
-    public static void setLoader(Function<String, URL> loader) {
+     * Sets the scene loader function, which converts a scene name into a
+     * {@link URL}.
+     *
+     * @param loader a {@code Function<String, URL>} that returns the
+     *               {@link URL} of the scene's FXML file
+     */
+    public static void setLoader(final Function<String, URL> loader) {
         SceneCore.loader = loader;
     }
 
@@ -33,27 +40,28 @@ public class SceneCore {
      *
      * @param stage the main {@link Stage} for the application
      */
-    public static void setStage(Stage stage) {
+    public static void setStage(final Stage stage) {
         SceneCore.stage = stage;
     }
 
     /**
      * Retrieves the {@link URL} for the scene based on its name.
      *
-     * @param name the name of the scene
-     * @return the {@link URL} of the FXML file for the scene
+     * @param  name the name of the scene
+     * @return      the {@link URL} of the FXML file for the scene
      */
-    public static URL getSceneUrl(String name) {
+    public static URL getSceneUrl(final String name) {
         return loader.apply(name);
     }
 
     /**
      * Loads a {@link Scene} from the specified {@link URL}.
      *
-     * @param location the {@link URL} of the FXML file
-     * @return the loaded {@link Scene}, or {@code null} if an exception occurs
+     * @param  location the {@link URL} of the FXML file
+     * @return          the loaded {@link Scene}, or {@code null} if an
+     *                  exception occurs.
      */
-    public static Scene getScene(URL location) {
+    public static Scene getScene(final URL location) {
         try {
             return new Scene(FXMLLoader.load(location));
         } catch (Exception e) {
@@ -62,11 +70,12 @@ public class SceneCore {
     }
 
     /**
-     * Sets the {@link Scene} of the primary {@link Stage} based on the scene name.
+     * Sets the {@link Scene} of the primary {@link Stage} based on the scene
+     * name.
      *
      * @param name the name of the scene to set
      */
-    public static void setScene(String name) {
+    public static void setScene(final String name) {
         stage.setScene(getScene(getSceneUrl(name)));
     }
 
@@ -80,9 +89,10 @@ public class SceneCore {
     /**
      * Sets whether the primary {@link Stage} is resizable.
      *
-     * @param resizable {@code true} to allow resizing, {@code false} to disable resizing
+     * @param resizable {@code true} to allow resizing, {@code false} to disable
+     *                  resizing.
      */
-    public static void setResizable(boolean resizable) {
+    public static void setResizable(final boolean resizable) {
         stage.setResizable(resizable);
     }
 
@@ -109,7 +119,7 @@ public class SceneCore {
      *
      * @param title the title to set
      */
-    public static void setStageTitle(String title) {
+    public static void setStageTitle(final String title) {
         stage.setTitle(title);
     }
 }
