@@ -13,11 +13,11 @@ import org.junit.jupiter.api.Test;
 
 public class UserStoreTest {
     private Map<String, UUID> nameToId = new HashMap<>();
-    private Map<UUID, User> idToUser = new HashMap<>();
+    private Map<UUID, RestUser> idToUser = new HashMap<>();
 
-    private User user1 = new User("user1", "passwd");
-    private User user2 = new User("user2", "passwd");
-    private User user3 = new User("user3", "passwd");
+    private RestUser user1 = new RestUser("user1", "passwd");
+    private RestUser user2 = new RestUser("user2", "passwd");
+    private RestUser user3 = new RestUser("user3", "passwd");
 
     @BeforeEach
     public void setup() {

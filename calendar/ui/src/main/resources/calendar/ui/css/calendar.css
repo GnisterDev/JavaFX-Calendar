@@ -197,6 +197,7 @@
 .color-circle:hover {
     -fx-cursor: hand;
 }
+
 /* Header */
 .header-month {
     -fx-font-size: 24px;
@@ -223,12 +224,6 @@
 
 .header-left-arrow {
     -fx-rotate: 180;
-}
-
-.date-picker .arrow-button {
-    -fx-opacity: 0;
-    -fx-cursor: default;
-    -fx-padding: 0;
 }
 
 .header {
@@ -370,7 +365,8 @@
 }
 
 .scroll-pane .scroll-bar:vertical {
-    -fx-background-insets: 0 0 0 0; /* Make sure the scrollbar fills the left side */
+    /* Make sure the scrollbar fills the left side */
+    -fx-background-insets: 0 0 0 0;
 }
 
 .scroll-pane {
@@ -397,7 +393,8 @@
 
 /* Position the scrollbar to the left */
 .scroll-pane .viewport {
-    -fx-padding: 0 0 0 12; /* Add padding to the right for the scrollbar */
+    /* Add padding to the right for the scrollbar */
+    -fx-padding: 0 0 0 12;
     -fx-background-color: transparent;
 }
 
@@ -413,3 +410,28 @@
     -fx-border-color: transparent transparent -fx-light-grey-color transparent;
     -fx-border-width: 0 0 5px 0;
 }
+
+/* Choice box */
+.dropdown .context-menu {
+    -fx-background-color: -fx-primary-color;
+}
+
+.dropdown .menu-item:focused {
+    -fx-background-color: -fx-secondary-color;
+}
+
+.dropdown .menu-item > .label {
+    -fx-text-fill: white;
+}
+
+.dropdown > .label {
+    -fx-text-fill: white;
+}
+
+.dropdown {
+    -fx-background-color: -fx-primary-color;
+    -fx-mark-color: white;
+}
+
+.dropdown :hover {
+    -fx-cursor: hand;

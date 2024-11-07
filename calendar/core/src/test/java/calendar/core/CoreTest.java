@@ -12,12 +12,12 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import calendar.types.User;
+import calendar.types.RestUser;
 import calendar.types.UserStore;
 
 public class CoreTest {
-    private User user1 = new User("user1", "password1");
-    private User user2 = new User("user2", "password2");
+    private RestUser user1 = new RestUser("user1", "password1");
+    private RestUser user2 = new RestUser("user2", "password2");
 
     @BeforeEach
     public void initialize() {
@@ -47,7 +47,8 @@ public class CoreTest {
 
     @Test
     public void testLogin() {
-        assertThrows(NoSuchElementException.class, () -> Core.logInAsUser("user3"));
+        assertThrows(NoSuchElementException.class,
+                     () -> Core.logInAsUser("user3"));
 
         Core.logInAsUser("user1");
         Optional<CalendarApp> calApp = Core.getCalendarApp();

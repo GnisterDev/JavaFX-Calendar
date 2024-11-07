@@ -9,18 +9,16 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 /**
- * The {@code App} class serves as the main entry
- * point for the JavaFX application.
- * It extends the {@link Application} class, initializing
- * the core components and setting up the primary stage.
- * The application starts by loading the login scene and
- * performs cleanup when the application is stopped.
+ * The {@code App} class serves as the main entry point for the JavaFX
+ * application. It extends the {@link Application} class, initializing the core
+ * components and setting up the primary stage. The application starts by
+ * loading the login scene and performs cleanup when the application is stopped.
  */
 public class App extends Application {
 
     /**
-     * The main method that launches the JavaFX application.
-     * This method serves as the entry point to the application.
+     * The main method that launches the JavaFX application. This method serves
+     * as the entry point to the application.
      *
      * @param args command-line arguments (not used in this application)
      */
@@ -29,12 +27,12 @@ public class App extends Application {
     }
 
     /**
-     * This method is called when the JavaFX application is started.
-     * It initializes the core logic of the application, sets up the
-     * primary stage, and loads the initial scene.
+     * This method is called when the JavaFX application is started. It
+     * initializes the core logic of the application, sets up the primary stage,
+     * and loads the initial scene.
      *
-     * @param primaryStage the primary stage for the JavaFX application
-     * @throws IOException if there is an issue loading resources or scenes
+     * @param  primaryStage the primary stage for the JavaFX application
+     * @throws IOException  if there is an issue loading resources or scenes
      */
     @Override
     public void start(final Stage primaryStage) throws IOException {
@@ -49,9 +47,9 @@ public class App extends Application {
     }
 
     /**
-     * This method is called when the JavaFX application is about to stop.
-     * It ensures that the core logic (e.g., persistence) is properly
-     * cleaned up before exiting.
+     * This method is called when the JavaFX application is about to stop. It
+     * ensures that the core logic (e.g., persistence) is properly cleaned up
+     * before exiting.
      */
     @Override
     public void stop() {

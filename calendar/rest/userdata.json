@@ -1,0 +1,23 @@
+{
+  "usernameToUserId" : {
+    "1" : "ffffffff-ffff-ffff-ffff-ffffffffffff"
+  },
+  "userIdToUser" : {
+    "ffffffff-ffff-ffff-ffff-ffffffffffff" : {
+      "userId" : "ffffffff-ffff-ffff-ffff-ffffffffffff",
+      "username" : "1",
+      "password" : "1",
+      "calendars" : [ {
+        "name" : null,
+        "events" : [ ],
+        "calendarId" : "ffffffff-ffff-ffff-ffff-ffffffffffff"
+      }],
+      "settings" : {
+        "userId" : "ffffffff-ffff-ffff-ffff-ffffffffffff",
+        "timezone" : "Europe/Oslo",
+        "militaryTime" : true,
+        "showWeekNr" : false
+      }
+    }
+  }
+}
