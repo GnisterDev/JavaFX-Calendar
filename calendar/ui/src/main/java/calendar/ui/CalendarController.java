@@ -26,6 +26,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
@@ -42,6 +43,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import calendar.types.Calendar;
 import calendar.types.Event;
@@ -238,7 +241,7 @@ public class CalendarController {
     }
 
     @FXML
-    private void timeSelectKey(final KeyEvent event) {
+    protected void timeSelectKey(final KeyEvent event) {
         final int activeLength = 2;
         final int defaultLength = 5;
 
@@ -270,7 +273,7 @@ public class CalendarController {
         field.setText("");
     }
 
-    private void timeSelectLoseFocus(final TextField field) {
+    protected void timeSelectLoseFocus(final TextField field) {
         if (field.getText().matches("^\\d{2}:\\d{2}$"))
             return;
         field.setText(field.getText().matches("^\\d$")
@@ -278,7 +281,7 @@ public class CalendarController {
                 : "");
     }
 
-    private void loseFocus(final Node root) {
+    protected void loseFocus(final Node root) {
         root.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
             Node focusedNode = root.getScene().getFocusOwner();
 
@@ -293,7 +296,7 @@ public class CalendarController {
         });
     }
 
-    private void datePicker(final DatePicker datePicker) {
+    protected void datePicker(final DatePicker datePicker) {
         datePicker.focusedProperty()
                 .addListener((obs, wasFocused, isNowFocused) -> {
                     if (isNowFocused)
@@ -333,7 +336,7 @@ public class CalendarController {
         List<Calendar> cals = RestHelper.getUser().map(user -> user.getCalendars()).orElse(new ArrayList<>()).stream()
                 .filter(cal -> !known_cals.contains(cal.getCalendarId())).toList();
         calendarSelect.getItems().addAll(cals);
-        
+
         calendarName.setText("");
         update();
     }
@@ -585,7 +588,7 @@ public class CalendarController {
             stage.initModality(Modality.APPLICATION_MODAL);
 
             controller.setStage(stage);
-            controller.initialize(event, calendarApp, this);
+            controller.initialize(event, this);
 
             stage.show();
 

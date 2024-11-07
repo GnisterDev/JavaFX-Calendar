@@ -283,6 +283,10 @@ public class RestAPI {
                     description.orElse(event.get().getDescription()), startTime.orElse(event.get().getStartTime()),
                     endTime.orElse(event.get().getEndTime()), type.orElse(event.get().getType()),
                     color.orElse(event.get().getColor()), event.get().getId());
+
+            calendar.get().removeEvent(event.get());
+            calendar.get().addEvent(newEvent);
+
             sendResponse(t, 200, "Event with id: '" + event.get().getId() + "' succesfully edited");
         });
 
