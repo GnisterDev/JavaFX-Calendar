@@ -197,6 +197,7 @@
 .color-circle:hover {
     -fx-cursor: hand;
 }
+
 /* Header */
 .header-month {
 }
@@ -222,12 +223,6 @@
 
 .header-left-arrow {
     -fx-rotate: 180;
-}
-
-.date-picker .arrow-button {
-    -fx-opacity: 0;
-    -fx-cursor: default;
-    -fx-padding: 0;
 }
 
 .header {
@@ -261,22 +256,6 @@
 /* Calendar */
 .calendar-grid Line {
     -fx-stroke: #ea454d83;
-}
-
-/* Date Indicator */
-.calendar-date {
-}
-
-.calendar-date-today {
-}
-
-.calendar-date-number {
-}
-
-.calendar-date-circle {
-}
-
-.calendar-date-day {
 }
 
 .calendar-date .calendar-date-circle {
