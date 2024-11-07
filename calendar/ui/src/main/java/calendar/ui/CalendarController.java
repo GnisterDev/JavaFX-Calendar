@@ -8,6 +8,7 @@ import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -193,7 +194,6 @@ public class CalendarController {
             if (calendarSelect.getValue() == null)
                 return;
             RestHelper.setCaledarId(calendarSelect.getValue().getCalendarId());
-            System.out.println(calendarSelect.getValue().getName());
             update();
         });
         calendarSelect.getItems()
@@ -327,6 +327,13 @@ public class CalendarController {
     private void addNewCalendar() {
         RestHelper.addCalendar(Optional.of(calendarName.getText()))
                 .consumeError(calendarErrorLabel::setText);
+
+        List<UUID> known_cals = calendarSelect.getItems().stream().map(cal -> cal.getCalendarId()).toList();
+        List<Calendar> cals = RestHelper.getUser().map(user -> user.getCalendars()).orElse(new ArrayList<>()).stream()
+                .filter(cal -> !known_cals.contains(cal.getCalendarId())).toList();
+        calendarSelect.getItems().addAll(cals);
+        
+        calendarName.setText("");
         update();
     }
 
