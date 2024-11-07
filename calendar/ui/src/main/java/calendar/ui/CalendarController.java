@@ -1,11 +1,14 @@
 package calendar.ui;
 
+import java.lang.reflect.Array;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.WeekFields;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -22,6 +25,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -46,6 +50,7 @@ import calendar.types.EventType;
  * managing the calendar view. It handles user interactions for navigating
  * between weeks, adding events, and displaying events within a weekly grid.
  */
+@SuppressWarnings("rawtypes")
 public class CalendarController {
     /** The default classname for the event objects added to the calendar. */
     private static final String DEFAULT_EVENT_CLASS_NAME = "event";
@@ -84,6 +89,10 @@ public class CalendarController {
     /** The text element that displays the currenty viewed year. */
     @FXML
     private Text yearLabel;
+
+    /** A dropdown to choose different calendars. */
+    @FXML
+    private ChoiceBox calendarSelect;
 
     /** The input for the name of a new event. */
     @FXML
@@ -164,6 +173,7 @@ public class CalendarController {
                 .setOnAction(e -> colorCircle.setFill(colorPicker.getValue()));
         colorCircle.setFill(colorPicker.getValue());
 
+        Stream.of(calendarSelect).forEach(this::calendarSelectDropdown);
         Stream.of(rootPane).forEach(this::loseFocus);
         Stream.of(startDateSelect, endDateSelect).forEach(this::datePicker);
         Stream.of(startTimeSelect, endTimeSelect).forEach(l -> l
@@ -191,6 +201,13 @@ public class CalendarController {
             node.setVisible(isVisible);
             node.setManaged(isVisible);
         });
+    }
+
+    @SuppressWarnings("unchecked")
+    private void calendarSelectDropdown(ChoiceBox dropdown) {
+        ArrayList<UUID> temp = new ArrayList<>();
+
+        temp.forEach(uuid -> dropdown.getItems().add(uuid.toString()));
     }
 
     @FXML
