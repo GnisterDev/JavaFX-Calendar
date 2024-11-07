@@ -8,49 +8,63 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The {@code User} class represents a user in the system, with properties such as a unique user ID, 
- * username, password, calendars, and user settings.
- * 
- * <p>Each user is associated with one or more {@link Calendar} objects and has a corresponding {@link UserSettings} object. 
- * Users can be constructed with default values for their user ID, or with specific properties, and can be serialized/deserialized 
- * using the Jackson library through annotations such as {@link JsonCreator} and {@link JsonProperty}.</p>
+ * The {@code User} class represents a user in the system, with properties such
+ * as a unique user ID, username, password, calendars, and user settings.
+ *
+ * <p>
+ * Each user is associated with one or more {@link Calendar} objects and has a
+ * corresponding {@link UserSettings} object. Users can be constructed with
+ * default values for their user ID, or with specific properties, and can be
+ * serialized/deserialized using the Jackson library through annotations such as
+ * {@link JsonCreator} and {@link JsonProperty}.
+ * </p>
  */
 public class User {
+
+    /** The user id of the user. */
     @JsonProperty
     private UUID userId;
 
+    /** The username of the user. */
     @JsonProperty
     private String username;
 
+    /** The password of the user. */
     @JsonProperty
     private String password;
 
+    /** The list of calendars the user has. */
     @JsonProperty
     private List<Calendar> calendars;
 
+    /** The settings the user has. */
     @JsonProperty
     private UserSettings settings;
 
     /**
-     * Constructs a new {@code User} with a randomly generated user ID, a username, and a password.
-     * A new {@link Calendar} is also created and added to the user's list of calendars.
+     * Constructs a new {@code User} with a randomly generated user ID, a
+     * username, and a password. A new {@link Calendar} is also created and
+     * added to the user's list of calendars.
      *
      * @param username the username of the user
      * @param password the password of the user
      */
-    public User(String username, String password) {
+    public User(final String username, final String password) {
         this(UUID.randomUUID(), username, password);
     }
 
     /**
-     * Constructs a new {@code User} with the specified user ID, username, and password.
-     * A new {@link Calendar} associated with the user ID is added to the user's list of calendars.
+     * Constructs a new {@code User} with the specified user ID, username, and
+     * password. A new {@link Calendar} associated with the user ID is added to
+     * the user's list of calendars.
      *
      * @param userId   the unique identifier for the user
      * @param username the username of the user
      * @param password the password of the user
      */
-    public User(UUID userId, String username, String password) {
+    public User(final UUID userId,
+            final String username,
+            final String password) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -62,9 +76,12 @@ public class User {
 
     /**
      * Full constructor for the {@code User} class, used for deserialization.
-     * 
-     * <p>This constructor is annotated with {@link JsonCreator} to allow deserialization from JSON,
-     * using the {@link JsonProperty} annotations to map JSON fields to class properties.</p>
+     *
+     * <p>
+     * This constructor is annotated with {@link JsonCreator} to allow
+     * deserialization from JSON, using the {@link JsonProperty} annotations to
+     * map JSON fields to class properties.
+     * </p>
      *
      * @param userId    the unique identifier for the user
      * @param username  the username of the user
@@ -73,12 +90,11 @@ public class User {
      * @param settings  the settings associated with the user
      */
     @JsonCreator
-    public User(
-            @JsonProperty("userId") UUID userId,
-            @JsonProperty("username") String username,
-            @JsonProperty("password") String password,
-            @JsonProperty("calendars") List<Calendar> calendars,
-            @JsonProperty("settings") UserSettings settings) {
+    public User(@JsonProperty("userId") final UUID userId,
+            @JsonProperty("username") final String username,
+            @JsonProperty("password") final String password,
+            @JsonProperty("calendars") final List<Calendar> calendars,
+            @JsonProperty("settings") final UserSettings settings) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -116,10 +132,11 @@ public class User {
     /**
      * Checks if the provided password matches the user's password.
      *
-     * @param password the password to check
-     * @return {@code true} if the password matches, {@code false} otherwise
+     * @param  password the password to check
+     * @return          {@code true} if the password matches, {@code false}
+     *                  otherwise
      */
-    public boolean checkPassword(String password) {
+    public boolean checkPassword(final String password) {
         return this.password.equals(password);
     }
 
@@ -135,11 +152,12 @@ public class User {
     /**
      * Gets the calendar at the specified index in the user's list of calendars.
      *
-     * @param index the index of the calendar to retrieve
-     * @return the {@link Calendar} at the specified index
+     * @param  index                     the index of the calendar to retrieve
+     * @return                           the {@link Calendar} at the specified
+     *                                   index
      * @throws IndexOutOfBoundsException if the index is out of range
      */
-    public Calendar getCalendar(int index) {
+    public Calendar getCalendar(final int index) {
         return calendars.get(index);
     }
 
@@ -148,17 +166,18 @@ public class User {
      *
      * @param calendar the {@link Calendar} to remove
      */
-    public void removeCalendar(Calendar calendar) {
+    public void removeCalendar(final Calendar calendar) {
         calendars.remove(calendar);
     }
 
     /**
-     * Removes the calendar at the specified index from the user's list of calendars.
+     * Removes the calendar at the specified index from the user's list of
+     * calendars.
      *
-     * @param index the index of the calendar to remove
+     * @param  index                     the index of the calendar to remove
      * @throws IndexOutOfBoundsException if the index is out of range
      */
-    public void removeCalendar(int index) {
+    public void removeCalendar(final int index) {
         calendars.remove(index);
     }
 
@@ -167,7 +186,7 @@ public class User {
      *
      * @param calendar the {@link Calendar} to add
      */
-    public void addCalendar(Calendar calendar) {
+    public void addCalendar(final Calendar calendar) {
         calendars.add(calendar);
     }
 

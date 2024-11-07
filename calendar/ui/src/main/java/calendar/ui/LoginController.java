@@ -10,25 +10,36 @@ import calendar.core.SceneCore;
 import javafx.event.ActionEvent;
 
 /**
- * The {@code LoginController} class is a JavaFX controller responsible for handling user login interactions.
- * It manages the login form, validates user credentials, and switches scenes upon successful login or registration.
+ * The {@code LoginController} class is a JavaFX controller responsible for
+ * handling user login interactions. It manages the login form, validates user
+ * credentials, and switches scenes upon successful login or registration.
  */
 public class LoginController {
 
+    /** The input for the username. */
     @FXML
-    protected TextField usernameField;
+    private TextField usernameField;
 
+    /** The input for the password. */
     @FXML
-    protected PasswordField passwordField;
-
-    @FXML
-    protected Label messageLabel;
-
-    @FXML
-    protected Label signUp;
+    private PasswordField passwordField;
 
     /**
-     * Initializes the controller. Sets up the event handler for the sign-up label, which switches to the "Sign Up" scene when clicked.
+     * The label resposible for displaying if there has been an error in
+     * creating the event.
+     */
+    @FXML
+    private Label messageLabel;
+
+    /**
+     * A node responisble for sending the user to the signUp scene if clicked.
+     */
+    @FXML
+    private Label signUp;
+
+    /**
+     * Initializes the controller. Sets up the event handler for the sign-up
+     * label, which switches to the "Sign Up" scene when clicked.
      */
     @FXML
     public void initialize() {
@@ -38,14 +49,16 @@ public class LoginController {
     }
 
     /**
-     * Handles the login action when the login button is clicked.
-     * It validates the credentials entered in the {@code usernameField} and {@code passwordField}.
-     * If the credentials are correct, it logs the user in and switches to the calendar scene. If not, it displays an error message.
-     * 
+     * Handles the login action when the login button is clicked. It validates
+     * the credentials entered in the {@code usernameField} and
+     * {@code passwordField}. If the credentials are correct, it logs the user
+     * in and switches to the calendar scene. If not, it displays an error
+     * message.
+     *
      * @param event the {@code ActionEvent} triggered by the login button
      */
     @FXML
-    private void handleLogin(ActionEvent event) {
+    private void handleLogin(final ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
