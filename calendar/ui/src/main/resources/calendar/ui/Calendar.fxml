@@ -22,7 +22,6 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import org.controlsfx.control.PrefixSelectionChoiceBox?>
 <?import org.controlsfx.control.ToggleSwitch?>
 
 <BorderPane fx:id="rootPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" scaleZ="2.0" stylesheets="@css/calendar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.CalendarController">
@@ -379,12 +378,7 @@
                   </Label>
                </children>
             </HBox>
-            <PrefixSelectionChoiceBox>
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-            </PrefixSelectionChoiceBox>
-            <ChoiceBox prefWidth="150.0" />
+            <ChoiceBox fx:id="calendarSelect" prefWidth="150.0" />
             <VBox alignment="CENTER">
                <children>
                   <HBox alignment="CENTER">
