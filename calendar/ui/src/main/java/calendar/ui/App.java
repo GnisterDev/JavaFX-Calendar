@@ -40,7 +40,7 @@ public class App extends Application {
 
         SceneCore.setLoader(url -> this.getClass().getResource(url));
         SceneCore.setStage(primaryStage);
-        SceneCore.setResizable(true);
+        SceneCore.setResizable(false);
         SceneCore.setStageTitle("Calendar");
         SceneCore.setScene("Login.fxml");
         SceneCore.showStage();

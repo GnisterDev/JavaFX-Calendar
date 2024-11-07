@@ -52,7 +52,7 @@
                         </HBox>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" depthTest="ENABLE" nodeOrientation="LEFT_TO_RIGHT" prefWidth="200.0" spacing="15.0">
+                  <HBox alignment="CENTER" depthTest="ENABLE" nodeOrientation="LEFT_TO_RIGHT" prefWidth="200.0" spacing="5.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ends" wrappingWidth="30.0" HBox.hgrow="ALWAYS" />
                         <HBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="137.0" spacing="5.0" HBox.hgrow="ALWAYS">

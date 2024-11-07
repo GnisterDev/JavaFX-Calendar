@@ -200,6 +200,7 @@
 
 /* Header */
 .header-month {
+    -fx-font-size: 24px;
 }
 
 .header-year {
@@ -233,13 +234,14 @@
 /* Buttons */
 .button-default {
     -fx-text-fill: white;
-    -fx-background-color: #ea454c;
+    -fx-background-color: -fx-primary-color;
     -fx-background-radius: 8;
 }
 
 .button-default:hover,
 .button-default:focused {
-    -fx-background-color: #a11037;
+    -fx-background-color: -fx-secondary-color;
+    -fx-cursor: hand;
 }
 
 .button-cancel {
@@ -251,6 +253,7 @@
 .button-cancel:hover,
 .button-cancel:focused {
     -fx-background-color: #323232;
+    -fx-cursor: hand;
 }
 
 /* Calendar */
@@ -258,8 +261,9 @@
     -fx-stroke: #ea454d83;
 }
 
+/* Date Indicator */
 .calendar-date .calendar-date-circle {
-    -fx-fill: #ea454c;
+    -fx-fill: -fx-primary-color;
     -fx-opacity: 0;
 }
 
@@ -272,6 +276,21 @@
 }
 
 /* Date picker */
+.inputdate .arrow-button {
+	-fx-background-color: -fx-primary-color;
+	-fx-background-radius: 0;
+    -fx-padding: 4px;
+}
+
+.inputdate .arrow-button:hover {
+	-fx-background-color: -fx-secondary-color;
+    -fx-cursor: hand;
+}
+
+.inputdate .arrow-button .arrow {
+	-fx-background-color: white;
+}
+
 .inputdate {
     -fx-faint-focus-color: transparent;
     -fx-focus-color: -fx-primary-color;
@@ -308,10 +327,12 @@
 .date-picker-popup .spinner .button .right-arrow {
     -fx-background-color: white;
 }
+
 .date-picker-popup .spinner .button:hover {
     -fx-background-color: -fx-secondary-color;
     -fx-cursor: hand;
 }
+
 .date-picker-popup .spinner .button {
     -fx-background-color: -fx-primary-color;
 }
@@ -331,6 +352,10 @@
 .toggle-button {
     -fx-background-color: transparent;
     -fx-padding: 3 0 3 0;
+}
+
+.toggle-button:hover .thumb-area {
+    -fx-cursor: hand;
 }
 
 /* Color circle */

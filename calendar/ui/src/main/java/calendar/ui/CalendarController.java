@@ -21,10 +21,12 @@ import calendar.core.RestHelper;
 import calendar.core.SceneCore;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
@@ -41,11 +43,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import calendar.types.Calendar;
 import calendar.types.Event;
 import calendar.types.EventType;
-import calendar.types.User;
 
 /**
  * The {@code CalendarController} class is a JavaFX controller responsible for
@@ -237,7 +240,7 @@ public class CalendarController {
     }
 
     @FXML
-    private void timeSelectKey(final KeyEvent event) {
+    protected void timeSelectKey(final KeyEvent event) {
         final int activeLength = 2;
         final int defaultLength = 5;
 
@@ -269,7 +272,7 @@ public class CalendarController {
         field.setText("");
     }
 
-    private void timeSelectLoseFocus(final TextField field) {
+    protected void timeSelectLoseFocus(final TextField field) {
         if (field.getText().matches("^\\d{2}:\\d{2}$"))
             return;
         field.setText(field.getText().matches("^\\d$")
@@ -277,7 +280,7 @@ public class CalendarController {
                 : "");
     }
 
-    private void loseFocus(final Node root) {
+    protected void loseFocus(final Node root) {
         root.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
             Node focusedNode = root.getScene().getFocusOwner();
 
@@ -292,7 +295,7 @@ public class CalendarController {
         });
     }
 
-    private void datePicker(final DatePicker datePicker) {
+    protected void datePicker(final DatePicker datePicker) {
         datePicker.focusedProperty()
                 .addListener((obs, wasFocused, isNowFocused) -> {
                     if (isNowFocused)
@@ -332,7 +335,7 @@ public class CalendarController {
         List<Calendar> cals = RestHelper.getUser().map(user -> user.getCalendars()).orElse(new ArrayList<>()).stream()
                 .filter(cal -> !known_cals.contains(cal.getCalendarId())).toList();
         calendarSelect.getItems().addAll(cals);
-        
+
         calendarName.setText("");
         update();
     }
@@ -410,7 +413,7 @@ public class CalendarController {
                 .contains(DEFAULT_EVENT_CLASS_NAME));
     }
 
-    private void update() {
+    protected void update() {
         errorLabel.setText("");
         clearCalendar();
         updateDates();
@@ -499,6 +502,10 @@ public class CalendarController {
                 + " ;");
         eventBox.getChildren().add(new Label(event.getTitle()));
         eventBox.setAlignment(Pos.TOP_CENTER);
+        eventBox.setOnMouseClicked(mouseEvent -> {
+            popUpForm(event, event.getTitle(), event.getStartTime().toLocalDate(), event.getEndTime().toLocalDate(),
+                    event.getStartTime().getHour(), event.getEndTime().getHour()).show();
+        });
 
         switch (event.getType()) {
             case EventType.REGULAR -> GridPane.setRowSpan(eventBox, length);
@@ -558,4 +565,37 @@ public class CalendarController {
         colorPicker.setValue(Color.web(DEFAULT_EVENT_COLOR));
         colorCircle.setFill(colorPicker.getValue());
     }
+
+    // create a popup form for editing
+
+    public Stage popUpForm(Event event, String eventName, LocalDate startDate, LocalDate endDate, int startTime,
+            int endTime) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Popup_form.fxml"));
+            VBox vbox = loader.load();
+            // vbox.setId("rootVBox");
+
+            // Get the controller and initialize it with necessary data
+            PopupController controller = loader.getController();
+
+            Stage stage = new Stage();
+            stage.setWidth(250);
+            stage.setHeight(400);
+            stage.setX(50);
+            stage.setY(10);
+            stage.setScene(new Scene(vbox));
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            controller.setStage(stage);
+            controller.initialize(event, this);
+
+            stage.show();
+
+            return stage;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

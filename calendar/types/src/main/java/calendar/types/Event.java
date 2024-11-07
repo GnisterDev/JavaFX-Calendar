@@ -195,6 +195,10 @@ public class Event {
         return title;
     }
 
+    public void setTitle(String newTitle) {
+        this.title = newTitle;
+    }
+
     /**
      * Gets the description of the event.
      *
@@ -214,6 +218,10 @@ public class Event {
         return startTime;
     }
 
+    public void setStartTime(LocalDateTime newStarTime) {
+        this.startTime = newStarTime;
+    }
+
     /**
      * Gets the end time of the event.
      *
@@ -221,6 +229,10 @@ public class Event {
      */
     public LocalDateTime getEndTime() {
         return endTime;
+    }
+
+    public void setEndTime(LocalDateTime newEndTime) {
+        this.endTime = newEndTime;
     }
 
     /**
