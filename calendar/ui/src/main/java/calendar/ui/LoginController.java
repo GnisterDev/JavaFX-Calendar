@@ -4,8 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import calendar.core.Core;
-import calendar.core.Error;
+import calendar.core.RestHelper;
 import calendar.core.SceneCore;
 import javafx.event.ActionEvent;
 
@@ -49,25 +48,20 @@ public class LoginController {
     }
 
     /**
-     * Handles the login action when the login button is clicked. It validates
-     * the credentials entered in the {@code usernameField} and
-     * {@code passwordField}. If the credentials are correct, it logs the user
-     * in and switches to the calendar scene. If not, it displays an error
-     * message.
-     *
+     * Handles the login action when the login button is clicked.
+     * It validates the credentials entered in the {@code usernameField} and
+     * {@code passwordField}.
+     * If the credentials are correct, it logs the user in and switches to the
+     * calendar scene. If not, it displays an error message.
+     * 
      * @param event the {@code ActionEvent} triggered by the login button
      */
     @FXML
-    private void handleLogin(final ActionEvent event) {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
+    private void handleLogin(ActionEvent event) {
+        RestHelper.setCredentials(usernameField.getText(), usernameField.getText());
 
-        if (!Core.correctCredentials(username, password)) {
-            messageLabel.setText(Error.LOGIN_USERNAME_OR_PASSWORD_INCORRECT);
-            return;
-        }
+        RestHelper.getUser().consumeError(messageLabel::setText)
+                .runIfSuccess(() -> SceneCore.setScene("Calendar.fxml"));
 
-        Core.logInAsUser(username);
-        SceneCore.setScene("Calendar.fxml");
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import calendar.types.Event;
-import calendar.types.User;
+import calendar.types.RestUser;
 
 public class CalendarAppTest {
     private Event event1 = new Event("event1",
@@ -27,7 +27,7 @@ public class CalendarAppTest {
 
     @Test
     public void testContructor() {
-        User user = new User("username", "password");
+        RestUser user = new RestUser("username", "password");
         CalendarApp calApp = new CalendarApp(user);
 
         assertEquals(user, calApp.user);
@@ -35,7 +35,7 @@ public class CalendarAppTest {
 
     @Test
     public void testModifyEvents() {
-        User user = new User("username", "password");
+        RestUser user = new RestUser("username", "password");
         CalendarApp calApp = new CalendarApp(user);
 
         assertTrue(user.getCalendar(0).getEvents().isEmpty());
@@ -77,7 +77,7 @@ public class CalendarAppTest {
 
     @Test
     public void testEventsBetween() {
-        User user = new User("username", "password");
+        RestUser user = new RestUser("username", "password");
         CalendarApp calApp = new CalendarApp(user);
         calApp.addEvent(event1);
         calApp.addEvent(event2);
