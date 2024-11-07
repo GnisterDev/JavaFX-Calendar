@@ -378,7 +378,7 @@
                   </Label>
                </children>
             </HBox>
-            <ChoiceBox fx:id="calendarSelect" prefWidth="150.0" />
+            <ChoiceBox fx:id="calendarSelect" prefWidth="150.0" styleClass="dropdown" />
             <VBox alignment="CENTER">
                <children>
                   <HBox alignment="CENTER">
