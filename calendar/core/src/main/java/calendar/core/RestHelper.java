@@ -149,7 +149,7 @@ public class RestHelper {
             return Result.error("Calendar ID is not set");
 
         Builder requestBuilder = HttpRequest.newBuilder()
-                .uri(URI.create(serverAddress + "/calendar" + calendarId.toString()))
+                .uri(URI.create(serverAddress + "/calendar/" + calendarId.toString()))
                 .GET()
                 .header("username", username)
                 .header("password", password);
