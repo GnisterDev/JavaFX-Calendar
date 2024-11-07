@@ -1,5 +1,7 @@
 package calendar.ui;
 
+import java.util.Optional;
+
 import calendar.core.RestHelper;
 import calendar.core.SceneCore;
 import javafx.fxml.FXML;
@@ -63,6 +65,10 @@ public class SignUpController {
     private void handleLogin() {
         RestHelper.setCredentials(usernameField.getText(), passwordField.getText());
         RestHelper.addUser().consumeError(messageLabel::setText)
-                .runIfSuccess(() -> SceneCore.setScene("Calendar.fxml"));
+                .runIfSuccess(() -> {
+                    SceneCore.setScene("Calendar.fxml");
+
+                    RestHelper.addCalendar(Optional.of("Default")); // Temp
+                });
     }
 }

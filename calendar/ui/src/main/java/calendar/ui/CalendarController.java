@@ -40,9 +40,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.util.StringConverter;
 import calendar.types.Calendar;
 import calendar.types.Event;
 import calendar.types.EventType;
+import calendar.types.User;
 
 /**
  * The {@code CalendarController} class is a JavaFX controller responsible for
@@ -59,6 +61,8 @@ public class CalendarController {
 
     /** The default color of the color picker. */
     private static final String DEFAULT_EVENT_COLOR = "#EA454C";
+
+    private User user;
 
     /**
      * A localdate to keep track of which week the user currently has displayed.
@@ -87,7 +91,7 @@ public class CalendarController {
 
     /** A dropdown to choose different calendars. */
     @FXML
-    private ChoiceBox calendarSelect;
+    private ChoiceBox<Calendar> calendarSelect;
 
     /** The input for the name of a new event. */
     @FXML
@@ -167,7 +171,22 @@ public class CalendarController {
                 .setOnAction(e -> colorCircle.setFill(colorPicker.getValue()));
         colorCircle.setFill(colorPicker.getValue());
 
-        Stream.of(calendarSelect).forEach(this::calendarSelectDropdown);
+        calendarSelect.setConverter(new StringConverter<Calendar>() {
+            public String toString(Calendar cal) {
+                return cal.getName();
+            };
+
+            public Calendar fromString(String str) {
+                return user.getCalendars().stream()
+                        .filter(cal -> cal.getName().equals(str)).findFirst().orElse(null);
+            };
+        });
+        calendarSelect.setOnHidden((javafx.event.Event e) -> {
+            if (calendarSelect.getValue() == null)
+                return;
+            RestHelper.setCaledarId(calendarSelect.getValue().getCalendarId());
+        });
+
         Stream.of(rootPane).forEach(this::loseFocus);
         Stream.of(startDateSelect, endDateSelect).forEach(this::datePicker);
         Stream.of(startTimeSelect, endTimeSelect).forEach(l -> l
@@ -196,13 +215,6 @@ public class CalendarController {
             node.setVisible(isVisible);
             node.setManaged(isVisible);
         });
-    }
-
-    @SuppressWarnings("unchecked")
-    private void calendarSelectDropdown(ChoiceBox dropdown) {
-        List<Calendar> calendars = RestHelper.getUser().map(user -> user.getCalendars()).orElse(new ArrayList<>());
-
-        calendars.forEach(cal -> dropdown.getItems().add(cal.getName()));
     }
 
     @FXML
@@ -368,12 +380,25 @@ public class CalendarController {
                 .contains(DEFAULT_EVENT_CLASS_NAME));
         allDayGrid.getChildren().removeIf(node -> node.getStyleClass()
                 .contains(DEFAULT_EVENT_CLASS_NAME));
+        calendarSelect.getItems().removeAll(calendarSelect.getItems());
     }
 
     private void update() {
         errorLabel.setText("");
         clearCalendar();
         updateDates();
+
+        user = RestHelper.getUser().orElseThrow(err -> {
+            throw new IllegalStateException("Error fetching user");
+        });
+        System.out.println(user.getCalendars());
+
+        calendarSelect.getItems()
+                .addAll(RestHelper.getUser().map(user -> user.getCalendars()).orElse(new ArrayList<>()));
+        if (calendarSelect.getValue() == null)
+            calendarSelect.setValue(calendarSelect.getItems().stream().findFirst().orElse(null));
+        if (calendarSelect.getValue() != null)
+            RestHelper.setCaledarId(calendarSelect.getValue().getCalendarId());
 
         LocalDateTime startTime = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN);
         LocalDateTime endTime = LocalDateTime.of(weekDate.with(DayOfWeek.SUNDAY), LocalTime.MAX);
