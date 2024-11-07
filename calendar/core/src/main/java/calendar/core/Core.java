@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import calendar.persistence.Persistence;
-import calendar.types.User;
+import calendar.types.RestUser;
 import calendar.types.UserStore;
 
 /**
@@ -136,7 +136,7 @@ public final class Core {
             return Optional.of(Error.SIGNUP_PASSWORD_IS_EMPTY);
         if (password.length() < MIN_PASSWORD_LENGTH)
             return Optional.of(Error.SIGNUP_PASSWORD_TOO_SHORT);
-        userStore.addUser(new User(username, password));
+        userStore.addUser(new RestUser(username, password));
         return Optional.empty();
     }
 }

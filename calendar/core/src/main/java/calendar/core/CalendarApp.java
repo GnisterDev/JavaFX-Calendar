@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import calendar.types.RestCalendar;
 import calendar.types.Event;
+import calendar.types.RestUser;
 import calendar.types.EventType;
-import calendar.types.User;
 import javafx.scene.paint.Color;
 
 /**
@@ -35,15 +36,16 @@ public class CalendarApp {
     public static final int MAX_EVENT_LENGTH_IN_DAYS = 7;
 
     /** The user currently. */
-    protected User user;
+    protected RestUser user;
 
     /**
      * Constructs a {@code CalendarApp} for the specified user.
      *
      * @param user the user whose calendar is being managed by this application
      */
-    public CalendarApp(final User user) {
+    public CalendarApp(final RestUser user) {
         this.user = user;
+        this.user.addCalendar(new RestCalendar());
     }
 
     /**
