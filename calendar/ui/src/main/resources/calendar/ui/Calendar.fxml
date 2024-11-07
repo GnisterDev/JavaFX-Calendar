@@ -26,7 +26,7 @@
 
 <BorderPane fx:id="rootPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" scaleZ="2.0" stylesheets="@css/calendar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calendar.ui.CalendarController">
    <right>
-      <Pane BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
          <children>
             <VBox alignment="CENTER_LEFT" maxWidth="400.0" minWidth="-Infinity" prefWidth="250.0" spacing="10.0">
                <children>
@@ -78,15 +78,26 @@
                      </children>
                   </HBox>
                </children>
-               <padding>
-                  <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
-               </padding>
             </VBox>
+            <HBox alignment="BOTTOM_CENTER" VBox.vgrow="ALWAYS">
+               <children>
+                  <TextField fx:id="calendarName" promptText="New Calendar Name" styleClass="input-text" HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" onAction="#addNewCalendar" styleClass="button-cancel" text="Add Calendar" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <Label fx:id="calendarErrorLabel" />
          </children>
          <opaqueInsets>
             <Insets right="40.0" top="20.0" />
          </opaqueInsets>
-      </Pane>
+         <padding>
+            <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
+         </padding>
+      </VBox>
    </right>
    <center>
       <VBox BorderPane.alignment="CENTER">
