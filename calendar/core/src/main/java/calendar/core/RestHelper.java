@@ -183,7 +183,7 @@ public class RestHelper {
         startTime.map(start -> requestBuilder.header("start", start.toString()));
         endTime.map(end -> requestBuilder.header("end", end.toString()));
         color.map(c -> requestBuilder.header("color", c.toString()));
-        type.map(t -> requestBuilder.header("color", t.toString()));
+        type.map(t -> requestBuilder.header("type", t.toString()));
 
         return fetch(requestBuilder.build()).toVoidResult();
     }
