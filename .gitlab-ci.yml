@@ -1,20 +1,16 @@
-# .gitlab-ci.yml
 stages:
   - build
   - test
 
-# Specify the base image with Maven and JDK installed
 image: maven:3.8.1-jdk-11
 
-# Cache Maven dependencies to speed up the builds
 cache:
   paths:
     - .m2/repository
 
 variables:
-  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode --errors --fail-at-end" # optional
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode --errors --fail-at-end -X" # Adding -X for verbose output
 
-# Build stage
 build:
   stage: build
   script:
@@ -24,11 +20,10 @@ build:
     paths:
       - target/*.jar
 
-# Test stage
 test:
   stage: test
   script:
-    - echo "Running tests..."
+    - echo "Running tests with verbose logging..."
     - mvn $MAVEN_CLI_OPTS test
   artifacts:
     when: always
