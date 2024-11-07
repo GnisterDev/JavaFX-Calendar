@@ -1,6 +1,5 @@
 package calendar.types;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,47 +30,17 @@ public class User {
 
     /** The password of the user. */
     @JsonProperty
-    private String password;
-
-    /** The list of calendars the user has. */
-    @JsonProperty
     private List<Calendar> calendars;
 
     /** The settings the user has. */
     @JsonProperty
     private UserSettings settings;
 
-    /**
-     * Constructs a new {@code User} with a randomly generated user ID, a
-     * username, and a password. A new {@link Calendar} is also created and
-     * added to the user's list of calendars.
-     *
-     * @param username the username of the user
-     * @param password the password of the user
-     */
-    public User(final String username, final String password) {
-        this(UUID.randomUUID(), username, password);
-    }
-
-    /**
-     * Constructs a new {@code User} with the specified user ID, username, and
-     * password. A new {@link Calendar} associated with the user ID is added to
-     * the user's list of calendars.
-     *
-     * @param userId   the unique identifier for the user
-     * @param username the username of the user
-     * @param password the password of the user
-     */
-    public User(final UUID userId,
-            final String username,
-            final String password) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-        this.calendars = new ArrayList<>();
-        this.settings = new UserSettings(userId);
-
-        this.addCalendar(new Calendar(userId));
+    public User(RestUser user) {
+        this.userId = user.getUserId();
+        this.username = user.getUsername();
+        this.calendars = user.getCalendars().stream().map(c -> new Calendar(c)).toList();
+        this.settings = user.getSettings();
     }
 
     /**
@@ -90,15 +59,11 @@ public class User {
      * @param settings  the settings associated with the user
      */
     @JsonCreator
-    public User(@JsonProperty("userId") final UUID userId,
-            @JsonProperty("username") final String username,
-            @JsonProperty("password") final String password,
-            @JsonProperty("calendars") final List<Calendar> calendars,
-            @JsonProperty("settings") final UserSettings settings) {
+    public User(@JsonProperty("userId") UUID userId, @JsonProperty("username") String username,
+            @JsonProperty("calendars") List<Calendar> calendars, @JsonProperty("settings") UserSettings settings) {
         this.userId = userId;
         this.username = username;
-        this.password = password;
-        this.calendars = new ArrayList<>(calendars);
+        this.calendars = calendars;
         this.settings = settings;
     }
 
@@ -120,82 +85,11 @@ public class User {
         return username;
     }
 
-    /**
-     * Gets the settings associated with the user.
-     *
-     * @return the {@link UserSettings} object associated with the user
-     */
+    public List<Calendar> getCalendars() {
+        return calendars;
+    }
+
     public UserSettings getSettings() {
         return settings;
-    }
-
-    /**
-     * Checks if the provided password matches the user's password.
-     *
-     * @param  password the password to check
-     * @return          {@code true} if the password matches, {@code false}
-     *                  otherwise
-     */
-    public boolean checkPassword(final String password) {
-        return this.password.equals(password);
-    }
-
-    /**
-     * Gets a copy of the list of calendars associated with the user.
-     *
-     * @return a new {@link ArrayList} containing the user's calendars
-     */
-    public List<Calendar> getCalendars() {
-        return new ArrayList<>(calendars);
-    }
-
-    /**
-     * Gets the calendar at the specified index in the user's list of calendars.
-     *
-     * @param  index                     the index of the calendar to retrieve
-     * @return                           the {@link Calendar} at the specified
-     *                                   index
-     * @throws IndexOutOfBoundsException if the index is out of range
-     */
-    public Calendar getCalendar(final int index) {
-        return calendars.get(index);
-    }
-
-    /**
-     * Removes the specified calendar from the user's list of calendars.
-     *
-     * @param calendar the {@link Calendar} to remove
-     */
-    public void removeCalendar(final Calendar calendar) {
-        calendars.remove(calendar);
-    }
-
-    /**
-     * Removes the calendar at the specified index from the user's list of
-     * calendars.
-     *
-     * @param  index                     the index of the calendar to remove
-     * @throws IndexOutOfBoundsException if the index is out of range
-     */
-    public void removeCalendar(final int index) {
-        calendars.remove(index);
-    }
-
-    /**
-     * Adds a new calendar to the user's list of calendars.
-     *
-     * @param calendar the {@link Calendar} to add
-     */
-    public void addCalendar(final Calendar calendar) {
-        calendars.add(calendar);
-    }
-
-    /**
-     * Gets the number of calendars associated with the user.
-     *
-     * @return the number of calendars
-     */
-    public int calendarCount() {
-        return calendars.size();
     }
 }

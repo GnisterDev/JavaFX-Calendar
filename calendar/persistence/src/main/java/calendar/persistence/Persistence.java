@@ -1,9 +1,13 @@
 package calendar.persistence;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -60,8 +64,11 @@ public final class Persistence {
      *                     the object will be written
      * @throws IOException if there is an error writing to the file
      */
-    public static <T> void write(final T object, final String filepath)
-            throws IOException {
+    public static <T> void write(T object, String filepath) throws IOException {
+        Files.writeString(Path.of(filepath), toJSON(object));
+    }
+
+    public static <T> String toJSON(T object) throws IOException {
         SimpleModule module = new SimpleModule();
         module.addSerializer(Color.class, new ColorSerializer());
 
@@ -70,9 +77,9 @@ public final class Persistence {
         mapper.registerModule(module);
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        FileOutputStream fileOutputStream = new FileOutputStream(filepath);
-        mapper.writeValue(fileOutputStream, object);
-        fileOutputStream.close();
+        OutputStream outputStream = new ByteArrayOutputStream();
+        mapper.writeValue(outputStream, object);
+        return outputStream.toString();
     }
 
     /**
@@ -122,8 +129,11 @@ public final class Persistence {
      * @throws IOException if there is an error reading from the file or
      *                     deserializing the JSON content
      */
-    public static <T> T read(final Class<T> objectType, final String filepath)
-            throws IOException {
+    public static <T> T read(Class<T> objectType, String filepath) throws IOException {
+        return fromJSON(objectType, Files.readString(Path.of(filepath)));
+    }
+
+    public static <T> T fromJSON(Class<T> objectType, String json) throws IOException {
         SimpleModule module = new SimpleModule();
         module.addDeserializer(Color.class, new ColorDeserializer());
         module.addDeserializer(UUID.class, new UUIDDeserializer());
@@ -133,8 +143,7 @@ public final class Persistence {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         mapper.registerModule(module);
 
-        InputStream fileInputStream = new FileInputStream(filepath);
-        T object = mapper.readValue(fileInputStream, objectType);
+        T object = mapper.readValue(json, objectType);
 
         return object;
     }

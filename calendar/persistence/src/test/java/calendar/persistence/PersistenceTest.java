@@ -18,10 +18,10 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
 import calendar.types.Event;
-import calendar.types.User;
+import calendar.types.RestUser;
 import calendar.types.UserSettings;
 import calendar.types.UserStore;
-import calendar.types.Calendar;;
+import calendar.types.RestCalendar;
 
 public class PersistenceTest {
 
@@ -36,11 +36,11 @@ public class PersistenceTest {
     }
 
     @Test
-    public void testWriteAndReadUser() throws IOException {
-        User user = new User("testUser", "testPassword");
+    public void testWriteAndReadRestUser() throws IOException {
+        RestUser user = new RestUser("testUser", "testPassword");
         Persistence.write(user, TEST_FILE_PATH);
 
-        User readUser = Persistence.read(User.class, TEST_FILE_PATH);
+        RestUser readUser = Persistence.read(RestUser.class, TEST_FILE_PATH);
         assertEquals(user.getUserId(), readUser.getUserId());
         assertEquals(user.getUsername(), readUser.getUsername());
     }
@@ -62,7 +62,7 @@ public class PersistenceTest {
 
     @Test
     public void testInvalidClassThrowsIOExeption() throws IOException {
-        User user = new User("testUser", "testPassword");
+        RestUser user = new RestUser("testUser", "testPassword");
         Persistence.write(user, TEST_FILE_PATH);
 
         assertThrows(IOException.class, () -> {
@@ -80,17 +80,17 @@ public class PersistenceTest {
     @Test
     public void testWriteReadWithoutPath() throws IOException {
 
-        User user = new User("testUser", "testPassword");
+        RestUser user = new RestUser("testUser", "testPassword");
 
         File fileMock = Mockito.mock(File.class);
         try (MockedStatic<Persistence> persistenceMock = Mockito.mockStatic(Persistence.class)) {
             persistenceMock.when(() -> Persistence.write(user)).thenAnswer(invocation -> null);
-            persistenceMock.when(() -> Persistence.read(User.class)).thenReturn(user);
+            persistenceMock.when(() -> Persistence.read(RestUser.class)).thenReturn(user);
 
             when(fileMock.exists()).thenReturn(true);
             Persistence.write(user);
 
-            User readUser = Persistence.read(User.class);
+            RestUser readUser = Persistence.read(RestUser.class);
             assertEquals(user.getUserId(), readUser.getUserId());
             assertEquals(user.getUsername(), readUser.getUsername());
 
@@ -115,19 +115,22 @@ public class PersistenceTest {
         eventList2.add(new Event("title2_2", "description2_2", LocalDateTime.now(), LocalDateTime.now()));
         eventList2.add(new Event("title2_3", "description2_3", LocalDateTime.now(), LocalDateTime.now()));
 
-        ArrayList<Calendar> calendar = new ArrayList<>();
-        calendar.add(new Calendar(eventList1));
-        calendar.add(new Calendar(eventList2));
+        ArrayList<RestCalendar> calendar = new ArrayList<>();
+        calendar.add(new RestCalendar(eventList1));
+        calendar.add(new RestCalendar(eventList2));
 
         UUID user1ID = UUID.randomUUID();
         UUID user2ID = UUID.randomUUID();
         UUID user3ID = UUID.randomUUID();
         UUID user4ID = UUID.randomUUID();
 
-        User User1 = new User(user1ID, username1, "password1", calendar, new UserSettings(user1ID));
-        User User2 = new User(user1ID, username2, "password2", new ArrayList<Calendar>(), new UserSettings(user1ID));
-        User User3 = new User(user1ID, username3, "password3", new ArrayList<Calendar>(), new UserSettings(user1ID));
-        User User4 = new User(user1ID, username4, "password4", new ArrayList<Calendar>(), new UserSettings(user1ID));
+        RestUser User1 = new RestUser(user1ID, username1, "password1", calendar, new UserSettings(user1ID));
+        RestUser User2 = new RestUser(user1ID, username2, "password2", new ArrayList<RestCalendar>(),
+                new UserSettings(user1ID));
+        RestUser User3 = new RestUser(user1ID, username3, "password3", new ArrayList<RestCalendar>(),
+                new UserSettings(user1ID));
+        RestUser User4 = new RestUser(user1ID, username4, "password4", new ArrayList<RestCalendar>(),
+                new UserSettings(user1ID));
 
         HashMap<String, UUID> StU = new HashMap<>();
         StU.put(username1, user1ID);
@@ -135,7 +138,7 @@ public class PersistenceTest {
         StU.put(username3, user3ID);
         StU.put(username4, user4ID);
 
-        HashMap<UUID, User> UtU = new HashMap<>();
+        HashMap<UUID, RestUser> UtU = new HashMap<>();
         UtU.put(user1ID, User1);
         UtU.put(user2ID, User2);
         UtU.put(user3ID, User3);
