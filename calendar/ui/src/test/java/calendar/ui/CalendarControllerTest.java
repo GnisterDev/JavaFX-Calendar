@@ -9,21 +9,29 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
+import org.mockito.internal.matchers.Any;
+import org.mockito.ArgumentMatchers;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import calendar.core.CalendarApp;
 import calendar.core.Core;
+import calendar.core.RestHelper;
+import calendar.types.Calendar;
+import calendar.types.User;
+import calendar.types.UserSettings;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -42,20 +50,26 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import no.gorandalum.fluentresult.Result;
 
 public class CalendarControllerTest extends ApplicationTest {
 
     private CalendarController calendarController;
-
-    @Mock
-    private CalendarApp mockCalendarApp;
+    private UUID uuid = UUID.randomUUID();
+    private UserSettings settings = new UserSettings(uuid);
+    private List<Calendar> calendars = List.of(new Calendar(UUID.randomUUID(), "calendar"));
+    private User user = new User(uuid, "username", calendars, settings);
 
     @Override
     public void start(Stage stage) throws Exception {
-        mockCalendarApp = mock(CalendarApp.class);
 
-        try (MockedStatic<Core> mockedCore = mockStatic(Core.class)) {
-            mockedCore.when(Core::getCalendarApp).thenReturn(Optional.of(mockCalendarApp));
+        try (MockedStatic<RestHelper> mockedRestHelper = mockStatic(RestHelper.class)) {
+            mockedRestHelper.when(RestHelper::getUser).thenReturn(Result.success(user));
+
+            mockedRestHelper
+                    .when(() -> RestHelper.getEvents(ArgumentMatchers.any(),
+                            ArgumentMatchers.any()))
+                    .thenReturn(Result.success(new ArrayList<>()));
 
             // Load the FXML file and set up the controller
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/calendar/ui/Calendar.fxml"));
@@ -324,9 +338,9 @@ public class CalendarControllerTest extends ApplicationTest {
     @Test
     public void testAddEvent_Invalid() throws InterruptedException {
         // Button addEventButton = (Button) lookup("Add Event")
-        //         .queryAll().stream()
-        //         .filter(node -> node instanceof Button)
-        //         .findFirst().get();
+        // .queryAll().stream()
+        // .filter(node -> node instanceof Button)
+        // .findFirst().get();
         // Label errorLabel = lookup("#errorLabel").queryAs(Label.class);
 
         // writeEventInfo("testEvent", "testDescription", false, true, true, true);

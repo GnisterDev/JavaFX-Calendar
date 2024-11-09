@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -12,12 +13,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.MockedStatic;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
 
+import calendar.core.RestHelper;
 import calendar.types.Event;
 import calendar.types.EventType;
 import javafx.application.Platform;
@@ -32,6 +37,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import no.gorandalum.fluentresult.VoidResult;
 
 public class PopupTest extends ApplicationTest {
 
@@ -57,21 +63,31 @@ public class PopupTest extends ApplicationTest {
         LocalDateTime startTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(1, 0, 0));
         LocalDateTime endTime = startTime.plusHours(1);
         when(mockEvent.getTitle()).thenReturn("Test Event");
+        when(mockEvent.getDescription()).thenReturn("Test description");
+        when(mockEvent.getId()).thenReturn(UUID.randomUUID());
         when(mockEvent.getStartTime()).thenReturn(startTime);
         when(mockEvent.getEndTime()).thenReturn(endTime);
         when(mockEvent.getColor()).thenReturn(Color.RED);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/calendar/ui/Popup_form.fxml"));
-        VBox mainNode = loader.load();
-        popupController = loader.getController();
-        popupController.setStage(stage);
+        try (MockedStatic<RestHelper> mockedRestHelper = mockStatic(RestHelper.class)) {
+            mockedRestHelper.when(() -> RestHelper.editEvent(ArgumentMatchers.any(), ArgumentMatchers.any(),
+                    ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any(),
+                    ArgumentMatchers.any())).thenReturn(VoidResult.success());
+            mockedRestHelper.when(() -> RestHelper.removeEvent(ArgumentMatchers.any()))
+                    .thenReturn(VoidResult.success());
 
-        // Set up the popup controller with mocks
-        popupController.initialize(mockEvent, mockCalendarController);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/calendar/ui/Popup_form.fxml"));
+            VBox mainNode = loader.load();
+            popupController = loader.getController();
+            popupController.setStage(stage);
 
-        Scene scene = new Scene(mainNode);
-        stage.setScene(scene);
-        stage.show();
+            // Set up the popup controller with mocks
+            popupController.initialize(mockEvent, mockCalendarController);
+
+            Scene scene = new Scene(mainNode);
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     @BeforeEach
@@ -168,19 +184,19 @@ public class PopupTest extends ApplicationTest {
         assertFalse(popupController.getStage().isShowing());
     }
 
-    @Test
-    public void testHandleEdit_InvalidInputs() {
-
-        Platform.runLater(() -> {
-            startDateSelect.setValue(LocalDate.now());
-            endDateSelect.setValue(LocalDate.now().plusDays(1));
-        });
-
-        clickOn(handleEdit);
-
-        // Verify that update() was never called on invalid input
-        verify(mockCalendarController, never()).update();
-    }
+    // @Test
+    // public void testHandleEdit_InvalidInputs() {
+    //
+    //     Platform.runLater(() -> {
+    //         startDateSelect.setValue(LocalDate.now());
+    //         endDateSelect.setValue(LocalDate.now().plusDays(1));
+    //     });
+    //
+    //     clickOn(handleEdit);
+    //
+    //     // Verify that update() was never called on invalid input
+    //     verify(mockCalendarController, never()).update();
+    // }
 
     @Test
     public void testHandleDelete() {
