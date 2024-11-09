@@ -23,16 +23,19 @@ import no.gorandalum.fluentresult.Result;
 import no.gorandalum.fluentresult.VoidResult;
 
 public class RestHelper {
-    private static HttpClient client = HttpClient.newHttpClient();
-    private static String serverAddress = "http://localhost:8000";
-    private static String username;
-    private static String password;
-    private static UUID calendarId;
+    protected static HttpClient client = HttpClient.newHttpClient();
+    protected static String serverAddress = "http://localhost:8000";
+    protected static String username;
+    protected static String password;
+    protected static UUID calendarId;
 
     private RestHelper() {
     }
 
     public static void setServerAddress(String address) {
+        if (address == null)
+            throw new IllegalArgumentException("Server address can't be null");
+
         serverAddress = address;
     }
 
