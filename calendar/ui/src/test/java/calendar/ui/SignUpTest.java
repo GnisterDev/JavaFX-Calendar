@@ -1,6 +1,5 @@
 package calendar.ui;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -22,7 +21,6 @@ import javafx.stage.Stage;
 
 public class SignUpTest extends ApplicationTest {
 
-    private Label messageLabel;
     private Label login;
 
     private String usernameID = "#usernameField";
@@ -34,7 +32,6 @@ public class SignUpTest extends ApplicationTest {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUp.fxml"));
         Parent root = loader.load();
 
-        messageLabel = (Label) root.lookup("#messageLabel");
         login = (Label) root.lookup("#signIn");
 
         stage.setScene(new Scene(root));

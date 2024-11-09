@@ -53,7 +53,6 @@ import calendar.types.EventType;
  * managing the calendar view. It handles user interactions for navigating
  * between weeks, adding events, and displaying events within a weekly grid.
  */
-@SuppressWarnings("rawtypes")
 public class CalendarController {
     /** Constant representing the number of hours in a day. */
     public static final int HOURS_IN_A_DAY = 24;

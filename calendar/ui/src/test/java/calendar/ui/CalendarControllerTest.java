@@ -47,7 +47,6 @@ import no.gorandalum.fluentresult.Result;
 
 public class CalendarControllerTest extends ApplicationTest {
 
-    private CalendarController calendarController;
     private UUID uuid = UUID.randomUUID();
     private UserSettings settings = new UserSettings(uuid);
     private List<Calendar> calendars = List.of(new Calendar(UUID.randomUUID(), "calendar"));
@@ -67,7 +66,6 @@ public class CalendarControllerTest extends ApplicationTest {
             // Load the FXML file and set up the controller
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/calendar/ui/Calendar.fxml"));
             Pane mainNode = loader.load();
-            calendarController = loader.getController();
 
             // Set up the scene with the main UI node
             Scene scene = new Scene(mainNode);
