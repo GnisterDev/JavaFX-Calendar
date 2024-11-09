@@ -69,43 +69,12 @@ public class Event {
             final LocalDateTime startTime,
             final LocalDateTime endTime) {
         this(title,
-             description,
-             startTime,
-             endTime,
-             EventType.REGULAR,
-             Color.BLUE,
-             UUID.randomUUID());
-    }
-
-    /**
-     * Constructs a new {@code Event} with default values for type, color, and a
-     * random ID.
-     *
-     * <p>
-     * This constructor initializes the event with the specified title,
-     * description, start and end times, while defaulting the type to
-     * {@link EventType#REGULAR}, the color to {@link Color#BLUE}, and
-     * generating a random {@link UUID} for the event ID.
-     * </p>
-     *
-     * @param title       the title of the event
-     * @param description a brief description of the event
-     * @param startTime   the start time of the event
-     * @param endTime     the end time of the event
-     * @param color       the color of the event
-     */
-    public Event(final String title,
-            final String description,
-            final LocalDateTime startTime,
-            final LocalDateTime endTime,
-            final Color color) {
-        this(title,
-             description,
-             startTime,
-             endTime,
-             EventType.REGULAR,
-             color,
-             UUID.randomUUID());
+                description,
+                startTime,
+                endTime,
+                EventType.REGULAR,
+                Color.BLUE,
+                UUID.randomUUID());
     }
 
     /**
@@ -133,12 +102,12 @@ public class Event {
             final Color color,
             final EventType type) {
         this(title,
-             description,
-             startTime,
-             endTime,
-             type,
-             color,
-             UUID.randomUUID());
+                description,
+                startTime,
+                endTime,
+                type,
+                color,
+                UUID.randomUUID());
     }
 
     /**
@@ -284,7 +253,8 @@ public class Event {
      */
     @Override
     public boolean equals(final Object obj) {
-        if (obj == this) return true;
+        if (obj == this)
+            return true;
         if (obj instanceof Event) {
             Event other = (Event) obj;
             return type.equals(other.getType())
@@ -293,6 +263,7 @@ public class Event {
                     && startTime.equals(other.getStartTime())
                     && endTime.equals(other.getEndTime())
                     && color.equals(other.getColor());
-        } else return false;
+        } else
+            return false;
     }
 }
