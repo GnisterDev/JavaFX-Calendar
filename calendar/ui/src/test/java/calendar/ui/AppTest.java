@@ -27,12 +27,4 @@ public class AppTest extends ApplicationTest {
     public void testInitialSceneIsLoginScene() {
         FxAssert.verifyThat("#loginButton", NodeMatchers.isVisible());
     }
-
-    @Test
-    public void testCoreCleanupOnStop() {
-        interact(() -> {
-            App app = new App();
-            app.stop();
-        });
-    }
 }

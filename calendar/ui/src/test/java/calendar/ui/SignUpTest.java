@@ -11,8 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
-import calendar.core.Core;
-import calendar.core.Error;
 import calendar.core.SceneCore;
 import calendar.types.RestUser;
 import calendar.types.UserStore;
@@ -49,7 +47,6 @@ public class SignUpTest extends ApplicationTest {
     @BeforeEach
     public void setUp() throws Exception {
         UserStore mockUserStore = mock(UserStore.class);
-        Core.userStore = mockUserStore;
 
         RestUser validUser = mock(RestUser.class);
 

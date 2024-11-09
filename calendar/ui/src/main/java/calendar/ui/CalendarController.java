@@ -15,8 +15,6 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.controlsfx.control.ToggleSwitch;
 
-import calendar.core.CalendarApp;
-import calendar.core.Error;
 import calendar.core.RestHelper;
 import calendar.core.SceneCore;
 import javafx.application.Platform;
@@ -57,6 +55,12 @@ import calendar.types.EventType;
  */
 @SuppressWarnings("rawtypes")
 public class CalendarController {
+    /** Constant representing the number of hours in a day. */
+    public static final int HOURS_IN_A_DAY = 24;
+
+    /** Constant representing the number of days in a week. */
+    public static final int DAYS_IN_A_WEEK = 7;
+
     /** The default classname for the event objects added to the calendar. */
     private static final String DEFAULT_EVENT_CLASS_NAME = "event";
 
@@ -212,7 +216,7 @@ public class CalendarController {
                         timeSelectLoseFocus(l);
                 }));
 
-        IntStream.range(1, CalendarApp.HOURS_IN_A_DAY).forEach(i -> {
+        IntStream.range(1, HOURS_IN_A_DAY).forEach(i -> {
             Text timeStamp = new Text(String.format("%02d:00", i));
             timeStampSection.add(timeStamp, 0, i);
             GridPane.setHalignment(timeStamp, HPos.RIGHT);
@@ -265,7 +269,7 @@ public class CalendarController {
         if (field.getLength() == 1 || field.getLength() == 0)
             return;
         if (Integer.parseInt(field.getText()
-                .substring(0, activeLength)) > CalendarApp.HOURS_IN_A_DAY)
+                .substring(0, activeLength)) > HOURS_IN_A_DAY)
             field.setText("0" + event.getCharacter() + ":00");
         if (field.getText().matches("^\\d$|^\\d{2}:\\d{2}$"))
             return;
@@ -385,7 +389,7 @@ public class CalendarController {
 
     private void updateDates(final LocalDateTime startTime) {
         int daysInMonth = weekDate.with(DayOfWeek.MONDAY).lengthOfMonth();
-        IntStream.range(0, CalendarApp.DAYS_IN_A_WEEK).forEach(i -> {
+        IntStream.range(0, DAYS_IN_A_WEEK).forEach(i -> {
             HBox outerHBox = (HBox) dateHeader.getChildrenUnmodifiable()
                     .filtered(node -> node instanceof HBox).get(i);
             outerHBox.getStyleClass()
@@ -454,7 +458,7 @@ public class CalendarController {
             int startRowIndex = eventStartTime.getHour();
 
             int endRowIndex = eventEndTime.equals(endTime)
-                    ? CalendarApp.HOURS_IN_A_DAY
+                    ? HOURS_IN_A_DAY
                     : eventEndTime.getHour();
 
             // Single day Event
@@ -474,7 +478,7 @@ public class CalendarController {
                     createEventRect(event,
                             dayIndex,
                             0,
-                            CalendarApp.HOURS_IN_A_DAY);
+                            HOURS_IN_A_DAY);
                     continue;
                 }
                 boolean isStartDay = dayIndex == startDayIndex;
@@ -483,7 +487,7 @@ public class CalendarController {
                         isStartDay ? startRowIndex : 0,
                         !isStartDay
                                 ? endRowIndex
-                                : (CalendarApp.HOURS_IN_A_DAY
+                                : (HOURS_IN_A_DAY
                                         - startRowIndex));
 
             }
@@ -522,31 +526,25 @@ public class CalendarController {
 
     @FXML
     private void addEvent() {
-        int startTime;
-        int endTime;
+        Optional<Integer> startTime = Optional.empty();
+        Optional<Integer> endTime = Optional.empty();
 
         try {
-            startTime = !allDaySwitch.isSelected()
+            startTime = Optional.of(!allDaySwitch.isSelected()
                     ? Integer
                             .parseInt(startTimeSelect.getText().substring(0, 2))
-                    : 0;
-            endTime = !allDaySwitch.isSelected()
+                    : 0);
+            endTime = Optional.of(!allDaySwitch.isSelected()
                     ? Integer.parseInt(endTimeSelect.getText().substring(0, 2))
-                    : 1;
+                    : 1);
         } catch (Exception e) {
-            errorLabel.setText(Error.EVENT_START_END_TIME_NOT_SELECTED);
-            return;
         }
 
         RestHelper
                 .addEvent(Optional.of(eventNameField.getText()),
                         Optional.of(eventDescriptionField.getText()),
-                        Optional.of(LocalDateTime
-                                .of(startDateSelect.getValue(),
-                                        LocalTime.of(startTime, 0))),
-                        Optional.of(LocalDateTime.of(endDateSelect.getValue(),
-                                LocalTime.of(endTime,
-                                        0))),
+                        startTime.map(start -> LocalDateTime.of(startDateSelect.getValue(), LocalTime.of(start, 0))),
+                        endTime.map(end -> LocalDateTime.of(endDateSelect.getValue(), LocalTime.of(end, 0))),
                         Optional.of(colorPicker.getValue()),
                         Optional.of(!allDaySwitch.isSelected()
                                 ? EventType.REGULAR

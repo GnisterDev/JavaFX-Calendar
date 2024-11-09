@@ -3,7 +3,6 @@ package calendar.ui;
 
 import java.io.IOException;
 
-import calendar.core.Core;
 import calendar.core.SceneCore;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -31,28 +30,16 @@ public class App extends Application {
      * initializes the core logic of the application, sets up the primary stage,
      * and loads the initial scene.
      *
-     * @param  primaryStage the primary stage for the JavaFX application
-     * @throws IOException  if there is an issue loading resources or scenes
+     * @param primaryStage the primary stage for the JavaFX application
+     * @throws IOException if there is an issue loading resources or scenes
      */
     @Override
     public void start(final Stage primaryStage) throws IOException {
-        Core.initialize();
-
         SceneCore.setLoader(url -> this.getClass().getResource(url));
         SceneCore.setStage(primaryStage);
         SceneCore.setResizable(false);
         SceneCore.setStageTitle("Calendar");
         SceneCore.setScene("Login.fxml");
         SceneCore.showStage();
-    }
-
-    /**
-     * This method is called when the JavaFX application is about to stop. It
-     * ensures that the core logic (e.g., persistence) is properly cleaned up
-     * before exiting.
-     */
-    @Override
-    public void stop() {
-        Core.destroy();
     }
 }
