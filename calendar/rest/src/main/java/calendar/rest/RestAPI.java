@@ -28,6 +28,16 @@ import javafx.scene.paint.Color;
 public class RestAPI {
     private static UserStore userStore;
 
+    private static final int PORT = 8000;
+
+    private static final int OK = 200;
+    private static final int CREATED = 201;
+
+    private static final int BAD_REQUEST = 400;
+    private static final int UNAUTHORIZED = 401;
+    private static final int NOT_FOUND = 404;
+    private static final int CONFLICT = 409;
+
     public static void main(String[] args) throws IOException {
         // Make sure file exists
         Path filepath = Path.of("rest/userdata.json");
@@ -40,20 +50,21 @@ public class RestAPI {
             userStore = new UserStore(new HashMap<>(), new HashMap<>());
 
         // Define server
-        HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
 
         // User endpoint
         server.createContext("/users", t -> {
-            if (t.getRequestMethod().equals("PATCH") || t.getRequestMethod().equals("DELETE")
+            if (t.getRequestMethod().equals("PATCH")
+                    || t.getRequestMethod().equals("DELETE")
                     || t.getRequestMethod().equals("PUT")) {
-                sendResponse(t, 404, "Not found");
+                sendResponse(t, NOT_FOUND, "Not found");
                 return;
             }
 
             // Validate path
             String[] path = t.getRequestURI().getPath().toString().split("/");
             if (path.length != 3) {
-                sendResponse(t, 400, "Wrong number of arguments");
+                sendResponse(t, BAD_REQUEST, "Wrong number of arguments");
                 return;
             }
 
@@ -64,81 +75,100 @@ public class RestAPI {
             if (t.getRequestMethod().equals("POST")) {
                 // Username already exists
                 if (userStore.hasUsername(username)) {
-                    sendResponse(t, 409, "User '" + username + "' already exists");
+                    sendResponse(t,
+                                 CONFLICT,
+                                 "User '" + username + "' already exists");
                     return;
                 }
 
                 // Get password
-                Optional<String> password = Optional.ofNullable(t.getRequestHeaders().getFirst("password"));
+                Optional<String> password = Optional
+                        .ofNullable(t.getRequestHeaders().getFirst("password"));
 
                 // Password not provided
                 if (password.isEmpty()) {
-                    sendResponse(t, 400, "Password is required");
+                    sendResponse(t, BAD_REQUEST, "Password is required");
                     return;
                 }
 
                 // Create user
                 userStore.addUser(new RestUser(username, password.get()));
-                sendResponse(t, 201, "User '" + username + "' created successfully");
+                sendResponse(t,
+                             CREATED,
+                             "User '" + username + "' created successfully");
             }
 
             // User retreival
-            Optional<RestUser> user = userStore.getUserId(username).flatMap(userStore::getUser);
+            Optional<RestUser> user =
+                    userStore.getUserId(username).flatMap(userStore::getUser);
 
             // User not found
             if (user.isEmpty()) {
-                sendResponse(t, 404, "User: '" + username + "' not found");
+                sendResponse(t,
+                             NOT_FOUND,
+                             "User: '" + username + "' not found");
                 return;
             }
 
             // Validate password
-            Optional<String> password = Optional.ofNullable(t.getRequestHeaders().getFirst("password"));
-            if (password.isEmpty() || !user.get().checkPassword(password.get())) {
-                sendResponse(t, 401, "Wrong password");
+            Optional<String> password = Optional
+                    .ofNullable(t.getRequestHeaders().getFirst("password"));
+            if (password.isEmpty()
+                    || !user.get().checkPassword(password.get())) {
+                sendResponse(t, UNAUTHORIZED, "Wrong password");
                 return;
             }
 
             // Serialze and send user data
-            sendResponse(t, 200, Persistence.toJSON(new User(user.get())));
+            sendResponse(t, OK, Persistence.toJSON(new User(user.get())));
         });
 
         // Calendar endpoint
         server.createContext("/calendar", t -> {
             if (t.getRequestMethod().equals("PATCH")) {
-                sendResponse(t, 404, "Not found");
+                sendResponse(t, NOT_FOUND, "Not found");
                 return;
             }
 
             // Validate path
             String[] path = t.getRequestURI().getPath().toString().split("/");
-            if (!(path.length == 3 || (path.length == 2 && t.getRequestMethod().equals("POST")))) {
-                sendResponse(t, 400, "Wrong number of arguments");
+            if (!(path.length == 3 || (path.length == 2
+                    && t.getRequestMethod().equals("POST")))) {
+                sendResponse(t, BAD_REQUEST, "Wrong number of arguments");
                 return;
             }
 
             // Get credentials
-            Optional<String> password = Optional.ofNullable(t.getRequestHeaders().getFirst("password"));
-            Optional<String> username = Optional.ofNullable(t.getRequestHeaders().getFirst("username"));
+            Optional<String> password = Optional
+                    .ofNullable(t.getRequestHeaders().getFirst("password"));
+            Optional<String> username = Optional
+                    .ofNullable(t.getRequestHeaders().getFirst("username"));
 
             // Credentials not provided
             if (password.isEmpty() || username.isEmpty()) {
-                sendResponse(t, 400, "Credentials required");
+                sendResponse(t, BAD_REQUEST, "Credentials required");
                 return;
             }
 
             // Wrong credentials
-            Optional<RestUser> user = userStore.getUserId(username.get()).flatMap(userStore::getUser);
+            Optional<RestUser> user = userStore.getUserId(username.get())
+                    .flatMap(userStore::getUser);
             if (!user.map(u -> u.checkPassword(password.get())).orElse(false)) {
-                sendResponse(t, 401, "Wrong credentials");
+                sendResponse(t, UNAUTHORIZED, "Wrong credentials");
                 return;
             }
 
             // Calendar creation
             if (t.getRequestMethod().equals("POST")) {
-                Optional<String> name = Optional.ofNullable(t.getRequestHeaders().getFirst("name"));
-                RestCalendar calendar = new RestCalendar(name.orElse("Unnamed calendar"));
+                Optional<String> name = Optional
+                        .ofNullable(t.getRequestHeaders().getFirst("name"));
+                RestCalendar calendar =
+                        new RestCalendar(name.orElse("Unnamed calendar"));
                 user.get().addCalendar(calendar);
-                sendResponse(t, 201, "Calendar with id: '" + calendar.getCalendarId() + "' successfully created");
+                sendResponse(t,
+                             CREATED,
+                             "Calendar with id: '" + calendar.getCalendarId()
+                                     + "' successfully created");
                 return;
             }
 
@@ -150,65 +180,77 @@ public class RestAPI {
 
             // Calendar does not exist
             if (calendar.isEmpty()) {
-                sendResponse(t, 404, "Calendar not found");
+                sendResponse(t, NOT_FOUND, "Calendar not found");
             }
 
             // Calendar deletion
             if (t.getRequestMethod().equals("DELETE")) {
                 user.get().removeCalendar(calendar.get());
-                sendResponse(t, 200, "Calendar with id: '" + calendar.get().getCalendarId() + "' successfully deleted");
+                sendResponse(t,
+                             OK,
+                             "Calendar with id: '"
+                                     + calendar.get().getCalendarId()
+                                     + "' successfully deleted");
                 return;
             }
 
             // Filtering options
             Optional<LocalDateTime> before, after;
             try {
-                before = Optional.ofNullable(t.getRequestHeaders().getFirst("before"))
+                before = Optional
+                        .ofNullable(t.getRequestHeaders().getFirst("before"))
                         .map(s -> LocalDateTime.parse(s));
-                after = Optional.ofNullable(t.getRequestHeaders().getFirst("after"))
+                after = Optional
+                        .ofNullable(t.getRequestHeaders().getFirst("after"))
                         .map(s -> LocalDateTime.parse(s));
             } catch (DateTimeParseException e) {
-                sendResponse(t, 400, "Wrong dates for before or after");
+                sendResponse(t, BAD_REQUEST, "Wrong dates for before or after");
                 return;
             }
 
             // Get events
             List<Event> events = calendar.get().getEvents().stream()
-                    .filter(event -> before.map(event.getStartTime()::isBefore).orElse(true)
-                            && after.map(event.getEndTime()::isAfter).orElse(true))
+                    .filter(event -> before.map(event.getStartTime()::isBefore)
+                            .orElse(true)
+                            && after.map(event.getEndTime()::isAfter)
+                                    .orElse(true))
                     .toList();
 
-            sendResponse(t, 200, Persistence.toJSON(events));
+            sendResponse(t, OK, Persistence.toJSON(events));
         });
 
         // Event endpoint
         server.createContext("/event", t -> {
             if (t.getRequestMethod().equals("GET")) {
-                sendResponse(t, 404, "Not found");
+                sendResponse(t, NOT_FOUND, "Not found");
                 return;
             }
 
             // Validate path
             String[] path = t.getRequestURI().getPath().toString().split("/");
-            if (!(path.length == 4 || (t.getRequestMethod().equals("POST") && path.length == 3))) {
-                sendResponse(t, 400, "Wrong number of arguments");
+            if (!(path.length == 4 || (t.getRequestMethod().equals("POST")
+                    && path.length == 3))) {
+                sendResponse(t, BAD_REQUEST, "Wrong number of arguments");
                 return;
             }
 
             // Get credentials
-            Optional<String> password = Optional.ofNullable(t.getRequestHeaders().getFirst("password"));
-            Optional<String> username = Optional.ofNullable(t.getRequestHeaders().getFirst("username"));
+            Optional<String> password = Optional
+                    .ofNullable(t.getRequestHeaders().getFirst("password"));
+            Optional<String> username = Optional
+                    .ofNullable(t.getRequestHeaders().getFirst("username"));
 
             // Credentials not provided
             if (password.isEmpty() || username.isEmpty()) {
-                sendResponse(t, 400, "Credentials required");
+                sendResponse(t, BAD_REQUEST, "Credentials required");
                 return;
             }
 
             // Wrong credentials
-            Optional<RestUser> user = userStore.getUserId(username.get()).flatMap(userStore::getUser);
+            Optional<RestUser> user = userStore.getUserId(username.get())
+                    .flatMap(userStore::getUser);
             if (!user.map(u -> u.checkPassword(password.get())).orElse(false)) {
-                sendResponse(t, 401, "Wrong credentials");
+                sendResponse(t, UNAUTHORIZED, "Wrong credentials");
                 return;
             }
 
@@ -220,28 +262,38 @@ public class RestAPI {
 
             // Calendar does not exist
             if (calendar.isEmpty()) {
-                sendResponse(t, 404, "Calendar not found");
+                sendResponse(t, NOT_FOUND, "Calendar not found");
             }
 
             // Options
-            Optional<String> title = Optional.ofNullable(t.getRequestHeaders().getFirst("title"));
-            Optional<String> description = Optional.ofNullable(t.getRequestHeaders().getFirst("description"));
+            Optional<String> title = Optional
+                    .ofNullable(t.getRequestHeaders().getFirst("title"));
+            Optional<String> description = Optional
+                    .ofNullable(t.getRequestHeaders().getFirst("description"));
             Optional<LocalDateTime> startTime = Optional.empty();
             Optional<LocalDateTime> endTime = Optional.empty();
             Optional<Color> color = Optional.empty();
             Optional<EventType> type = Optional.empty();
             try {
-                startTime = Optional.ofNullable(t.getRequestHeaders().getFirst("start")).map(LocalDateTime::parse);
-                endTime = Optional.ofNullable(t.getRequestHeaders().getFirst("end")).map(LocalDateTime::parse);
+                startTime = Optional
+                        .ofNullable(t.getRequestHeaders().getFirst("start"))
+                        .map(LocalDateTime::parse);
+                endTime = Optional
+                        .ofNullable(t.getRequestHeaders().getFirst("end"))
+                        .map(LocalDateTime::parse);
             } catch (DateTimeParseException e) {
-                sendResponse(t, 400, "Wrong dates for start or end");
+                sendResponse(t, BAD_REQUEST, "Wrong dates for start or end");
                 return;
             }
             try {
-                color = Optional.ofNullable(t.getRequestHeaders().getFirst("color")).map(Color::web);
-                type = Optional.ofNullable(t.getRequestHeaders().getFirst("type")).map(EventType::valueOf);
+                color = Optional
+                        .ofNullable(t.getRequestHeaders().getFirst("color"))
+                        .map(Color::web);
+                type = Optional
+                        .ofNullable(t.getRequestHeaders().getFirst("type"))
+                        .map(EventType::valueOf);
             } catch (IllegalArgumentException e) {
-                sendResponse(t, 400, "Wrong format for color or type");
+                sendResponse(t, BAD_REQUEST, "Wrong format for color or type");
                 return;
             }
 
@@ -249,7 +301,9 @@ public class RestAPI {
             if (t.getRequestMethod().equals("POST")) {
 
                 if (startTime.isEmpty() || endTime.isEmpty()) {
-                    sendResponse(t, 400, "Event start and end time are required");
+                    sendResponse(t,
+                                 BAD_REQUEST,
+                                 "Event start and end time are required");
                     return;
                 }
 
@@ -261,38 +315,50 @@ public class RestAPI {
                 Event event = new Event(title.orElse("Untitled event"), description.orElse(""), startTime.get(),
                         endTime.get(), color.orElse(Color.BLUE), type.orElse(EventType.REGULAR));
                 calendar.get().addEvent(event);
-                sendResponse(t, 201, "Event with id: '" + event.getId() +
-                        "' successfully created");
+                sendResponse(t,
+                             CREATED,
+                             "Event with id: '" + event.getId()
+                                     + "' successfully created");
                 return;
             }
 
             // Get event
             UUID eventId = UUID.fromString(path[3]);
-            Optional<Event> event = calendar.get()
-                    .getEvents().stream().filter(e -> e.getId().equals(eventId)).findFirst();
+            Optional<Event> event = calendar.get().getEvents().stream()
+                    .filter(e -> e.getId().equals(eventId)).findFirst();
 
             // Event does not exist
             if (event.isEmpty()) {
-                sendResponse(t, 404, "Event not found");
+                sendResponse(t, NOT_FOUND, "Event not found");
             }
 
             // Event deletion
             if (t.getRequestMethod().equals("DELETE")) {
                 calendar.get().removeEvent(event.get());
-                sendResponse(t, 200, "Event with id: '" + event.get().getId() + "' successfully deleted");
+                sendResponse(t,
+                             OK,
+                             "Event with id: '" + event.get().getId()
+                                     + "' successfully deleted");
                 return;
             }
 
             // Event editing
-            Event newEvent = new Event(title.orElse(event.get().getTitle()),
-                    description.orElse(event.get().getDescription()), startTime.orElse(event.get().getStartTime()),
-                    endTime.orElse(event.get().getEndTime()), type.orElse(event.get().getType()),
-                    color.orElse(event.get().getColor()), event.get().getId());
+            Event newEvent =
+                    new Event(title.orElse(event.get().getTitle()),
+                              description.orElse(event.get().getDescription()),
+                              startTime.orElse(event.get().getStartTime()),
+                              endTime.orElse(event.get().getEndTime()),
+                              color.orElse(event.get().getColor()),
+                              type.orElse(event.get().getType()),
+                              event.get().getId());
 
             calendar.get().removeEvent(event.get());
             calendar.get().addEvent(newEvent);
 
-            sendResponse(t, 200, "Event with id: '" + event.get().getId() + "' succesfully edited");
+            sendResponse(t,
+                         OK,
+                         "Event with id: '" + event.get().getId()
+                                 + "' succesfully edited");
         });
 
         // Start server
@@ -303,12 +369,16 @@ public class RestAPI {
             try {
                 Persistence.write(userStore, filepath.toString());
             } catch (IOException e) {
-                System.err.println("Failed to save userStore with error message: " + e.getMessage());
+                System.err
+                        .println("Failed to save userStore with error message: "
+                                + e.getMessage());
             }
         }));
     }
 
-    protected static void sendResponse(HttpExchange t, int status, String message) throws IOException {
+    protected static void sendResponse(final HttpExchange t,
+            final int status,
+            final String message) throws IOException {
         t.sendResponseHeaders(status, message.length());
         OutputStream o = t.getResponseBody();
         o.write(message.getBytes());

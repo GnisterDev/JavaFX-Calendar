@@ -71,7 +71,7 @@ public class PopupTest extends ApplicationTest {
             mockedRestHelper.when(() -> RestHelper.removeEvent(ArgumentMatchers.any()))
                     .thenReturn(VoidResult.success());
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/calendar/ui/Popup_form.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/calendar/ui/Popup.fxml"));
             VBox mainNode = loader.load();
             popupController = loader.getController();
             popupController.setStage(stage);

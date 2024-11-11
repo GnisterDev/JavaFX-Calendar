@@ -48,17 +48,18 @@ public class LoginController {
     }
 
     /**
-     * Handles the login action when the login button is clicked.
-     * It validates the credentials entered in the {@code usernameField} and
-     * {@code passwordField}.
-     * If the credentials are correct, it logs the user in and switches to the
-     * calendar scene. If not, it displays an error message.
-     * 
+     * Handles the login action when the login button is clicked. It validates
+     * the credentials entered in the {@code usernameField} and
+     * {@code passwordField}. If the credentials are correct, it logs the user
+     * in and switches to the calendar scene. If not, it displays an error
+     * message.
+     *
      * @param event the {@code ActionEvent} triggered by the login button
      */
     @FXML
-    private void handleLogin(ActionEvent event) {
-        RestHelper.setCredentials(usernameField.getText(), usernameField.getText());
+    private void handleLogin(final ActionEvent event) {
+        RestHelper.setCredentials(usernameField.getText(),
+                                  usernameField.getText());
 
         RestHelper.getUser().consumeError(messageLabel::setText)
                 .runIfSuccess(() -> SceneCore.setScene("Calendar.fxml"));

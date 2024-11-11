@@ -32,7 +32,19 @@ public class Calendar {
     @JsonProperty
     private String name;
 
-    public Calendar(RestCalendar calendar) {
+    /**
+     * Constructs a new {@link Calendar} object using the provided
+     * {@link RestCalendar}.
+     * <p>
+     * This constructor initializes the calendar's ID and name based on the
+     * provided {@link RestCalendar} instance, allowing for the creation of a
+     * new {@link Calendar} object with the same properties.
+     * </p>
+     *
+     * @param calendar the {@link RestCalendar} object containing the calendar
+     *                 details
+     */
+    public Calendar(final RestCalendar calendar) {
         this.calendarId = calendar.getCalendarId();
         this.name = calendar.getName();
     }
@@ -46,20 +58,31 @@ public class Calendar {
      * map JSON fields to class properties.
      * </p>
      *
-     * @param userId the unique identifier for the user associated with this
-     *               calendar
-     * @param events the list of events to initialize this calendar with
+     * @param calendarId the unique identifier for the user associated with this
+     *                   calendar
+     * @param name       the list of events to initialize this calendar with
      */
     @JsonCreator
-    public Calendar(@JsonProperty("calendarId") UUID calendarId, @JsonProperty("name") String name) {
+    public Calendar(@JsonProperty("calendarId") final UUID calendarId,
+            @JsonProperty("name") final String name) {
         this.calendarId = calendarId;
         this.name = name;
     }
 
+    /**
+     * Gets the id of the calendar.
+     *
+     * @return the id asosiated with this calendar.
+     */
     public UUID getCalendarId() {
         return calendarId;
     }
 
+    /**
+     * Gets the name of the calendar.
+     *
+     * @return the name asosiated with this calendar.
+     */
     public String getName() {
         return name;
     }

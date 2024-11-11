@@ -11,12 +11,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * time zone, time format preferences, and the option to display week numbers in
  * the calendar.
  *
- * <p>Each {@link User} has an associated {@code UserSettings} object that
- * stores their preferences.</p>
+ * <p>
+ * Each {@link User} has an associated {@code UserSettings} object that stores
+ * their preferences.
+ * </p>
  *
- * <p>The class is designed for serialization and deserialization with the
- * Jackson library using annotations such as {@link JsonCreator} and
- * {@link JsonProperty}.</p>
+ * <p>
+ * The class is designed for serialization and deserialization with the Jackson
+ * library using annotations such as {@link JsonCreator} and
+ * {@link JsonProperty}.
+ * </p>
  */
 public class UserSettings {
 
@@ -32,16 +36,18 @@ public class UserSettings {
     @JsonProperty
     private boolean militaryTime;
 
-    /** If the week number of the week is shown. final  */
+    /** If the week number of the week is shown. final */
     @JsonProperty
     private boolean showWeekNr;
 
     /**
      * Full constructor for the {@code UserSettings} class.
      *
-     * <p>This constructor is annotated with {@link JsonCreator} to enable JSON
+     * <p>
+     * This constructor is annotated with {@link JsonCreator} to enable JSON
      * deserialization. Each parameter is mapped from a JSON property using the
-     * {@link JsonProperty} annotation.</p>
+     * {@link JsonProperty} annotation.
+     * </p>
      *
      * @param userId       the unique identifier of the user
      * @param timezone     the user's preferred {@link TimeZone}
@@ -64,9 +70,11 @@ public class UserSettings {
     /**
      * Constructs a new {@code UserSettings} object with default settings.
      *
-     * <p>This constructor initializes the user settings with the system's
-     * default time zone, enabling military (24-hour) time by default, and
-     * disabling the display of week numbers.</p>
+     * <p>
+     * This constructor initializes the user settings with the system's default
+     * time zone, enabling military (24-hour) time by default, and disabling the
+     * display of week numbers.
+     * </p>
      *
      * @param userId the unique identifier of the user
      */

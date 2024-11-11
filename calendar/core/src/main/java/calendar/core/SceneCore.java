@@ -122,4 +122,22 @@ public final class SceneCore {
     public static void setStageTitle(final String title) {
         stage.setTitle(title);
     }
+
+    /**
+     * Get the current x-pos of the window.
+     *
+     * @return the current x-pos of the window
+     */
+    public static double getX() {
+        return stage.getX();
+    }
+
+    /**
+     * Get the current y-pos of the window.
+     *
+     * @return the current y-pos of the window
+     */
+    public static double getY() {
+        return stage.getY();
+    }
 }

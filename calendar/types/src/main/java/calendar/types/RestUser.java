@@ -49,7 +49,7 @@ public class RestUser {
      * @param username the username of the user
      * @param password the password of the user
      */
-    public RestUser(String username, String password) {
+    public RestUser(final String username, final String password) {
         this.userId = UUID.randomUUID();
         this.username = username;
         this.password = password;
@@ -66,7 +66,9 @@ public class RestUser {
      * @param username the username of the user
      * @param password the password of the user
      */
-    public RestUser(UUID userId, String username, String password) {
+    public RestUser(final UUID userId,
+            final String username,
+            final String password) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -91,11 +93,11 @@ public class RestUser {
      * @param settings  the settings associated with the user
      */
     @JsonCreator
-    public RestUser(@JsonProperty("userId") UUID userId,
-            @JsonProperty("username") String username,
-            @JsonProperty("password") String password,
-            @JsonProperty("calendars") List<RestCalendar> calendars,
-            @JsonProperty("settings") UserSettings settings) {
+    public RestUser(@JsonProperty("userId") final UUID userId,
+            @JsonProperty("username") final String username,
+            @JsonProperty("password") final String password,
+            @JsonProperty("calendars") final List<RestCalendar> calendars,
+            @JsonProperty("settings") final UserSettings settings) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -133,10 +135,11 @@ public class RestUser {
     /**
      * Checks if the provided password matches the user's password.
      *
-     * @param password the password to check
-     * @return {@code true} if the password matches, {@code false} otherwise
+     * @param  password the password to check
+     * @return          {@code true} if the password matches, {@code false}
+     *                  otherwise
      */
-    public boolean checkPassword(String password) {
+    public boolean checkPassword(final String password) {
         return this.password.equals(password);
     }
 
@@ -152,11 +155,12 @@ public class RestUser {
     /**
      * Gets the calendar at the specified index in the user's list of calendars.
      *
-     * @param index the index of the calendar to retrieve
-     * @return the {@link Calendar} at the specified index
+     * @param  index                     the index of the calendar to retrieve
+     * @return                           the {@link Calendar} at the specified
+     *                                   index
      * @throws IndexOutOfBoundsException if the index is out of range
      */
-    public RestCalendar getCalendar(int index) {
+    public RestCalendar getCalendar(final int index) {
         return calendars.get(index);
     }
 
@@ -165,7 +169,7 @@ public class RestUser {
      *
      * @param calendar the {@link Calendar} to remove
      */
-    public void removeCalendar(RestCalendar calendar) {
+    public void removeCalendar(final RestCalendar calendar) {
         calendars.remove(calendar);
     }
 
@@ -173,10 +177,10 @@ public class RestUser {
      * Removes the calendar at the specified index from the user's list of
      * calendars.
      *
-     * @param index the index of the calendar to remove
+     * @param  index                     the index of the calendar to remove
      * @throws IndexOutOfBoundsException if the index is out of range
      */
-    public void removeCalendar(int index) {
+    public void removeCalendar(final int index) {
         calendars.remove(index);
     }
 
@@ -185,7 +189,7 @@ public class RestUser {
      *
      * @param calendar the {@link Calendar} to add
      */
-    public void addCalendar(RestCalendar calendar) {
+    public void addCalendar(final RestCalendar calendar) {
         calendars.add(calendar);
     }
 
