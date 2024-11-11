@@ -68,6 +68,7 @@ public final class RestHelper {
         try {
             response = client.send(request, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
+            System.out.println(e);
             return Result.error("Could not reach server");
         }
 

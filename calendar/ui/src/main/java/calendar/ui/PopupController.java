@@ -242,24 +242,23 @@ public class PopupController {
         EventType type =
                 allDay.isSelected() ? EventType.ALL_DAY : EventType.REGULAR;
 
-        RestHelper.editEvent(event.getId(),
-                             Optional.of(newEventName),
-                             Optional.of(newDescription),
-                             Optional.of(startDateTime),
-                             Optional.of(endDateTime),
-                             Optional.of(color),
-                             Optional.of(type))
-                .consumeError(errorLabel::setText);
-
-        calendarController.update();
-        stage.close();
+        RestHelper
+                .editEvent(event.getId(),
+                           Optional.of(newEventName),
+                           Optional.of(newDescription),
+                           Optional.of(startDateTime),
+                           Optional.of(endDateTime),
+                           Optional.of(color),
+                           Optional.of(type))
+                .consumeError(errorLabel::setText)
+                .runIfSuccess(calendarController::update)
+                .runIfSuccess(stage::close);
     }
 
     @FXML
     private void handleDelete() {
-        // Handle the delete event logic here
-        RestHelper.removeEvent(event.getId()); // TOOD handle error
-        calendarController.update();
-        stage.close();
+        RestHelper.removeEvent(event.getId()).consumeError(errorLabel::setText)
+                .runIfSuccess(calendarController::update)
+                .runIfSuccess(stage::close);
     }
 }
