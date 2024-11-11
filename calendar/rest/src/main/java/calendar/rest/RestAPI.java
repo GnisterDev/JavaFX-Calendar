@@ -253,6 +253,11 @@ public class RestAPI {
                     return;
                 }
 
+                if (startTime.get().isAfter(endTime.get())) {
+                    sendResponse(t, 400, "Event end time can't be before start time");
+                    return;
+                }
+
                 Event event = new Event(title.orElse("Untitled event"), description.orElse(""), startTime.get(),
                         endTime.get(), color.orElse(Color.BLUE), type.orElse(EventType.REGULAR));
                 calendar.get().addEvent(event);
