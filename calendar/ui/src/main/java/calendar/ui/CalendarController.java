@@ -64,7 +64,8 @@ public class CalendarController {
     private static final String DEFAULT_EVENT_CLASS_NAME = "event";
 
     /** The classname used for the day today, to make it stand out more. */
-    private static final String DATE_IS_TODAY_CLASS_NAME = "calendar-date-today";
+    private static final String DATE_IS_TODAY_CLASS_NAME =
+            "calendar-date-today";
 
     /** The default color of the color picker. */
     private static final String DEFAULT_EVENT_COLOR = "#EA454C";
@@ -185,34 +186,33 @@ public class CalendarController {
         colorCircle.setFill(colorPicker.getValue());
 
         calendarSelect.setConverter(new StringConverter<Calendar>() {
-            public String toString(Calendar cal) {
-                if (cal == null)
-                    return "ERROR: NULL CALENDAR";
+            public String toString(final Calendar cal) {
+                if (cal == null) return "ERROR: NULL CALENDAR";
                 return cal.getName();
             };
 
-            public Calendar fromString(String str) {
+            public Calendar fromString(final String str) {
                 return calendarSelect.getItems().stream()
-                        .filter(cal -> cal.getName().equals(str)).findFirst().orElse(null);
+                        .filter(cal -> cal.getName().equals(str)).findFirst()
+                        .orElse(null);
             };
         });
         calendarSelect.setOnHidden((javafx.event.Event e) -> {
-            if (calendarSelect.getValue() == null)
-                return;
+            if (calendarSelect.getValue() == null) return;
             RestHelper.setCaledarId(calendarSelect.getValue().getCalendarId());
             update();
         });
-        calendarSelect.getItems()
-                .addAll(RestHelper.getUser().map(user -> user.getCalendars()).orElse(new ArrayList<>()));
-        calendarSelect.setValue(calendarSelect.getItems().stream().findFirst().orElse(null));
+        calendarSelect.getItems().addAll(RestHelper.getUser()
+                .map(user -> user.getCalendars()).orElse(new ArrayList<>()));
+        calendarSelect.setValue(calendarSelect.getItems().stream().findFirst()
+                .orElse(null));
         RestHelper.setCaledarId(calendarSelect.getValue().getCalendarId());
 
         Stream.of(rootPane).forEach(this::loseFocus);
         Stream.of(startDateSelect, endDateSelect).forEach(this::datePicker);
         Stream.of(startTimeSelect, endTimeSelect).forEach(l -> l
                 .focusedProperty().addListener((obs, oldVal, newVal) -> {
-                    if (!newVal)
-                        timeSelectLoseFocus(l);
+                    if (!newVal) timeSelectLoseFocus(l);
                 }));
 
         IntStream.range(1, HOURS_IN_A_DAY).forEach(i -> {
@@ -242,6 +242,20 @@ public class CalendarController {
         colorPicker.show();
     }
 
+    /**
+     * Auto formats the input for the user in the inputs for the time.
+     * <p>
+     * Exaples:
+     * <ul>
+     * <li>4 -> 04:00</li>
+     * <li>23 -> 23:00</li>
+     * <li>47 -> 07:00</li>
+     * <li>713 -> 13:00</li>
+     * </ul>
+     * <p>
+     *
+     * @param event the keyevent that trigerd this method.
+     */
     @FXML
     protected void timeSelectKey(final KeyEvent event) {
         final int activeLength = 2;
@@ -265,44 +279,62 @@ public class CalendarController {
             return;
         }
 
-        if (field.getLength() == 1 || field.getLength() == 0)
-            return;
+        if (field.getLength() == 1 || field.getLength() == 0) return;
         if (Integer.parseInt(field.getText()
                 .substring(0, activeLength)) > HOURS_IN_A_DAY)
             field.setText("0" + event.getCharacter() + ":00");
-        if (field.getText().matches("^\\d$|^\\d{2}:\\d{2}$"))
-            return;
+        if (field.getText().matches("^\\d$|^\\d{2}:\\d{2}$")) return;
         field.setText("");
     }
 
+    /**
+     * Handles focus loss for the specified time input field, ensuring the time
+     * format is valid.
+     * <p>
+     * If the input text matches the format "HH:MM", the method does nothing.
+     * Otherwise, it attempts to correct the input to a valid time format,
+     * adding a leading zero or resetting the value.
+     * </p>
+     *
+     * @param field the {@link TextField} representing the time input
+     */
     protected void timeSelectLoseFocus(final TextField field) {
-        if (field.getText().matches("^\\d{2}:\\d{2}$"))
-            return;
+        if (field.getText().matches("^\\d{2}:\\d{2}$")) return;
         field.setText(field.getText().matches("^\\d$")
                 ? "0" + field.getText() + ":00"
                 : "");
     }
 
+    /**
+     * Adds a mouse event listener to the specified root node to ensure it
+     * regains focus when the user clicks outside of it.
+     *
+     * @param root the {@link Node} that should regain focus when clicked
+     *             outside of
+     */
     protected void loseFocus(final Node root) {
         root.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
             Node focusedNode = root.getScene().getFocusOwner();
 
-            if (focusedNode == null)
-                return;
-            if (focusedNode.equals(root))
-                return;
+            if (focusedNode == null) return;
+            if (focusedNode.equals(root)) return;
             if (focusedNode.getBoundsInParent().contains(event.getX(),
-                    event.getY()))
+                                                         event.getY()))
                 return;
             root.requestFocus();
         });
     }
 
+    /**
+     * Adds a listener to the specified {@link DatePicker} to automatically show
+     * the date picker when the field gains focus.
+     *
+     * @param datePicker the {@link DatePicker} to configure
+     */
     protected void datePicker(final DatePicker datePicker) {
         datePicker.focusedProperty()
                 .addListener((obs, wasFocused, isNowFocused) -> {
-                    if (isNowFocused)
-                        datePicker.show();
+                    if (isNowFocused) datePicker.show();
                 });
     }
 
@@ -334,9 +366,13 @@ public class CalendarController {
         RestHelper.addCalendar(Optional.of(calendarName.getText()))
                 .consumeError(calendarErrorLabel::setText);
 
-        List<UUID> known_cals = calendarSelect.getItems().stream().map(cal -> cal.getCalendarId()).toList();
-        List<Calendar> cals = RestHelper.getUser().map(user -> user.getCalendars()).orElse(new ArrayList<>()).stream()
-                .filter(cal -> !known_cals.contains(cal.getCalendarId())).toList();
+        List<UUID> knownCalendars = calendarSelect.getItems().stream()
+                .map(cal -> cal.getCalendarId()).toList();
+        List<Calendar> cals = RestHelper.getUser()
+                .map(user -> user.getCalendars()).orElse(new ArrayList<>())
+                .stream()
+                .filter(cal -> !knownCalendars.contains(cal.getCalendarId()))
+                .toList();
         calendarSelect.getItems().addAll(cals);
 
         calendarName.setText("");
@@ -379,8 +415,10 @@ public class CalendarController {
     private void updateYear(final LocalDateTime startTime,
             final LocalDateTime endTime) {
         boolean isSameYear = startTime.getYear() == endTime.getYear();
-        String abbreviatedStartYear = Integer.toString(startTime.getYear()).substring(2);
-        String abbreviatedEndYear = Integer.toString(endTime.getYear()).substring(2);
+        String abbreviatedStartYear =
+                Integer.toString(startTime.getYear()).substring(2);
+        String abbreviatedEndYear =
+                Integer.toString(endTime.getYear()).substring(2);
         yearLabel.setText(isSameYear
                 ? Integer.toString(startTime.getYear())
                 : abbreviatedStartYear + "-" + abbreviatedEndYear);
@@ -416,28 +454,31 @@ public class CalendarController {
                 .contains(DEFAULT_EVENT_CLASS_NAME));
     }
 
+    /**
+     * Updates the ui.
+     */
     protected void update() {
         errorLabel.setText("");
         clearCalendar();
         updateDates();
 
-        LocalDateTime startTime = LocalDateTime.of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN);
-        LocalDateTime endTime = LocalDateTime.of(weekDate.with(DayOfWeek.SUNDAY), LocalTime.MAX);
-        List<Event> events = RestHelper.getEvents(Optional.of(endTime), Optional.of(startTime))
+        LocalDateTime startTime = LocalDateTime
+                .of(weekDate.with(DayOfWeek.MONDAY), LocalTime.MIN);
+        LocalDateTime endTime = LocalDateTime
+                .of(weekDate.with(DayOfWeek.SUNDAY), LocalTime.MAX);
+        List<Event> events = RestHelper
+                .getEvents(Optional.of(endTime), Optional.of(startTime))
                 .orElse(new ArrayList<>());
 
-        int allDayRow = 0; // TODO check if this can be removed
-        // TODO add scroll
+        int allDayRow = 0;
 
         for (Event event : events) {
 
             LocalDateTime eventStartTime = event.getStartTime();
             LocalDateTime eventEndTime = event.getEndTime();
 
-            if (eventStartTime.isBefore(startTime))
-                eventStartTime = startTime;
-            if (eventEndTime.isAfter(endTime))
-                eventEndTime = endTime;
+            if (eventStartTime.isBefore(startTime)) eventStartTime = startTime;
+            if (eventEndTime.isAfter(endTime)) eventEndTime = endTime;
 
             int startDayIndex = eventStartTime.getDayOfWeek().getValue()
                     - 1;
@@ -446,11 +487,11 @@ public class CalendarController {
 
             if (event.getType().equals(EventType.ALL_DAY)) {
                 createEventRect(event,
-                        startDayIndex,
-                        allDayRow++,
-                        endDayIndex
-                                - startDayIndex
-                                + 1);
+                                startDayIndex,
+                                allDayRow++,
+                                endDayIndex
+                                        - startDayIndex
+                                        + 1);
                 continue;
             }
 
@@ -464,30 +505,28 @@ public class CalendarController {
             if (eventStartTime.toLocalDate()
                     .equals(eventEndTime.toLocalDate())) {
                 createEventRect(event,
-                        startDayIndex,
-                        startRowIndex,
-                        endRowIndex
-                                - startRowIndex);
+                                startDayIndex,
+                                startRowIndex,
+                                endRowIndex
+                                        - startRowIndex);
                 continue;
             }
 
             // Multi day Event
-            for (int dayIndex = startDayIndex; dayIndex <= endDayIndex; dayIndex++) {
+            for (int dayIndex =
+                    startDayIndex; dayIndex <= endDayIndex; dayIndex++) {
                 if (dayIndex != startDayIndex && dayIndex != endDayIndex) {
-                    createEventRect(event,
-                            dayIndex,
-                            0,
-                            HOURS_IN_A_DAY);
+                    createEventRect(event, dayIndex, 0, HOURS_IN_A_DAY);
                     continue;
                 }
                 boolean isStartDay = dayIndex == startDayIndex;
                 createEventRect(event,
-                        dayIndex,
-                        isStartDay ? startRowIndex : 0,
-                        !isStartDay
-                                ? endRowIndex
-                                : (HOURS_IN_A_DAY
-                                        - startRowIndex));
+                                dayIndex,
+                                isStartDay ? startRowIndex : 0,
+                                !isStartDay
+                                        ? endRowIndex
+                                        : (HOURS_IN_A_DAY
+                                                - startRowIndex));
 
             }
         }
@@ -506,8 +545,13 @@ public class CalendarController {
         eventBox.getChildren().add(new Label(event.getTitle()));
         eventBox.setAlignment(Pos.TOP_CENTER);
         eventBox.setOnMouseClicked(mouseEvent -> {
-            popUpForm(event, event.getTitle(), event.getStartTime().toLocalDate(), event.getEndTime().toLocalDate(),
-                    event.getStartTime().getHour(), event.getEndTime().getHour()).show();
+            popUpForm(event,
+                      event.getTitle(),
+                      event.getStartTime().toLocalDate(),
+                      event.getEndTime().toLocalDate(),
+                      event.getStartTime().getHour(),
+                      event.getEndTime().getHour())
+                    .show();
         });
 
         switch (event.getType()) {
@@ -541,13 +585,17 @@ public class CalendarController {
 
         RestHelper
                 .addEvent(Optional.of(eventNameField.getText()),
-                        Optional.of(eventDescriptionField.getText()),
-                        startTime.map(start -> LocalDateTime.of(startDateSelect.getValue(), LocalTime.of(start, 0))),
-                        endTime.map(end -> LocalDateTime.of(endDateSelect.getValue(), LocalTime.of(end, 0))),
-                        Optional.of(colorPicker.getValue()),
-                        Optional.of(!allDaySwitch.isSelected()
-                                ? EventType.REGULAR
-                                : EventType.ALL_DAY))
+                          Optional.of(eventDescriptionField.getText()),
+                          startTime.map(start -> LocalDateTime
+                                  .of(startDateSelect.getValue(),
+                                      LocalTime.of(start, 0))),
+                          endTime.map(end -> LocalDateTime
+                                  .of(endDateSelect.getValue(),
+                                      LocalTime.of(end, 0))),
+                          Optional.of(colorPicker.getValue()),
+                          Optional.of(!allDaySwitch.isSelected()
+                                  ? EventType.REGULAR
+                                  : EventType.ALL_DAY))
                 .consumeError(errorLabel::setText).runIfSuccess(this::update);
     }
 
@@ -565,10 +613,15 @@ public class CalendarController {
 
     // create a popup form for editing
 
-    public Stage popUpForm(Event event, String eventName, LocalDate startDate, LocalDate endDate, int startTime,
-            int endTime) {
+    private Stage popUpForm(final Event event,
+            final String eventName,
+            final LocalDate startDate,
+            final LocalDate endDate,
+            final int startTime,
+            final int endTime) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Popup_form.fxml"));
+            FXMLLoader loader =
+                    new FXMLLoader(getClass().getResource("Popup.fxml"));
             VBox vbox = loader.load();
             // vbox.setId("rootVBox");
 
@@ -576,10 +629,10 @@ public class CalendarController {
             PopupController controller = loader.getController();
 
             Stage stage = new Stage();
-            stage.setWidth(250);
-            stage.setHeight(400);
-            stage.setX(50);
-            stage.setY(10);
+            stage.setWidth(PopupController.Width);
+            stage.setHeight(PopupController.Height);
+            stage.setX(SceneCore.getX());
+            stage.setY(SceneCore.getY());
             stage.setScene(new Scene(vbox));
             stage.initModality(Modality.APPLICATION_MODAL);
 

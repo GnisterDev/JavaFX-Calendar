@@ -30,8 +30,8 @@ public class App extends Application {
      * initializes the core logic of the application, sets up the primary stage,
      * and loads the initial scene.
      *
-     * @param primaryStage the primary stage for the JavaFX application
-     * @throws IOException if there is an issue loading resources or scenes
+     * @param  primaryStage the primary stage for the JavaFX application
+     * @throws IOException  if there is an issue loading resources or scenes
      */
     @Override
     public void start(final Stage primaryStage) throws IOException {
