@@ -38,53 +38,62 @@ public class RestCalendar {
     private List<Event> events;
 
     /**
-     * Default constructor. Creates a new calendar with a randomly generated
-     * {@link UUID} for the calendar ID and an empty list of events.
+     * Default constructor that creates a {@link RestCalendar} with a randomly
+     * generated {@link UUID} for the calendar ID and initializes it with
+     * default values: "Unnamed calendar" and an empty events list.
      */
     public RestCalendar() {
         this(UUID.randomUUID());
     }
 
     /**
-     * Creates a new calendar with the specified calendar ID and an empty list of
-     * events.
+     * Constructor that creates a {@link RestCalendar} with the provided
+     * {@link UUID} for the calendar ID, a default name "Unnamed calendar", and
+     * an empty events list.
      *
-     * @param calendarId the unique identifier for this calendar
+     * @param calendarId the {@link UUID} representing the calendar ID
      */
-    public RestCalendar(UUID calendarId) {
+    public RestCalendar(final UUID calendarId) {
         this(calendarId, "Unnamed calendar", new ArrayList<>());
     }
 
-    public RestCalendar(String name) {
+    /**
+     * Constructor that creates a {@link RestCalendar} with a randomly generated
+     * {@link UUID} for the calendar ID, the specified name, and an empty events
+     * list.
+     *
+     * @param name the name of the calendar
+     */
+    public RestCalendar(final String name) {
         this(UUID.randomUUID(), name, new ArrayList<>());
     }
 
     /**
-     * Creates a new calendar with a randomly generated {@link UUID} for the
-     * calendar ID and the specified list of events.
+     * Constructor that creates a {@link RestCalendar} with a randomly generated
+     * {@link UUID} for the calendar ID, the default name "Unnamed calendar",
+     * and the specified list of events.
      *
-     * @param events the list of events to initialize this calendar with
+     * @param events the list of {@link Event} objects associated with the
+     *               calendar
      */
-    public RestCalendar(List<Event> events) {
+    public RestCalendar(final List<Event> events) {
         this(UUID.randomUUID(), "Unnamed caledar", events);
     }
 
     /**
-     * Full constructor for the {@code Calendar} class.
+     * Constructor that creates a {@link RestCalendar} with the specified
+     * calendar ID, name, and events. This constructor is used for
+     * deserialization with JSON libraries.
      *
-     * <p>
-     * This constructor is annotated with {@link JsonCreator} to allow
-     * deserialization from JSON, using the {@link JsonProperty} annotations to
-     * map JSON fields to class properties.
-     * </p>
-     *
-     * @param userId the unique identifier for the user associated with this
-     *               calendar
-     * @param events the list of events to initialize this calendar with
+     * @param calendarId the {@link UUID} representing the calendar ID
+     * @param name       the name of the calendar
+     * @param events     the list of {@link Event} objects associated with the
+     *                   calendar
      */
     @JsonCreator
-    public RestCalendar(@JsonProperty("userId") UUID calendarId, @JsonProperty("name") String name,
-            @JsonProperty("events") List<Event> events) {
+    public RestCalendar(@JsonProperty("userId") final UUID calendarId,
+            @JsonProperty("name") final String name,
+            @JsonProperty("events") final List<Event> events) {
         this.events = new ArrayList<>(events);
         this.calendarId = calendarId;
         this.name = name;
@@ -110,12 +119,12 @@ public class RestCalendar {
     /**
      * Gets the event at the specified index in the event list.
      *
-     * @param index the index of the event to retrieve
-     * @return The {@link Event} at the specified
-     *         index
+     * @param  index                     the index of the event to retrieve
+     * @return                           The {@link Event} at the specified
+     *                                   index
      * @throws IndexOutOfBoundsException if the index is out of range
      */
-    public Event getEvent(int index) {
+    public Event getEvent(final int index) {
         return events.get(index);
     }
 
@@ -124,17 +133,17 @@ public class RestCalendar {
      *
      * @param event the {@link Event} to be removed
      */
-    public void removeEvent(Event event) {
+    public void removeEvent(final Event event) {
         events.remove(event);
     }
 
     /**
      * Removes the event at the specified index in the event list.
      *
-     * @param index the index of the event to be removed
+     * @param  index                     the index of the event to be removed
      * @throws IndexOutOfBoundsException if the index is out of range
      */
-    public void removeEvent(int index) {
+    public void removeEvent(final int index) {
         events.remove(index);
     }
 
@@ -143,7 +152,7 @@ public class RestCalendar {
      *
      * @param event the {@link Event} to be added
      */
-    public void addEvent(Event event) {
+    public void addEvent(final Event event) {
         events.add(event);
     }
 

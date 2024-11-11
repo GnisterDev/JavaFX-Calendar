@@ -61,11 +61,30 @@ public final class Persistence {
      *                     the object will be written
      * @throws IOException if there is an error writing to the file
      */
-    public static <T> void write(T object, String filepath) throws IOException {
+    public static <T> void write(final T object, final String filepath)
+            throws IOException {
         Files.writeString(Path.of(filepath), toJSON(object));
     }
 
-    public static <T> String toJSON(T object) throws IOException {
+    /**
+     * Serializes an object to a JSON-formatted string with specific
+     * serialization configurations.
+     * <p>
+     * This method uses the Jackson library to convert an object of type
+     * {@code T} to a JSON string. It registers custom serializers, including a
+     * {@link ColorSerializer} for {@link Color} objects and a
+     * {@link JavaTimeModule} for Java 8+ date/time objects, enabling a more
+     * specialized serialization process. The JSON output is also formatted with
+     * indentation for readability.
+     * </p>
+     *
+     * @param  <T>         the type of the object to be serialized
+     * @param  object      the object to serialize to JSON
+     * @return             a JSON-formatted string representing the serialized
+     *                     object
+     * @throws IOException if an I/O error occurs during serialization
+     */
+    public static <T> String toJSON(final T object) throws IOException {
         SimpleModule module = new SimpleModule();
         module.addSerializer(Color.class, new ColorSerializer());
 
@@ -126,11 +145,34 @@ public final class Persistence {
      * @throws IOException if there is an error reading from the file or
      *                     deserializing the JSON content
      */
-    public static <T> T read(Class<T> objectType, String filepath) throws IOException {
+    public static <T> T read(final Class<T> objectType, final String filepath)
+            throws IOException {
         return fromJSON(objectType, Files.readString(Path.of(filepath)));
     }
 
-    public static <T> T fromJSON(Class<T> objectType, String json) throws IOException {
+    /**
+     * Deserializes a JSON-formatted string into an object of the specified
+     * type.
+     * <p>
+     * This method uses the Jackson library to convert a JSON string into an
+     * instance of the given class type {@code T}. It registers custom
+     * deserializers, including a {@link ColorDeserializer} for {@link Color}
+     * objects and a {@link UUIDDeserializer} for {@link UUID} objects, to
+     * handle specialized deserialization requirements. Additionally, a
+     * {@link JavaTimeModule} is registered to support Java 8+ date/time
+     * classes.
+     * </p>
+     *
+     * @param  <T>         the type of the object to be deserialized
+     * @param  objectType  the {@link Class} of the object to deserialize to
+     * @param  json        the JSON string to deserialize
+     * @return             an instance of {@code T} populated with data from the
+     *                     JSON string
+     * @throws IOException if an I/O error occurs during deserialization or if
+     *                     the JSON is invalid
+     */
+    public static <T> T fromJSON(final Class<T> objectType, final String json)
+            throws IOException {
         SimpleModule module = new SimpleModule();
         module.addDeserializer(Color.class, new ColorDeserializer());
         module.addDeserializer(UUID.class, new UUIDDeserializer());

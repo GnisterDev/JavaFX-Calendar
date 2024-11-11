@@ -54,16 +54,16 @@ public class SignUpController {
     }
 
     /**
-     * Handles the sign-up action when the sign-up button is clicked.
-     * It validates the entered username and password, and attempts to register the
-     * user.
-     * If registration succeeds, the user is logged in and the scene switches to the
-     * calendar view.
-     * If registration fails, an error message is displayed.
+     * Handles the sign-up action when the sign-up button is clicked. It
+     * validates the entered username and password, and attempts to register the
+     * user. If registration succeeds, the user is logged in and the scene
+     * switches to the calendar view. If registration fails, an error message is
+     * displayed.
      */
     @FXML
     private void handleLogin() {
-        RestHelper.setCredentials(usernameField.getText(), passwordField.getText());
+        RestHelper.setCredentials(usernameField.getText(),
+                                  passwordField.getText());
         RestHelper.addUser().consumeError(messageLabel::setText)
                 .runIfSuccess(() -> {
                     RestHelper.addCalendar(Optional.of("Default")); // Temp

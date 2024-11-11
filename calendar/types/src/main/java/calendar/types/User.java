@@ -36,10 +36,24 @@ public class User {
     @JsonProperty
     private UserSettings settings;
 
-    public User(RestUser user) {
+    /**
+     * Constructs a new {@code User} instance from a {@code RestUser} object.
+     * <p>
+     * This constructor initializes a {@code User} by copying fields from a
+     * {@code RestUser} instance. The {@code userId} and {@code username} are
+     * directly copied, while each calendar in the {@code RestUser} is converted
+     * to a {@code Calendar} instance and stored in a list. The {@code settings}
+     * are also copied.
+     * </p>
+     *
+     * @param user the {@code RestUser} object from which to initialize this
+     *             {@code User}
+     */
+    public User(final RestUser user) {
         this.userId = user.getUserId();
         this.username = user.getUsername();
-        this.calendars = user.getCalendars().stream().map(c -> new Calendar(c)).toList();
+        this.calendars =
+                user.getCalendars().stream().map(c -> new Calendar(c)).toList();
         this.settings = user.getSettings();
     }
 
@@ -54,13 +68,14 @@ public class User {
      *
      * @param userId    the unique identifier for the user
      * @param username  the username of the user
-     * @param password  the password of the user
      * @param calendars the list of calendars associated with the user
      * @param settings  the settings associated with the user
      */
     @JsonCreator
-    public User(@JsonProperty("userId") UUID userId, @JsonProperty("username") String username,
-            @JsonProperty("calendars") List<Calendar> calendars, @JsonProperty("settings") UserSettings settings) {
+    public User(@JsonProperty("userId") final UUID userId,
+            @JsonProperty("username") final String username,
+            @JsonProperty("calendars") final List<Calendar> calendars,
+            @JsonProperty("settings") final UserSettings settings) {
         this.userId = userId;
         this.username = username;
         this.calendars = calendars;
@@ -85,10 +100,20 @@ public class User {
         return username;
     }
 
+    /**
+     * Gets a list of calendars for the user.
+     *
+     * @return a list of calendars for the user.
+     */
     public List<Calendar> getCalendars() {
         return calendars;
     }
 
+    /**
+     * Gets the settings for the user.
+     *
+     * @return the {@link UserSettings} for the user.
+     */
     public UserSettings getSettings() {
         return settings;
     }

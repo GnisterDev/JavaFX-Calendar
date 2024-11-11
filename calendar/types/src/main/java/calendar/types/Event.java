@@ -1,6 +1,7 @@
 package calendar.types;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -69,12 +70,12 @@ public class Event {
             final LocalDateTime startTime,
             final LocalDateTime endTime) {
         this(title,
-                description,
-                startTime,
-                endTime,
-                EventType.REGULAR,
-                Color.BLUE,
-                UUID.randomUUID());
+             description,
+             startTime,
+             endTime,
+             Color.BLUE,
+             EventType.REGULAR,
+             UUID.randomUUID());
     }
 
     /**
@@ -102,12 +103,12 @@ public class Event {
             final Color color,
             final EventType type) {
         this(title,
-                description,
-                startTime,
-                endTime,
-                type,
-                color,
-                UUID.randomUUID());
+             description,
+             startTime,
+             endTime,
+             color,
+             type,
+             UUID.randomUUID());
     }
 
     /**
@@ -134,8 +135,8 @@ public class Event {
             @JsonProperty("description") final String description,
             @JsonProperty("startTime") final LocalDateTime startTime,
             @JsonProperty("endTime") final LocalDateTime endTime,
-            @JsonProperty("type") final EventType type,
             @JsonProperty("color") final Color color,
+            @JsonProperty("type") final EventType type,
             @JsonProperty("id") final UUID id) {
         this.title = title;
         this.description = description;
@@ -164,10 +165,6 @@ public class Event {
         return title;
     }
 
-    public void setTitle(String newTitle) {
-        this.title = newTitle;
-    }
-
     /**
      * Gets the description of the event.
      *
@@ -187,10 +184,6 @@ public class Event {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime newStarTime) {
-        this.startTime = newStarTime;
-    }
-
     /**
      * Gets the end time of the event.
      *
@@ -198,10 +191,6 @@ public class Event {
      */
     public LocalDateTime getEndTime() {
         return endTime;
-    }
-
-    public void setEndTime(LocalDateTime newEndTime) {
-        this.endTime = newEndTime;
     }
 
     /**
@@ -229,23 +218,8 @@ public class Event {
      */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((id == null) ? 0 : id.hashCode());
-        result = prime * result
-                + ((type == null) ? 0 : type.hashCode());
-        result = prime * result
-                + ((title == null) ? 0 : title.hashCode());
-        result = prime * result
-                + ((description == null) ? 0 : description.hashCode());
-        result = prime * result
-                + ((startTime == null) ? 0 : startTime.hashCode());
-        result = prime * result
-                + ((endTime == null) ? 0 : endTime.hashCode());
-        result = prime * result
-                + ((color == null) ? 0 : color.hashCode());
-        return result;
+        return Objects
+                .hash(title, description, startTime, endTime, color, type, id);
     }
 
     /**
@@ -253,8 +227,7 @@ public class Event {
      */
     @Override
     public boolean equals(final Object obj) {
-        if (obj == this)
-            return true;
+        if (obj == this) return true;
         if (obj instanceof Event) {
             Event other = (Event) obj;
             return type.equals(other.getType())
@@ -263,7 +236,6 @@ public class Event {
                     && startTime.equals(other.getStartTime())
                     && endTime.equals(other.getEndTime())
                     && color.equals(other.getColor());
-        } else
-            return false;
+        } else return false;
     }
 }
