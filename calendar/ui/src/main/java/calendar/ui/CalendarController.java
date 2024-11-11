@@ -527,7 +527,6 @@ public class CalendarController {
                                         ? endRowIndex
                                         : (HOURS_IN_A_DAY
                                                 - startRowIndex));
-
             }
         }
         Platform.runLater(() -> allDayScrollPane.setVvalue(1D));
@@ -537,6 +536,7 @@ public class CalendarController {
             final int columnIndex,
             final int rowIndex,
             final int length) {
+        if (length == 0) return;
         VBox eventBox = new VBox();
         eventBox.getStyleClass().add(DEFAULT_EVENT_CLASS_NAME);
         eventBox.setStyle("-fx-background-color: #"
@@ -581,17 +581,25 @@ public class CalendarController {
                     ? Integer.parseInt(endTimeSelect.getText().substring(0, 2))
                     : 1);
         } catch (Exception e) {
+
         }
+
+        Optional<LocalDateTime> startDateTime = startTime
+                .map(start -> LocalDateTime.of(startDateSelect.getValue(),
+                                               LocalTime.of(start, 0)));
+
+        Optional<LocalDateTime> endDateTime =
+                endTime.map(end -> end == HOURS_IN_A_DAY
+                        ? LocalDateTime.of(endDateSelect.getValue().plusDays(1),
+                                           LocalTime.of(0, 0))
+                        : LocalDateTime.of(endDateSelect.getValue(),
+                                           LocalTime.of(end, 0)));
 
         RestHelper
                 .addEvent(Optional.of(eventNameField.getText()),
                           Optional.of(eventDescriptionField.getText()),
-                          startTime.map(start -> LocalDateTime
-                                  .of(startDateSelect.getValue(),
-                                      LocalTime.of(start, 0))),
-                          endTime.map(end -> LocalDateTime
-                                  .of(endDateSelect.getValue(),
-                                      LocalTime.of(end, 0))),
+                          startDateTime,
+                          endDateTime,
                           Optional.of(colorPicker.getValue()),
                           Optional.of(!allDaySwitch.isSelected()
                                   ? EventType.REGULAR
@@ -609,9 +617,8 @@ public class CalendarController {
         eventDescriptionField.setText("");
         colorPicker.setValue(Color.web(DEFAULT_EVENT_COLOR));
         colorCircle.setFill(colorPicker.getValue());
+        errorLabel.setText("");
     }
-
-    // create a popup form for editing
 
     private Stage popUpForm(final Event event,
             final String eventName,
