@@ -40,7 +40,9 @@ write what our actuall test coverage is:
 
 ### Known issues
 
-Event with startime after end time, still gives error if you chose to edit the event to span the whole day.
+Event with startime after endtime, still gives error if you chose to edit the event to span the whole day.
+
+Events that span the same time will overlapp.
 
 ### AI statement
 

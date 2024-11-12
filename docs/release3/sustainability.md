@@ -1,3 +1,7 @@
+# Sustainability
+
+![susAd](../images/susAD.png)
+
 ### Social Sustainability
 
 #### Trust:
@@ -39,9 +43,9 @@ Level: Systemic (data protection enhances the digital safety of users).
 
 ### Environmental Sustainability
 
-#### Materials and Resources:
-
 - Depends alot where the application ends up being hosted.
+
+#### Materials and Resources:
 
 As a digital application, the calendar app does not require physical materials. However, it may impact server usage and energy consumption if hosted on large-scale infrastructure.
 Level: Systemic (through server energy demands and the resources required for cloud infrastructure).
@@ -51,20 +55,10 @@ Level: Systemic (through server energy demands and the resources required for cl
 Minimal direct impact since it’s a virtual application, but data centers where it’s hosted can contribute to environmental impacts, including emissions from non-renewable energy sources.
 Level: Systemic (through the data center’s environmental impact).
 
-#### Biodiversity and Land Use:
-
-The app has no direct impact on land use or biodiversity, though its hosting service might have indirect effects, depending on its environmental policies.
-Level: Systemic (if the hosting provider affects land use or biodiversity).
-
 #### Energy:
 
 Server usage, especially as the app scales, requires careful consideration of energy demands. Opting for hosting providers that use renewable energy sources can mitigate the environmental impact.
 Level: Systemic (energy usage affects sustainability long-term).
-
-#### Logistics and Transport:
-
-The app does not have physical logistics needs but can reduce the need for travel by helping users coordinate schedules remotely.
-Level: Immediate (reducing travel needs by facilitating remote scheduling).
 
 ### Economic Sustainability
 
@@ -94,8 +88,3 @@ Level: Immediate (through user interaction) and Enabling (by simplifying time ma
 
 Security is essential to protect user data and maintain trust. Without implemented encryption, there is a risk of unauthorized users accessing personal information.
 Level: Systemic (since security impacts user trust long-term).
-
-#### Scalability:
-
-Scalability is critical if user demand grows; the app should be capable of handling increased workloads. A Cloud-based infrastructure could support this flexibility.
-Level: Systemic (to handle growing user demands sustainably).
