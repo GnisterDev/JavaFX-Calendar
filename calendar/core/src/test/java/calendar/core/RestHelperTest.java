@@ -33,32 +33,48 @@ import javafx.scene.paint.Color;
 import no.gorandalum.fluentresult.Result;
 import no.gorandalum.fluentresult.VoidResult;
 
+/**
+ * Unit test class for the {@link RestHelper} utility class, which facilitates
+ * interactions with a remote REST API for calendar management.
+ * <p>
+ * This test class verifies the behavior of various API calls and the
+ * error handling mechanisms implemented in {@link RestHelper}.
+ */
 public class RestHelperTest {
 
     private Event event1 = new Event("event1",
-                                     "description 1",
-                                     LocalDateTime.now(),
-                                     LocalDateTime.now().plusHours(2));
+            "description 1",
+            LocalDateTime.now(),
+            LocalDateTime.now().plusHours(2));
     private Event event2 = new Event("event2",
-                                     "description 2",
-                                     LocalDateTime.now().plusHours(3),
-                                     LocalDateTime.now().plusHours(6));
+            "description 2",
+            LocalDateTime.now().plusHours(3),
+            LocalDateTime.now().plusHours(6));
     private Calendar cal1 = new Calendar(UUID.randomUUID(), "cal1");
     private Calendar cal2 = new Calendar(UUID.randomUUID(), "cal2");
     private UUID uuid = UUID.randomUUID();
     private UserSettings settings = new UserSettings(uuid);
-    private User user =
-            new User(uuid, "username", List.of(cal1, cal2), settings);
+    private User user = new User(uuid, "username", List.of(cal1, cal2), settings);
 
+    /**
+     * Helper method to assert an error condition for the specified result.
+     */
     private <S, E> void assertError(Result<S, E> result) {
         assertError(result.toVoidResult());
     }
 
+    /**
+     * Helper method to assert an error condition for void results.
+     */
     private <E> void assertError(VoidResult<E> result) {
         assertThrowsExactly(Exception.class,
-                            () -> result.orElseThrow(s -> new Exception()));
+                () -> result.orElseThrow(s -> new Exception()));
     }
 
+    /**
+     * Reset the static fields of {@link RestHelper} before each test.
+     * Initializes {@link RestHelper#client} with a mocked {@link HttpClient}.
+     */
     @BeforeEach
     public void beforeEach() {
         RestHelper.username = null;
@@ -67,14 +83,18 @@ public class RestHelperTest {
         RestHelper.client = mock(HttpClient.class);
     }
 
+    /**
+     * Tests the setter methods in {@link RestHelper} and verifies that they throw
+     * exceptions for null values and correctly store provided values.
+     */
     @Test
     public void testSetters() {
         assertThrowsExactly(IllegalArgumentException.class,
-                            () -> RestHelper.setServerAddress(null));
+                () -> RestHelper.setServerAddress(null));
         assertThrowsExactly(IllegalArgumentException.class,
-                            () -> RestHelper.setCredentials(null, null));
+                () -> RestHelper.setCredentials(null, null));
         assertThrowsExactly(IllegalArgumentException.class,
-                            () -> RestHelper.setCaledarId(null));
+                () -> RestHelper.setCaledarId(null));
 
         RestHelper.setServerAddress("address");
         assertEquals("address", RestHelper.serverAddress);
@@ -88,6 +108,11 @@ public class RestHelperTest {
         assertEquals(uuid, RestHelper.calendarId);
     }
 
+    /**
+     * Tests that various API methods in {@link RestHelper} throw errors when
+     * credentials
+     * are not set.
+     */
     @Test
     public void testCredentialsNotSet() {
         assertError(RestHelper.getUser());
@@ -97,22 +122,27 @@ public class RestHelperTest {
         assertError(RestHelper.getEvents(Optional.empty(), Optional.empty()));
         assertError(RestHelper
                 .addEvent(Optional.of("name"),
-                          Optional.of("description"),
-                          Optional.of(LocalDateTime.now()),
-                          Optional.of(LocalDateTime.now().plusHours(2)),
-                          Optional.empty(),
-                          Optional.empty()));
+                        Optional.of("description"),
+                        Optional.of(LocalDateTime.now()),
+                        Optional.of(LocalDateTime.now().plusHours(2)),
+                        Optional.empty(),
+                        Optional.empty()));
         assertError(RestHelper.removeEvent(UUID.randomUUID()));
         assertError(RestHelper.editEvent(UUID.randomUUID(),
-                                         Optional.of("new name"),
-                                         Optional.of("new description"),
-                                         Optional.empty(),
-                                         Optional.empty(),
-                                         Optional.empty(),
-                                         Optional.empty()));
+                Optional.of("new name"),
+                Optional.of("new description"),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty()));
 
     }
 
+    /**
+     * Tests that various API methods in {@link RestHelper} throw errors when
+     * calendarId
+     * is not set, even when credentials are set.
+     */
     @Test
     public void testCalendarIdNotSet() {
         RestHelper.setCredentials("username", "password");
@@ -120,33 +150,36 @@ public class RestHelperTest {
         assertError(RestHelper.getEvents(Optional.empty(), Optional.empty()));
         assertError(RestHelper
                 .addEvent(Optional.of("name"),
-                          Optional.of("description"),
-                          Optional.of(LocalDateTime.now()),
-                          Optional.of(LocalDateTime.now().plusHours(2)),
-                          Optional.empty(),
-                          Optional.empty()));
+                        Optional.of("description"),
+                        Optional.of(LocalDateTime.now()),
+                        Optional.of(LocalDateTime.now().plusHours(2)),
+                        Optional.empty(),
+                        Optional.empty()));
         assertError(RestHelper.removeEvent(UUID.randomUUID()));
         assertError(RestHelper.editEvent(UUID.randomUUID(),
-                                         Optional.of("new name"),
-                                         Optional.of("new description"),
-                                         Optional.empty(),
-                                         Optional.empty(),
-                                         Optional.empty(),
-                                         Optional.empty()));
+                Optional.of("new name"),
+                Optional.of("new description"),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty()));
     }
 
+    /**
+     * Tests {@link RestHelper#getUser()} for success and various error conditions.
+     */
     @Test
     public void testGetUser() throws InterruptedException, IOException {
         RestHelper.setCredentials("username", "password");
 
         when(RestHelper.client.send(any(), any()))
                 .thenReturn(new CustomHttpResponse(200,
-                                                   Persistence.toJSON(user)));
+                        Persistence.toJSON(user)));
         RestHelper.getUser().consume(receivedUser -> {
             assertEquals(user.getUserId(), receivedUser.getUserId());
             assertEquals(user.getUsername(), receivedUser.getUsername());
             assertEquals(user.getCalendars().size(),
-                         receivedUser.getCalendars().size());
+                    receivedUser.getCalendars().size());
             for (int i = 0; i < user.getCalendars().size(); i++) {
                 Calendar cal = user.getCalendars().get(i);
                 Calendar receivedCal = receivedUser.getCalendars().get(i);
@@ -167,6 +200,9 @@ public class RestHelperTest {
         assertError(RestHelper.getUser());
     }
 
+    /**
+     * Tests {@link RestHelper#addUser()} for success and error responses.
+     */
     @Test
     public void testAddUser() throws InterruptedException, IOException {
         RestHelper.setCredentials("username", "password");
@@ -181,6 +217,10 @@ public class RestHelperTest {
         assertError(RestHelper.addUser());
     }
 
+    /**
+     * Tests {@link RestHelper#addCalendar(Optional)} for success and error
+     * responses.
+     */
     @Test
     public void testAddCalendar() throws InterruptedException, IOException {
         RestHelper.setCredentials("username", "pasword");
@@ -195,6 +235,9 @@ public class RestHelperTest {
         assertError(RestHelper.addCalendar(Optional.of("new cal")));
     }
 
+    /**
+     * Tests {@link RestHelper#removeCalendar()} for success and error responses.
+     */
     @Test
     public void testRemoveCalendar() throws InterruptedException, IOException {
         RestHelper.setCredentials("username", "pasword");
@@ -210,6 +253,10 @@ public class RestHelperTest {
         assertError(RestHelper.removeCalendar());
     }
 
+    /**
+     * Tests {@link RestHelper#getEvents(Optional, Optional)} for success and error
+     * responses.
+     */
     @Test
     public void testGetEvents() throws InterruptedException, IOException {
         RestHelper.setCredentials("username", "password");
@@ -217,12 +264,12 @@ public class RestHelperTest {
 
         when(RestHelper.client.send(any(), any()))
                 .thenReturn(new CustomHttpResponse(200,
-                                                   Persistence.toJSON(List
-                                                           .of(event1,
-                                                               event2))));
+                        Persistence.toJSON(List
+                                .of(event1,
+                                        event2))));
         RestHelper
                 .getEvents(Optional.of(LocalDateTime.now().plusDays(1)),
-                           Optional.of(LocalDateTime.now().minusHours(2)))
+                        Optional.of(LocalDateTime.now().minusHours(2)))
                 .consume(events -> {
                     assertEquals(2, events.size());
 
@@ -232,11 +279,11 @@ public class RestHelperTest {
                     assertEquals(event1.getColor(), receivedEvent1.getColor());
                     assertEquals(event1.getTitle(), receivedEvent1.getTitle());
                     assertEquals(event1.getDescription(),
-                                 receivedEvent1.getDescription());
+                            receivedEvent1.getDescription());
                     assertEquals(event1.getStartTime(),
-                                 receivedEvent1.getStartTime());
+                            receivedEvent1.getStartTime());
                     assertEquals(event1.getEndTime(),
-                                 receivedEvent1.getEndTime());
+                            receivedEvent1.getEndTime());
 
                     Event receivedEvent2 = events.get(1);
                     assertEquals(event2.getId(), receivedEvent2.getId());
@@ -244,11 +291,11 @@ public class RestHelperTest {
                     assertEquals(event2.getColor(), receivedEvent2.getColor());
                     assertEquals(event2.getTitle(), receivedEvent2.getTitle());
                     assertEquals(event2.getDescription(),
-                                 receivedEvent2.getDescription());
+                            receivedEvent2.getDescription());
                     assertEquals(event2.getStartTime(),
-                                 receivedEvent2.getStartTime());
+                            receivedEvent2.getStartTime());
                     assertEquals(event2.getEndTime(),
-                                 receivedEvent2.getEndTime());
+                            receivedEvent2.getEndTime());
                 });
 
         when(RestHelper.client.send(any(), any()))
@@ -256,6 +303,11 @@ public class RestHelperTest {
         assertError(RestHelper.getEvents(Optional.empty(), Optional.empty()));
     }
 
+    /**
+     * Tests
+     * {@link RestHelper#addEvent(Optional, Optional, Optional, Optional, Optional, Optional)}
+     * for success and error responses.
+     */
     @Test
     public void testAddEvent() throws InterruptedException, IOException {
         RestHelper.setCredentials("username", "password");
@@ -265,23 +317,26 @@ public class RestHelperTest {
                 .thenReturn(new CustomHttpResponse(200));
         RestHelper
                 .addEvent(Optional.of("title"),
-                          Optional.of("description"),
-                          Optional.of(LocalDateTime.now()),
-                          Optional.of(LocalDateTime.now().plusHours(2)),
-                          Optional.of(Color.RED),
-                          Optional.of(EventType.REGULAR))
+                        Optional.of("description"),
+                        Optional.of(LocalDateTime.now()),
+                        Optional.of(LocalDateTime.now().plusHours(2)),
+                        Optional.of(Color.RED),
+                        Optional.of(EventType.REGULAR))
                 .orElseThrow(s -> new IllegalStateException("Remove event did not succeed"));
 
         when(RestHelper.client.send(any(), any()))
                 .thenReturn(new CustomHttpResponse(400));
         assertError(RestHelper.addEvent(Optional.empty(),
-                                        Optional.empty(),
-                                        Optional.empty(),
-                                        Optional.empty(),
-                                        Optional.empty(),
-                                        Optional.empty()));
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty()));
     }
 
+    /**
+     * Tests {@link RestHelper#removeEvent(UUID)} for success and error responses.
+     */
     @Test
     public void testRemoveEvent() throws InterruptedException, IOException {
         RestHelper.setCredentials("username", "password");
@@ -297,6 +352,11 @@ public class RestHelperTest {
         assertError(RestHelper.removeEvent(UUID.randomUUID()));
     }
 
+    /**
+     * Tests
+     * {@link RestHelper#editEvent(UUID, Optional, Optional, Optional, Optional, Optional, Optional)}
+     * for success and error responses.
+     */
     @Test
     public void testEditEvent() throws InterruptedException, IOException {
         RestHelper.setCredentials("username", "password");
@@ -306,26 +366,30 @@ public class RestHelperTest {
                 .thenReturn(new CustomHttpResponse(200));
         RestHelper
                 .editEvent(UUID.randomUUID(),
-                           Optional.of("title"),
-                           Optional.of("description"),
-                           Optional.of(LocalDateTime.now()),
-                           Optional.of(LocalDateTime.now().plusHours(2)),
-                           Optional.of(Color.RED),
-                           Optional.of(EventType.REGULAR))
+                        Optional.of("title"),
+                        Optional.of("description"),
+                        Optional.of(LocalDateTime.now()),
+                        Optional.of(LocalDateTime.now().plusHours(2)),
+                        Optional.of(Color.RED),
+                        Optional.of(EventType.REGULAR))
                 .orElseThrow(s -> new IllegalStateException("Remove event did not succeed"));
 
         when(RestHelper.client.send(any(), any()))
                 .thenReturn(new CustomHttpResponse(400));
         assertError(RestHelper.editEvent(UUID.randomUUID(),
-                                         Optional.empty(),
-                                         Optional.empty(),
-                                         Optional.empty(),
-                                         Optional.empty(),
-                                         Optional.empty(),
-                                         Optional.empty()));
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty()));
     }
 }
 
+/**
+ * Custom implementation of {@link HttpResponse} for test purposes, allowing
+ * configurable status code and response body.
+ */
 final class CustomHttpResponse implements HttpResponse<Object> {
     private int statusCode;
     private String body;
