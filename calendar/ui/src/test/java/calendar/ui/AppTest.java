@@ -10,28 +10,22 @@ import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.framework.junit5.Start;
 
 /**
- * UI test class for the main application window of the Calendar application.
- * <p>
- * This class uses the TestFX framework to verify the initial state and behavior
- * of the application's main stage and UI components.
+ * Integration test for the {@link App} class to verify the application launch,
+ * UI setup,
+ * and initial conditions. This class uses the TestFX framework to interact with
+ * the UI elements
+ * and verify their presence and properties.
  */
-
 public class AppTest extends ApplicationTest {
 
     /**
-     * Starts the application by manually initializing and displaying the main
-     * stage.
-     * <p>
-     * This method overrides the default TestFX application start behavior to
-     * directly
-     * launch the `App` class instance, ensuring that the UI components are
-     * available
-     * for testing.
+     * Initializes and launches the application for testing.
+     * This method manually starts the {@link App} instance on the provided stage.
      *
-     * @param stage the main JavaFX stage for the application
-     * @throws Exception if an error occurs during application startup
+     * @param stage the JavaFX {@link Stage} used to set up and show the
+     *              application's window.
+     * @throws Exception if an error occurs during the application start.
      */
-
     @Start
     public void start(Stage stage) throws Exception {
         // Manually initialize and start the application
@@ -40,12 +34,9 @@ public class AppTest extends ApplicationTest {
     }
 
     /**
-     * Tests that the application window's title is correctly set to "Calendar"
-     * when the application starts.
-     * <p>
-     * This test verifies that the main window is visible and has the expected
-     * title,
-     * ensuring proper initialization of the application stage.
+     * Verifies that the application window has the correct title set.
+     * This test checks that the window with the title "Calendar" is displayed upon
+     * launch.
      */
     @Test
     public void testStageTitleIsSetCorrectly() {
@@ -53,12 +44,10 @@ public class AppTest extends ApplicationTest {
     }
 
     /**
-     * Verifies that the initial scene displayed upon application launch is the
-     * login scene.
-     * <p>
-     * This test checks that the login button is visible, indicating that the
-     * correct
-     * initial UI scene has been loaded and displayed.
+     * Verifies that the initial scene displayed is the login scene.
+     * This test checks that a UI element with the ID "loginButton" is visible when
+     * the application starts,
+     * confirming that the login scene is displayed by default.
      */
     @Test
     public void testInitialSceneIsLoginScene() {
