@@ -13,12 +13,28 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * Unit test class for testing the {@link RestUser} class.
+ * <p>
+ * This class tests the functionality of the `RestUser` class, focusing on
+ * object construction, password verification, immutability, and calendar
+ * modification.
+ */
+
 public class RestUserTest {
     private UUID id = UUID.randomUUID();
     private RestCalendar cal1 = new RestCalendar();
     private RestCalendar cal2 = new RestCalendar();
     private UserSettings set = new UserSettings(id);
 
+    /**
+     * Tests the constructors of the {@link RestUser} class.
+     * <p>
+     * Verifies correct initialization of username, password, associated settings,
+     * and calendars. Also checks that the unique IDs are correctly generated and
+     * that
+     * an exception is thrown when attempting to access a non-existent calendar.
+     */
     @Test
     public void testConstructors() {
         RestUser user1 = new RestUser("username", "password");
@@ -40,6 +56,12 @@ public class RestUserTest {
         assertNotEquals(user1.getUserId(), user2.getUserId());
     }
 
+    /**
+     * Tests the password verification feature of {@link RestUser}.
+     * <p>
+     * Ensures that the correct password returns `true`, while an incorrect
+     * password returns `false`.
+     */
     @Test
     public void testPasswordCheck() {
         RestUser user = new RestUser("", "password");
@@ -48,6 +70,13 @@ public class RestUserTest {
         assertFalse(user.checkPassword("drowssap"));
     }
 
+    /**
+     * Tests the immutability of the calendar list within {@link RestUser}.
+     * <p>
+     * Ensures that external modifications to the list of calendars do not
+     * impact the internal list of {@link RestUser}. Also verifies that internal
+     * modifications within `RestUser` do not alter external list references.
+     */
     @Test
     public void testImmutability() {
         List<RestCalendar> calendars = new ArrayList<>(List.of(cal1, cal2));
@@ -65,6 +94,12 @@ public class RestUserTest {
         assertNotEquals(calendars, user2.getCalendars());
     }
 
+    /**
+     * Tests the modification methods for calendars in {@link RestUser}.
+     * <p>
+     * Verifies adding, removing, and retrieving calendars and checks for
+     * exceptions when accessing non-existent indexes.
+     */
     @Test
     public void testModifyCalendars() {
         RestUser user = new RestUser("username", "password");

@@ -8,11 +8,17 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests for the User class in the calendar application.
+ * Verifies construction and conversion of User objects.
+ */
+
 public class UserTest {
     private UUID uuid = UUID.randomUUID();
     private List<Calendar> calendars = new ArrayList<>();
     private UserSettings settings = new UserSettings(uuid);
 
+    /** Tests the User constructor, verifying all fields are correctly set */
     @Test
     public void testConstructor() {
         User user = new User(uuid, "username", calendars, settings);
@@ -23,6 +29,7 @@ public class UserTest {
         assertEquals(settings, user.getSettings());
     }
 
+    /** Tests conversion from RestUser to User, verifying all properties match */
     @Test
     public void testFromRestUser() {
         RestUser restUser = new RestUser("username", "password");
