@@ -581,7 +581,8 @@ public class CalendarController {
                     ? Integer.parseInt(endTimeSelect.getText().substring(0, 2))
                     : 1);
         } catch (Exception e) {
-
+            errorLabel.setText("Time value(s) are not set correctly.");
+            return;
         }
 
         Optional<LocalDateTime> startDateTime = startTime
