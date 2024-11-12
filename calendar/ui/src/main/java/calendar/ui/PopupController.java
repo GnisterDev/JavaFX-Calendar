@@ -164,15 +164,6 @@ public class PopupController {
     }
 
     /**
-     * Returns the {@link Stage} associated with this popup.
-     *
-     * @return the {@link Stage} instance associated with this popup controller
-     */
-    public Stage getStage() {
-        return this.stage;
-    }
-
-    /**
      * Displays the color picker dialog and updates the color preview when a
      * color is selected.
      */

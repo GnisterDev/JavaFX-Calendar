@@ -68,7 +68,7 @@ public final class RestAPI {
     }
 
     /** The class all the info from the json-file goes into. */
-    private static UserStore userStore;
+    private static volatile UserStore userStore;
 
     /** The portnumber the restAPI opens at. */
     private static final int PORT = 8000;
@@ -116,7 +116,7 @@ public final class RestAPI {
         // Make sure file exists
         Path filepath = Path.of("rest/userdata.json");
         if (Files.notExists(filepath) || Files.size(filepath) == 0)
-            Files.write(filepath, "null".getBytes());
+            Files.write(filepath, "null".getBytes("UTF-8"));
 
         // Load database
         userStore = Persistence.read(UserStore.class, filepath.toString());
@@ -207,7 +207,7 @@ public final class RestAPI {
         }
 
         // Validate path
-        String[] path = t.getRequestURI().getPath().toString().split("/");
+        String[] path = t.getRequestURI().getPath().split("/");
         if (path.length != THREE) {
             sendResponse(t, BAD_REQUEST, "Wrong number of arguments");
             return;
@@ -329,7 +329,7 @@ public final class RestAPI {
         }
 
         // Validate path
-        String[] path = t.getRequestURI().getPath().toString().split("/");
+        String[] path = t.getRequestURI().getPath().split("/");
         if (!(path.length == THREE
                 || (path.length == 2 && t.getRequestMethod().equals("POST")))) {
             sendResponse(t, BAD_REQUEST, "Wrong number of arguments");
@@ -490,7 +490,7 @@ public final class RestAPI {
         }
 
         // Validate path
-        String[] path = t.getRequestURI().getPath().toString().split("/");
+        String[] path = t.getRequestURI().getPath().split("/");
         if (!(path.length == FOUR || (t.getRequestMethod().equals("POST")
                 && path.length == THREE))) {
             sendResponse(t, BAD_REQUEST, "Wrong number of arguments");
@@ -532,10 +532,11 @@ public final class RestAPI {
                 Optional.ofNullable(t.getRequestHeaders().getFirst("title"));
         Optional<String> description = Optional
                 .ofNullable(t.getRequestHeaders().getFirst("description"));
-        Optional<LocalDateTime> startTime = Optional.empty();
-        Optional<LocalDateTime> endTime = Optional.empty();
-        Optional<Color> color = Optional.empty();
-        Optional<EventType> type = Optional.empty();
+
+        Optional<LocalDateTime> startTime;
+        Optional<LocalDateTime> endTime;
+        Optional<EventType> type;
+        Optional<Color> color;
         try {
             startTime =
                     Optional.ofNullable(t.getRequestHeaders().getFirst("start"))
@@ -640,7 +641,7 @@ public final class RestAPI {
             final String message) throws IOException {
         t.sendResponseHeaders(status, message.length());
         OutputStream o = t.getResponseBody();
-        o.write(message.getBytes());
+        o.write(message.getBytes("UFT-8"));
         o.close();
     }
 }
