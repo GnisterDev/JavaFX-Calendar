@@ -6,6 +6,8 @@ This is the third release for the project. It contains the a complete working ca
 
 ### Final functions for application
 
+-Update the functionallity in the readme, explain why we changed it at what changes we made
+
 ### Work habits
 
 Our work habits have remained largely consistent since Release 2, with the primary change being that we now create more specific issues. In Release 2, we often created issues that were quite broad, which caused challenges when attempting to work in parallel ([explained in greater detail under Work Habits in Release 2](../release2/README.md)). By defining issues more narrowly, we were able to merge branches into the development branch earlier and collaborate more efficiently, reducing the need for complex merges and allowing us to work on separate issues with minimal conflict.
@@ -36,7 +38,7 @@ write what our actuall test coverage is:
 
 [Own md-file for the challenges we expirenced](./challenges.md)
 
-### Know issues
+### Known issues
 
 Event with startime after end time, still gives error if you chose to edit the event to span the whole day.
 
