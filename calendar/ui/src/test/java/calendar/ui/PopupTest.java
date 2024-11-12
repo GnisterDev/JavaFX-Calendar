@@ -68,7 +68,6 @@ public class PopupTest extends ApplicationTest {
         try (
                 MockedStatic<RestHelper> mockedRestHelper =
                         mockStatic(RestHelper.class)) {
-
             mockedRestHelper
                     .when(() -> RestHelper.editEvent(ArgumentMatchers.any(),
                                                      ArgumentMatchers.any(),
@@ -192,9 +191,7 @@ public class PopupTest extends ApplicationTest {
         clickOn(handleEdit);
 
         // Validate that the calendarController's update method is call ed
-        // TODO: Credentials are not set
-        // verify(mockCalendarController).update();
-        // assertFalse(popupController.getStage().isShowing());
+        verify(mockCalendarController).update();
     }
 
     // @Test
@@ -215,10 +212,7 @@ public class PopupTest extends ApplicationTest {
     public void testHandleDelete() {
         clickOn(handleDelete);
 
-        // TODO: Credentials are not set
-        // verify(mockCalendarController).update();
-
-        // assertFalse(popupController.getStage().isShowing());
+        verify(mockCalendarController).update();
     }
 
 }
