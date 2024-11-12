@@ -14,11 +14,25 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * Unit test class for testing the {@link RestCalendar} class.
+ * <p>
+ * This class includes tests for constructor functionality, immutability,
+ * and event modification within the `RestCalendar` class.
+ */
+
 public class RestCalendarTest {
     private Event event = new Event("title", "description", LocalDateTime.of(2024, 10, 7, 10, 30),
             LocalDateTime.of(2024, 10, 10, 14, 50));
     private UUID id = UUID.randomUUID();
 
+    /**
+     * Tests various constructors of the {@link RestCalendar} class.
+     * <p>
+     * Verifies that calendars are initialized correctly with empty and non-empty
+     * event lists, checks that unique IDs are generated, and tests that exceptions
+     * are thrown for invalid index access.
+     */
     @Test
     public void testConstructors() {
         RestCalendar cal1 = new RestCalendar();
@@ -48,6 +62,14 @@ public class RestCalendarTest {
         assertEquals(0, cal3.eventCount());
     }
 
+    /**
+     * Tests the immutability of the {@link RestCalendar} event list.
+     * <p>
+     * Verifies that external modifications to an event list do not
+     * impact the internal events of a `RestCalendar`. Also checks that
+     * internal modifications within the `RestCalendar` do not alter
+     * external references to the event list.
+     */
     @Test
     public void testImmutability() {
         List<Event> eventList = new ArrayList<>();
