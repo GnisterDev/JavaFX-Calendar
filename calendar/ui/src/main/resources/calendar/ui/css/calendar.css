@@ -1,438 +1,440 @@
 @font-face {
-    font-family: "Inter Light";
-    font-style: light;
-    font-weight: light;
-    src: local("inter light"),
-        url("../fonts/Inter_28pt-Light.ttf") format("truetype");
+  font-family: "Inter Light";
+  font-style: light;
+  font-weight: light;
+  src: local("inter light"),
+    url("../fonts/Inter_28pt-Light.ttf") format("truetype");
 }
 
 /* Variables */
 * {
-    -fx-primary-color: #ea454c;
-    -fx-secondary-color: #a11037;
-    -fx-focus-color: -fx-secondary-color;
-    -fx-light-grey-color: #d3d3d3;
+  -fx-primary-color: #ea454c;
+  -fx-secondary-color: #a11037;
+  -fx-focus-color: -fx-secondary-color;
+  -fx-light-grey-color: #d3d3d3;
 }
 
 /* Default event box */
 .event {
-    -fx-opacity: 1;
-    -fx-opacity: 1;
-    -fx-color: #000;
-    -fx-font-weight: bold;
-    -fx-background-color: red;
-    -fx-background-radius: 12px;
+  -fx-opacity: 1;
+  -fx-opacity: 1;
+  -fx-color: #000;
+  -fx-font-weight: bold;
+  -fx-background-color: red;
+  -fx-background-radius: 12px;
 }
 
 /* Header */
 .header-month {
-    -fx-font-size: 24px;
+  -fx-font-size: 24px;
 }
 
 .header-year {
-    -fx-font-size: 24px;
+  -fx-font-size: 24px;
 }
 
 .header-week {
-    -fx-background-color: #f09ca0;
-    -fx-background-radius: 2;
-    -fx-font-size: 8px;
-    -fx-text-fill: white;
+  -fx-background-color: #f09ca0;
+  -fx-background-radius: 2;
+  -fx-font-size: 8px;
+  -fx-text-fill: white;
 }
 
 .header-arrow {
-    -fx-background-radius: 4;
+  -fx-background-radius: 4;
 }
 
 .header-arrow * {
-    -fx-fill: -fx-primary-color;
+  -fx-fill: -fx-primary-color;
 }
 
 .header-arrow:hover {
-    -fx-cursor: hand;
+  -fx-cursor: hand;
 }
 
 .header-left-arrow {
-    -fx-rotate: 180;
+  -fx-rotate: 180;
 }
 
 .header {
-    -fx-border-width: 0 0 1 0;
-    -fx-border-color: #000000;
+  -fx-border-width: 0 0 1 0;
+  -fx-border-color: #000000;
 }
 
 /* Buttons */
 .button-default {
-    -fx-text-fill: white;
-    -fx-background-color: -fx-primary-color;
-    -fx-background-radius: 8;
+  -fx-text-fill: white;
+  -fx-background-color: -fx-primary-color;
+  -fx-background-radius: 8;
 }
 
 .button-default:hover,
 .button-default:focused {
-    -fx-background-color: -fx-secondary-color;
-    -fx-cursor: hand;
+  -fx-background-color: -fx-secondary-color;
+  -fx-cursor: hand;
 }
 
 .button-cancel {
-    -fx-text-fill: white;
-    -fx-background-color: #646464;
-    -fx-background-radius: 8;
+  -fx-text-fill: white;
+  -fx-background-color: #646464;
+  -fx-background-radius: 8;
 }
 
 .button-cancel:hover,
 .button-cancel:focused {
-    -fx-background-color: #323232;
-    -fx-cursor: hand;
+  -fx-background-color: #323232;
+  -fx-cursor: hand;
 }
 
 /* Calendar */
 .calendar-grid Line {
-    -fx-stroke: #ea454d83;
+  -fx-stroke: #ea454d83;
 }
 
 /* Date Indicator */
 .calendar-date .calendar-date-circle {
-    -fx-fill: -fx-primary-color;
-    -fx-opacity: 0;
+  -fx-fill: -fx-primary-color;
+  -fx-opacity: 0;
 }
 
 .calendar-date-today .calendar-date-circle {
-    -fx-opacity: 1;
+  -fx-opacity: 1;
 }
 
 .calendar-date-today .calendar-date-number {
-    -fx-text-fill: white;
+  -fx-text-fill: white;
 }
 
 /* Date picker */
 .inputdate .arrow-button {
-    -fx-background-color: -fx-primary-color;
-    -fx-background-radius: 0;
-    -fx-padding: 4px;
+  -fx-background-color: -fx-primary-color;
+  -fx-background-radius: 0;
+  -fx-padding: 4px;
 }
 
 .inputdate .arrow-button:hover {
-    -fx-background-color: -fx-secondary-color;
-    -fx-cursor: hand;
+  -fx-background-color: -fx-secondary-color;
+  -fx-cursor: hand;
 }
 
 .inputdate .arrow-button .arrow {
-    -fx-background-color: white;
+  -fx-background-color: white;
 }
 
 .inputdate {
-    -fx-faint-focus-color: transparent;
-    -fx-focus-color: -fx-primary-color;
-    -fx-background-radius: 5;
+  -fx-faint-focus-color: transparent;
+  -fx-focus-color: -fx-primary-color;
+  -fx-background-radius: 5;
 }
 
 .inputdate .selected {
-    -fx-background-color: -fx-primary-color;
-    -fx-text-fill: white;
+  -fx-background-color: -fx-primary-color;
+  -fx-text-fill: white;
 }
 
 .inputdate .selected:focused {
-    -fx-background-color: -fx-primary-color;
-    -fx-text-fill: white;
+  -fx-background-color: -fx-primary-color;
+  -fx-text-fill: white;
 }
 
 .date-picker-popup {
-    -fx-border-color: transparent;
+  -fx-border-color: transparent;
 }
 
 .date-picker-popup .month-year-pane {
-    -fx-background-color: -fx-primary-color;
+  -fx-background-color: -fx-primary-color;
 }
 
 .date-picker-popup .month-year-pane .label {
-    -fx-text-fill: white;
+  -fx-text-fill: white;
 }
 
 .date-picker-popup .week-number-cell {
-    -fx-text-fill: -fx-secondary-color;
+  -fx-text-fill: -fx-secondary-color;
 }
 
 .date-picker-popup .spinner .button .left-arrow,
 .date-picker-popup .spinner .button .right-arrow {
-    -fx-background-color: white;
+  -fx-background-color: white;
 }
 
 .date-picker-popup .spinner .button:hover {
-    -fx-background-color: -fx-secondary-color;
-    -fx-cursor: hand;
+  -fx-background-color: -fx-secondary-color;
+  -fx-cursor: hand;
 }
 
 .date-picker-popup .spinner .button {
-    -fx-background-color: -fx-primary-color;
+  -fx-background-color: -fx-primary-color;
 }
 
 /* Input field */
 .input-text {
-    -fx-background-radius: 5px;
-    -fx-faint-focus-color: transparent;
-    -fx-focus-color: -fx-primary-color;
+  -fx-background-radius: 5px;
+  -fx-faint-focus-color: transparent;
+  -fx-focus-color: -fx-primary-color;
 }
 
 /* Toggle button */
 .toggle-button:selected .thumb-area {
-    -fx-background-color: -fx-primary-color;
+  -fx-background-color: -fx-primary-color;
 }
 
 .toggle-button {
-    -fx-background-color: transparent;
-    -fx-padding: 3 0 3 0;
+  -fx-background-color: transparent;
+  -fx-padding: 3 0 3 0;
 }
 
 .toggle-button:hover .thumb-area {
-    -fx-cursor: hand;
+  -fx-cursor: hand;
 }
 
 /* Color circle */
 .color-circle {
-    -fx-stroke: -fx-light-grey-color;
-    -fx-stroke-width: 2px;
+  -fx-stroke: -fx-light-grey-color;
+  -fx-stroke-width: 2px;
 }
 
 .color-circle:hover {
-    -fx-cursor: hand;
+  -fx-cursor: hand;
 }
 
 /* Header */
 .header-month {
-    -fx-font-size: 24px;
+  -fx-font-size: 24px;
 }
 
 .header-year {
-    -fx-font-size: 24px;
+  -fx-font-size: 24px;
 }
 
 .header-week {
-    -fx-background-color: #f09ca0;
-    -fx-background-radius: 2;
-    -fx-font-size: 8px;
-    -fx-text-fill: white;
+  -fx-background-color: #f09ca0;
+  -fx-background-radius: 2;
+  -fx-font-size: 8px;
+  -fx-text-fill: white;
 }
 
 .header-arrow {
-    -fx-background-radius: 4;
+  -fx-background-radius: 4;
 }
 
 .header-arrow * {
-    -fx-fill: #ea454c;
+  -fx-fill: #ea454c;
 }
 
 .header-left-arrow {
-    -fx-rotate: 180;
+  -fx-rotate: 180;
 }
 
 .header {
-    -fx-border-width: 0 0 1 0;
-    -fx-border-color: #000000;
+  -fx-border-width: 0 0 1 0;
+  -fx-border-color: #000000;
 }
 
 /* Buttons */
 .button-default {
-    -fx-text-fill: white;
-    -fx-background-color: -fx-primary-color;
-    -fx-background-radius: 8;
+  -fx-text-fill: white;
+  -fx-background-color: -fx-primary-color;
+  -fx-background-radius: 8;
 }
 
 .button-default:hover,
 .button-default:focused {
-    -fx-background-color: -fx-secondary-color;
-    -fx-cursor: hand;
+  -fx-background-color: -fx-secondary-color;
+  -fx-cursor: hand;
 }
 
 .button-cancel {
-    -fx-text-fill: white;
-    -fx-background-color: #646464;
-    -fx-background-radius: 8;
+  -fx-text-fill: white;
+  -fx-background-color: #646464;
+  -fx-background-radius: 8;
 }
 
 .button-cancel:hover,
 .button-cancel:focused {
-    -fx-background-color: #323232;
-    -fx-cursor: hand;
+  -fx-background-color: #323232;
+  -fx-cursor: hand;
 }
 
 /* Calendar */
 .calendar-grid Line {
-    -fx-stroke: #ea454d83;
+  -fx-stroke: #ea454d83;
 }
 
 /* Date Indicator */
 .calendar-date .calendar-date-circle {
-    -fx-fill: -fx-primary-color;
-    -fx-opacity: 0;
+  -fx-fill: -fx-primary-color;
+  -fx-opacity: 0;
 }
 
 .calendar-date-today .calendar-date-circle {
-    -fx-opacity: 1;
+  -fx-opacity: 1;
 }
 
 .calendar-date-today .calendar-date-number {
-    -fx-text-fill: white;
+  -fx-text-fill: white;
 }
 
 /* Date picker */
 .inputdate .arrow-button {
-	-fx-background-color: -fx-primary-color;
-	-fx-background-radius: 0;
-    -fx-padding: 4px;
+  -fx-background-color: -fx-primary-color;
+  -fx-background-radius: 0;
+  -fx-padding: 4px;
 }
 
 .inputdate .arrow-button:hover {
-	-fx-background-color: -fx-secondary-color;
-    -fx-cursor: hand;
+  -fx-background-color: -fx-secondary-color;
+  -fx-cursor: hand;
 }
 
 .inputdate .arrow-button .arrow {
-	-fx-background-color: white;
+  -fx-background-color: white;
 }
 
 .inputdate {
-    -fx-faint-focus-color: transparent;
-    -fx-focus-color: -fx-primary-color;
-    -fx-background-radius: 5;
+  -fx-faint-focus-color: transparent;
+  -fx-focus-color: -fx-primary-color;
+  -fx-background-radius: 5;
 }
 
 .inputdate .selected {
-    -fx-background-color: -fx-primary-color;
-    -fx-text-fill: white;
+  -fx-background-color: -fx-primary-color;
+  -fx-text-fill: white;
 }
 
 .inputdate .selected:focused {
-    -fx-background-color: -fx-primary-color;
-    -fx-text-fill: white;
+  -fx-background-color: -fx-primary-color;
+  -fx-text-fill: white;
 }
 
 .date-picker-popup {
-    -fx-border-color: transparent;
+  -fx-border-color: transparent;
 }
 
 .date-picker-popup .month-year-pane {
-    -fx-background-color: -fx-primary-color;
+  -fx-background-color: -fx-primary-color;
 }
 
 .date-picker-popup .month-year-pane .label {
-    -fx-text-fill: white;
+  -fx-text-fill: white;
 }
 
 .date-picker-popup .week-number-cell {
-    -fx-text-fill: -fx-secondary-color;
+  -fx-text-fill: -fx-secondary-color;
 }
 
 .date-picker-popup .spinner .button .left-arrow,
 .date-picker-popup .spinner .button .right-arrow {
-    -fx-background-color: white;
+  -fx-background-color: white;
 }
 
 .date-picker-popup .spinner .button:hover {
-    -fx-background-color: -fx-secondary-color;
-    -fx-cursor: hand;
+  -fx-background-color: -fx-secondary-color;
+  -fx-cursor: hand;
 }
 
 .date-picker-popup .spinner .button {
-    -fx-background-color: -fx-primary-color;
+  -fx-background-color: -fx-primary-color;
 }
 
 /* Input field */
 .input-text {
-    -fx-background-radius: 5px;
-    -fx-faint-focus-color: transparent;
-    -fx-focus-color: -fx-primary-color;
+  -fx-background-radius: 5px;
+  -fx-faint-focus-color: transparent;
+  -fx-focus-color: -fx-primary-color;
 }
 
 /* Toggle button */
 .toggle-button:selected .thumb-area {
-    -fx-background-color: -fx-primary-color;
+  -fx-background-color: -fx-primary-color;
 }
 
 .toggle-button {
-    -fx-background-color: transparent;
-    -fx-padding: 3 0 3 0;
+  -fx-background-color: transparent;
+  -fx-padding: 3 0 3 0;
 }
 
 .toggle-button:hover .thumb-area {
-    -fx-cursor: hand;
+  -fx-cursor: hand;
 }
 
 /* Color circle */
 .color-circle {
-    -fx-stroke: -fx-light-grey-color;
-    -fx-stroke-width: 2px;
+  -fx-stroke: -fx-light-grey-color;
+  -fx-stroke-width: 2px;
 }
 
 .scroll-pane .scroll-bar:vertical {
-    /* Make sure the scrollbar fills the left side */
-    -fx-background-insets: 0 0 0 0;
+  /* Make sure the scrollbar fills the left side */
+  -fx-background-insets: 0 0 0 0;
 }
 
 .scroll-pane {
-    -fx-background-color: transparent;
+  -fx-background-color: transparent;
 }
 
 .scroll-pane .scroll-bar:vertical {
-    -fx-padding: 0 0 0 0;
-    -fx-background-color: transparent;
-    -fx-pref-width: 12; /* Adjust width as desired */
-    -fx-padding: 0;
-    -fx-background-insets: 0, 0, 0, 0;
+  -fx-padding: 0 0 0 0;
+  -fx-background-color: transparent;
+  -fx-pref-width: 12; /* Adjust width as desired */
+  -fx-padding: 0;
+  -fx-background-insets: 0, 0, 0, 0;
 }
 
 .scroll-pane .scroll-bar:vertical > .thumb {
-    -fx-background-color: #b3b3b3; /* Thumb color */
+  -fx-background-color: #b3b3b3; /* Thumb color */
 }
 
 .scroll-pane .scroll-bar:vertical > .decrement-arrow,
 .scroll-pane .scroll-bar:vertical > .increment-arrow {
-    -fx-background-color: transparent;
-    -fx-shape: "M 0,0";
+  -fx-background-color: transparent;
+  -fx-shape: "M 0,0";
 }
 
 /* Position the scrollbar to the left */
 .scroll-pane .viewport {
-    /* Add padding to the right for the scrollbar */
-    -fx-padding: 0 0 0 12;
-    -fx-background-color: transparent;
+  /* Add padding to the right for the scrollbar */
+  -fx-padding: 0 0 0 12;
+  -fx-background-color: transparent;
 }
 
 .scroll-pane {
-    -fx-background-color: transparent;
+  -fx-background-color: transparent;
 }
 
 .alldaygridpane Line {
-    -fx-stroke: #ea454d83;
+  -fx-stroke: #ea454d83;
 }
 
 .alldaygridpane {
-    -fx-border-color: transparent transparent -fx-light-grey-color transparent;
-    -fx-border-width: 0 0 5px 0;
+  -fx-border-color: 
+  transparent transparent 
+  -fx-light-grey-color transparent;
+  -fx-border-width: 0 0 5px 0;
 }
 
 /* Choice box */
 .dropdown .context-menu {
-    -fx-background-color: -fx-primary-color;
+  -fx-background-color: -fx-primary-color;
 }
 
 .dropdown .menu-item:focused {
-    -fx-background-color: -fx-secondary-color;
+  -fx-background-color: -fx-secondary-color;
 }
 
 .dropdown .menu-item > .label {
-    -fx-text-fill: white;
+  -fx-text-fill: white;
 }
 
 .dropdown > .label {
-    -fx-text-fill: white;
+  -fx-text-fill: white;
 }
 
 .dropdown {
-    -fx-background-color: -fx-primary-color;
-    -fx-mark-color: white;
+  -fx-background-color: -fx-primary-color;
+  -fx-mark-color: white;
 }
 
 .dropdown :hover {
-    -fx-cursor: hand;
+  -fx-cursor: hand;
 }

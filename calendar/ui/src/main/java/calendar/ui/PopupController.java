@@ -1,6 +1,5 @@
 package calendar.ui;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Optional;
@@ -20,7 +19,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
@@ -217,40 +215,51 @@ public class PopupController {
 
     @FXML
     private void handleEdit() {
-        // Handle the edit event logic here
-        String newEventName = eventNameField.getText();
-        String newDescription = eventDescriptionField.getText();
-        LocalDate startDate = startDateSelect.getValue();
-        LocalDate endDate = endDateSelect.getValue();
-        int startTime =
-                Integer.parseInt(startTimeSelect.getText().substring(0, 2));
-        int endTime = Integer.parseInt(endTimeSelect.getText().substring(0, 2));
-        LocalDateTime startDateTime =
-                LocalDateTime.of(startDate, LocalTime.of(startTime, 0));
-        LocalDateTime endDateTime =
-                LocalDateTime.of(endDate, LocalTime.of(endTime, 0));
-        Color color = colorPicker.getValue();
-        EventType type =
-                allDay.isSelected() ? EventType.ALL_DAY : EventType.REGULAR;
+        Optional<Integer> startTime = Optional.empty();
+        Optional<Integer> endTime = Optional.empty();
 
-        RestHelper.editEvent(event.getId(),
-                             Optional.of(newEventName),
-                             Optional.of(newDescription),
-                             Optional.of(startDateTime),
-                             Optional.of(endDateTime),
-                             Optional.of(color),
-                             Optional.of(type))
-                .consumeError(errorLabel::setText);
+        try {
+            startTime = Optional.of(!startTimeSelect.getText().isBlank()
+                    ? Integer
+                            .parseInt(startTimeSelect.getText().substring(0, 2))
+                    : 0);
+            endTime = Optional.of(!endTimeSelect.getText().isBlank()
+                    ? Integer.parseInt(endTimeSelect.getText().substring(0, 2))
+                    : 1);
+        } catch (Exception e) {
 
-        calendarController.update();
-        stage.close();
+        }
+
+        Optional<LocalDateTime> startDateTime = startTime
+                .map(start -> LocalDateTime.of(startDateSelect.getValue(),
+                                               LocalTime.of(start, 0)));
+
+        Optional<LocalDateTime> endDateTime =
+                endTime.map(end -> end == CalendarController.HOURS_IN_A_DAY
+                        ? LocalDateTime.of(endDateSelect.getValue().plusDays(1),
+                                           LocalTime.of(0, 0))
+                        : LocalDateTime.of(endDateSelect.getValue(),
+                                           LocalTime.of(end, 0)));
+
+        RestHelper
+                .editEvent(event.getId(),
+                           Optional.of(eventNameField.getText()),
+                           Optional.of(eventDescriptionField.getText()),
+                           startDateTime,
+                           endDateTime,
+                           Optional.of(colorPicker.getValue()),
+                           Optional.of(!allDay.isSelected()
+                                   ? EventType.REGULAR
+                                   : EventType.ALL_DAY))
+                .consumeError(errorLabel::setText)
+                .runIfSuccess(calendarController::update)
+                .runIfSuccess(stage::close);
     }
 
     @FXML
     private void handleDelete() {
-        // Handle the delete event logic here
-        RestHelper.removeEvent(event.getId()); // TOOD handle error
-        calendarController.update();
-        stage.close();
+        RestHelper.removeEvent(event.getId()).consumeError(errorLabel::setText)
+                .runIfSuccess(calendarController::update)
+                .runIfSuccess(stage::close);
     }
 }
