@@ -629,8 +629,8 @@ public class CalendarController {
             PopupController controller = loader.getController();
 
             Stage stage = new Stage();
-            stage.setWidth(PopupController.Width);
-            stage.setHeight(PopupController.Height);
+            stage.setWidth(PopupController.WIDTH);
+            stage.setHeight(PopupController.HEIGHT);
             stage.setX(SceneCore.getX());
             stage.setY(SceneCore.getY());
             stage.setScene(new Scene(vbox));

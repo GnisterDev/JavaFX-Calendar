@@ -29,10 +29,10 @@ import javafx.stage.Stage;
  * managing the popUp view. It handles user interactions for editing events.
  */
 public class PopupController {
-    /** The width of the popUp */
-    public static final int Width = 250;
-    /** The height of the popUp */
-    public static final int Height = 400;
+    /** The width of the popUp. */
+    public static final int WIDTH = 250;
+    /** The height of the popUp. */
+    public static final int HEIGHT = 400;
 
     /** The root node of the scene. */
     @FXML

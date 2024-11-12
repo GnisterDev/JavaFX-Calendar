@@ -33,6 +33,7 @@
         <controlsfx.version>11.2.1</controlsfx.version>
         <apache.version>3.12.0</apache.version>
         <checkstyle.version>3.5.0</checkstyle.version>
+        <spotbugs.version>4.8.5</spotbugs.version>
     </properties>
 
     <!-- Define submodules -->
@@ -312,7 +313,7 @@
                         <dependency>
                             <groupId>com.github.spotbugs</groupId>
                             <artifactId>spotbugs</artifactId>
-                            <version>4.8.5</version>
+                            <version>${spotbugs.version}</version>
                         </dependency>
                     </dependencies>
                     <configuration>

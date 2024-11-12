@@ -30,10 +30,11 @@ public class RestCalendar {
     @JsonProperty
     private UUID calendarId;
 
-    /** The evensts that are conected to this calendar. */
+    /** The name of the calendar. */
     @JsonProperty
     private String name;
 
+    /** The evensts that are conected to this calendar. */
     @JsonProperty
     private List<Event> events;
 
@@ -99,10 +100,20 @@ public class RestCalendar {
         this.name = name;
     }
 
+    /**
+     * Gets the id of the calendar.
+     *
+     * @return the id asosiated with this calendar.
+     */
     public UUID getCalendarId() {
         return calendarId;
     }
 
+    /**
+     * Gets the name of the calendar.
+     *
+     * @return the name asosiated with this calendar.
+     */
     public String getName() {
         return name;
     }

@@ -25,19 +25,70 @@ import com.sun.net.httpserver.HttpServer;
 
 import javafx.scene.paint.Color;
 
+/**
+ * The {@code RestAPI} class serves as a simple RESTful API server to manage users, calendars, and events.
+ * The API provides endpoints to create, retrieve, and delete users, calendars, and events, along with
+ * password-based access control. The API uses JSON-based persistence to store user data across sessions.
+ *
+ * <p>This API includes three main contexts:
+ * <ul>
+ *   <li><b>/users</b> - for managing users, including creation and password validation</li>
+ *   <li><b>/calendar</b> - for managing user-specific calendars, supporting calendar creation, retrieval, and deletion</li>
+ *   <li><b>/event</b> - for managing events within user calendars, supporting creation, retrieval, modification, and deletion of events</li>
+ * </ul>
+ *
+ * <p> The API leverages the following HTTP response status codes:
+ * <ul>
+ *   <li><b>200 OK</b> - for successful requests</li>
+ *   <li><b>201 Created</b> - for successful resource creation</li>
+ *   <li><b>400 Bad Request</b> - for requests with missing or invalid parameters</li>
+ *   <li><b>401 Unauthorized</b> - for requests with incorrect credentials</li>
+ *   <li><b>404 Not Found</b> - for missing resources or unsupported operations</li>
+ *   <li><b>409 Conflict</b> - for conflicting resources, such as duplicate usernames</li>
+ * </ul>
+ *
+ * <p>The server listens on a static port and uses a simple JSON-based persistence model for user data.
+ * User data is persisted in a JSON file, which is loaded at server start-up and saved during shutdown.
+ */
 public class RestAPI {
+    private RestAPI() {
+
+    }
+
+    /** The class all the info from the json-file goes into. */
     private static UserStore userStore;
 
+    /** The portnumber the restAPI opens at. */
     private static final int PORT = 8000;
 
+    /** Status code for {@code success}. */
     private static final int OK = 200;
+    /** Status code for {@code request succeeded}. */
     private static final int CREATED = 201;
 
+    /** Status code for {@code server cannot or will not process the request}. */
     private static final int BAD_REQUEST = 400;
+    /** Status code for {@code unauthenticated}. */
     private static final int UNAUTHORIZED = 401;
+    /** Status code for {@code server cannot find the requested resource}. */
     private static final int NOT_FOUND = 404;
+    /** Status code for {@code request conflict}. */
     private static final int CONFLICT = 409;
 
+    /**
+     * The main entry point of the API server. It initializes the user data from a JSON file,
+     * defines the RESTful endpoints, and starts the HTTP server.
+     *
+     * <p>Endpoints supported by the API server:
+     * <ul>
+     *   <li><b>/users</b>: POST (create user), GET (retrieve user info)</li>
+     *   <li><b>/calendar</b>: POST (create calendar), DELETE (remove calendar), GET (retrieve calendar events)</li>
+     *   <li><b>/event</b>: POST (create event), DELETE (remove event), PUT (update event)</li>
+     * </ul>
+     *
+     * @param args command-line arguments (not used)
+     * @throws IOException if there are issues initializing the JSON file or starting the server
+     */
     public static void main(String[] args) throws IOException {
         // Make sure file exists
         Path filepath = Path.of("rest/userdata.json");
@@ -308,12 +359,18 @@ public class RestAPI {
                 }
 
                 if (startTime.get().isAfter(endTime.get())) {
-                    sendResponse(t, 400, "Event end time can't be before start time");
+                    sendResponse(t,
+                                 400,
+                                 "Event end time can't be before start time");
                     return;
                 }
 
-                Event event = new Event(title.orElse("Untitled event"), description.orElse(""), startTime.get(),
-                        endTime.get(), color.orElse(Color.BLUE), type.orElse(EventType.REGULAR));
+                Event event = new Event(title.orElse("Untitled event"),
+                                        description.orElse(""),
+                                        startTime.get(),
+                                        endTime.get(),
+                                        color.orElse(Color.BLUE),
+                                        type.orElse(EventType.REGULAR));
                 calendar.get().addEvent(event);
                 sendResponse(t,
                              CREATED,
@@ -376,6 +433,14 @@ public class RestAPI {
         }));
     }
 
+    /**
+     * Sends an HTTP response with the specified status and message.
+     *
+     * @param t the HttpExchange object representing the HTTP request and response context
+     * @param status the HTTP status code to send in the response
+     * @param message the message body to send in the response
+     * @throws IOException if an I/O error occurs while sending the response
+     */
     protected static void sendResponse(final HttpExchange t,
             final int status,
             final String message) throws IOException {
