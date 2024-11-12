@@ -6,7 +6,27 @@ This is the third release for the project. It contains the a complete working ca
 
 ### Final functions for application
 
--Update the functionallity in the readme, explain why we changed it at what changes we made
+Explanation of Changes: We updated the app's functionality to prioritze essential features and ensure timely project completion. Below are the functions we removed and added, with reasons for these decisions.
+
+Removed features:
+
+- Optional event repeat selection
+- Optional location selection
+- Event reminders
+- Event sharing
+- Customizable calendar layouts (daily, weekly, or monthly views)
+
+Most of these features were removed due to time constraints and were deemed non-essential for the app's core functionality.
+
+Added features:
+
+- User account creation and login
+- Option set event name
+- Optional description field
+- Option for events to span multiple days
+- Multiple calendar creation for each user
+
+These features were added because they aligned with the project description and were mostly straightforward to implement.
 
 ### Work habits
 
