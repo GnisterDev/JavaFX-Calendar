@@ -57,8 +57,6 @@ public class PopupTest extends ApplicationTest {
 
                 LocalDateTime startTime = LocalDateTime
                                 .of(LocalDate.now(), LocalTime.of(1, 0, 0));
-                LocalDateTime startTime = LocalDateTime
-                                .of(LocalDate.now(), LocalTime.of(1, 0, 0));
                 LocalDateTime endTime = startTime.plusHours(1);
                 when(mockEvent.getTitle()).thenReturn("Test Event");
                 when(mockEvent.getDescription()).thenReturn("Test description");
