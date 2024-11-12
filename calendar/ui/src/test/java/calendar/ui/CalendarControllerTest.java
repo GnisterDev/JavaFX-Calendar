@@ -49,22 +49,27 @@ public class CalendarControllerTest extends ApplicationTest {
 
     private UUID uuid = UUID.randomUUID();
     private UserSettings settings = new UserSettings(uuid);
-    private List<Calendar> calendars = List.of(new Calendar(UUID.randomUUID(), "calendar"));
+    private List<Calendar> calendars =
+            List.of(new Calendar(UUID.randomUUID(), "calendar"));
     private User user = new User(uuid, "username", calendars, settings);
 
     @Override
     public void start(Stage stage) throws Exception {
 
-        try (MockedStatic<RestHelper> mockedRestHelper = mockStatic(RestHelper.class)) {
-            mockedRestHelper.when(RestHelper::getUser).thenReturn(Result.success(user));
+        try (
+                MockedStatic<RestHelper> mockedRestHelper =
+                        mockStatic(RestHelper.class)) {
+            mockedRestHelper.when(RestHelper::getUser)
+                    .thenReturn(Result.success(user));
 
             mockedRestHelper
                     .when(() -> RestHelper.getEvents(ArgumentMatchers.any(),
-                            ArgumentMatchers.any()))
+                                                     ArgumentMatchers.any()))
                     .thenReturn(Result.success(new ArrayList<>()));
 
             // Load the FXML file and set up the controller
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/calendar/ui/Calendar.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass()
+                    .getResource("/calendar/ui/Calendar.fxml"));
             Pane mainNode = loader.load();
 
             // Set up the scene with the main UI node
@@ -91,19 +96,34 @@ public class CalendarControllerTest extends ApplicationTest {
 
         Platform.runLater(() -> {
             child.requestFocus();
-            assertTrue(child.isFocused(), "Child node should initially have focus");
+            assertTrue(child.isFocused(),
+                       "Child node should initially have focus");
 
             MouseEvent mouseEvent = new MouseEvent(MouseEvent.MOUSE_PRESSED,
-                    200, 200, 200, 200,
-                    MouseButton.PRIMARY, 1,
-                    false, false, false, false,
-                    true, false, false, true,
-                    false, false, null);
+                                                   200,
+                                                   200,
+                                                   200,
+                                                   200,
+                                                   MouseButton.PRIMARY,
+                                                   1,
+                                                   false,
+                                                   false,
+                                                   false,
+                                                   false,
+                                                   true,
+                                                   false,
+                                                   false,
+                                                   true,
+                                                   false,
+                                                   false,
+                                                   null);
 
             root.fireEvent(mouseEvent);
 
-            assertTrue(root.isFocused(), "Root node should have focus after the event");
-            assertFalse(child.isFocused(), "Child node should lose focus after the event");
+            assertTrue(root.isFocused(),
+                       "Root node should have focus after the event");
+            assertFalse(child.isFocused(),
+                        "Child node should lose focus after the event");
         });
     }
 
@@ -113,28 +133,47 @@ public class CalendarControllerTest extends ApplicationTest {
         HBox child = lookup(".header").queryAs(HBox.class);
         Platform.runLater(() -> {
             child.requestFocus();
-            assertTrue(child.isFocused(), "Child node should initially have focus");
+            assertTrue(child.isFocused(),
+                       "Child node should initially have focus");
 
             // Simulate a mouse press inside the child node’s bounds
             MouseEvent mouseEvent = new MouseEvent(MouseEvent.MOUSE_PRESSED,
-                    child.getLayoutX() + 10, child.getLayoutY() + 10,
-                    child.getLayoutX() + 10, child.getLayoutY() + 10,
-                    MouseButton.PRIMARY, 1,
-                    false, false, false, false,
-                    true, false, false, true,
-                    false, false, null);
+                                                   child.getLayoutX()
+                                                           + 10,
+                                                   child.getLayoutY()
+                                                           + 10,
+                                                   child.getLayoutX()
+                                                           + 10,
+                                                   child.getLayoutY()
+                                                           + 10,
+                                                   MouseButton.PRIMARY,
+                                                   1,
+                                                   false,
+                                                   false,
+                                                   false,
+                                                   false,
+                                                   true,
+                                                   false,
+                                                   false,
+                                                   true,
+                                                   false,
+                                                   false,
+                                                   null);
 
             root.fireEvent(mouseEvent);
 
-            assertTrue(child.isFocused(), "Child node should still have focus after click within bounds");
-            assertFalse(root.isFocused(), "Root node should not gain focus after click within focused node bounds");
+            assertTrue(child.isFocused(),
+                       "Child node should still have focus after click within bounds");
+            assertFalse(root.isFocused(),
+                        "Root node should not gain focus after click within focused node bounds");
         });
     }
 
     @Test
     public void testNextPreviousWeek() {
         Label currentWeekElm = lookup("#weekLabel").queryAs(Label.class);
-        int currentWeekNr = Integer.parseInt(currentWeekElm.getText().split(" ")[1]);
+        int currentWeekNr =
+                Integer.parseInt(currentWeekElm.getText().split(" ")[1]);
 
         Button todayButton = lookup("Today").queryAs(Button.class);
 
@@ -145,27 +184,38 @@ public class CalendarControllerTest extends ApplicationTest {
         Pane previousWeek = buttonsList.get(0);
         Pane nextWeek = buttonsList.get(1);
 
-        assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]), currentWeekNr);
+        assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]),
+                     currentWeekNr);
 
         clickOn(nextWeek);
-        assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]), currentWeekNr + 1);
+        assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]),
+                     currentWeekNr
+                             + 1);
         clickOn(nextWeek);
-        assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]), currentWeekNr + 2);
+        assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]),
+                     currentWeekNr
+                             + 2);
 
         clickOn(previousWeek).clickOn(previousWeek).clickOn(previousWeek);
-        assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]), currentWeekNr - 1);
+        assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]),
+                     currentWeekNr
+                             - 1);
         clickOn(previousWeek);
-        assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]), currentWeekNr - 2);
+        assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]),
+                     currentWeekNr
+                             - 2);
 
         clickOn(todayButton);
-        assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]), currentWeekNr);
+        assertEquals(Integer.parseInt(currentWeekElm.getText().split(" ")[1]),
+                     currentWeekNr);
     }
 
     @Test
     public void testTimeSelect_DefaultValues() {
         String startTimeFieldID = "#startTimeSelect";
         String endTimeFieldID = "#endTimeSelect";
-        TextField startTimeField = lookup(startTimeFieldID).queryAs(TextField.class);
+        TextField startTimeField =
+                lookup(startTimeFieldID).queryAs(TextField.class);
 
         clickOn(startTimeFieldID).write("0").clickOn(endTimeFieldID);
         assertEquals(startTimeField.getText(), "00:00");
@@ -181,10 +231,12 @@ public class CalendarControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void testTimeSelect_MoreValesThanDefault() throws InterruptedException {
+    public void testTimeSelect_MoreValesThanDefault()
+            throws InterruptedException {
         String startTimeFieldID = "#startTimeSelect";
         String endTimeFieldID = "#endTimeSelect";
-        TextField startTimeField = lookup(startTimeFieldID).queryAs(TextField.class);
+        TextField startTimeField =
+                lookup(startTimeFieldID).queryAs(TextField.class);
 
         clickOn(startTimeFieldID).write("25").clickOn(endTimeFieldID);
         assertEquals(startTimeField.getText(), "05:00");
@@ -206,29 +258,35 @@ public class CalendarControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void testTimeSelect_RemovalOfInvalidValues() throws InterruptedException {
+    public void testTimeSelect_RemovalOfInvalidValues()
+            throws InterruptedException {
         String startTimeFieldID = "#startTimeSelect";
         String endTimeFieldID = "#endTimeSelect";
-        TextField startTimeField = lookup(startTimeFieldID).queryAs(TextField.class);
+        TextField startTimeField =
+                lookup(startTimeFieldID).queryAs(TextField.class);
 
         clickOn(startTimeFieldID).write("0").clickOn(endTimeFieldID);
         assertEquals(startTimeField.getText(), "00:00");
-        clickOn(startTimeFieldID).press(KeyCode.BACK_SPACE).release(KeyCode.BACK_SPACE);
+        clickOn(startTimeFieldID).press(KeyCode.BACK_SPACE)
+                .release(KeyCode.BACK_SPACE);
         assertEquals(startTimeField.getText(), "");
 
         clickOn(startTimeFieldID).write("12").clickOn(endTimeFieldID);
         assertEquals(startTimeField.getText(), "12:00");
-        clickOn(startTimeFieldID).press(KeyCode.BACK_SPACE).release(KeyCode.BACK_SPACE);
+        clickOn(startTimeFieldID).press(KeyCode.BACK_SPACE)
+                .release(KeyCode.BACK_SPACE);
         assertEquals(startTimeField.getText(), "");
 
         clickOn(startTimeFieldID).write("57508").clickOn(endTimeFieldID);
         assertEquals(startTimeField.getText(), "08:00");
-        clickOn(startTimeFieldID).press(KeyCode.BACK_SPACE).release(KeyCode.BACK_SPACE);
+        clickOn(startTimeFieldID).press(KeyCode.BACK_SPACE)
+                .release(KeyCode.BACK_SPACE);
         assertEquals(startTimeField.getText(), "");
 
         clickOn(startTimeFieldID).write("65638523").clickOn(endTimeFieldID);
         assertEquals(startTimeField.getText(), "23:00");
-        clickOn(startTimeFieldID).press(KeyCode.BACK_SPACE).release(KeyCode.BACK_SPACE);
+        clickOn(startTimeFieldID).press(KeyCode.BACK_SPACE)
+                .release(KeyCode.BACK_SPACE);
         assertEquals(startTimeField.getText(), "");
     }
 
@@ -237,26 +295,34 @@ public class CalendarControllerTest extends ApplicationTest {
         Random random = new Random();
 
         Circle colorCircle = lookup("#colorCircle").queryAs(Circle.class);
-        ColorPicker colorPicker = lookup("#colorPicker").queryAs(ColorPicker.class);
+        ColorPicker colorPicker =
+                lookup("#colorPicker").queryAs(ColorPicker.class);
 
         clickOn(colorCircle);
-        assertTrue(colorPicker.isShowing(), "Color picker should be visible after clicking");
+        assertTrue(colorPicker.isShowing(),
+                   "Color picker should be visible after clicking");
 
         Color currentColor = colorPicker.getValue();
         press(KeyCode.TAB).release(KeyCode.TAB);
-        IntStream.range(0, random.nextInt(12)).forEach(i -> press(KeyCode.RIGHT).release(KeyCode.RIGHT));
-        IntStream.range(0, random.nextInt(11)).forEach(i -> press(KeyCode.DOWN).release(KeyCode.DOWN));
+        IntStream.range(0, random.nextInt(12))
+                .forEach(i -> press(KeyCode.RIGHT).release(KeyCode.RIGHT));
+        IntStream.range(0, random.nextInt(11))
+                .forEach(i -> press(KeyCode.DOWN).release(KeyCode.DOWN));
         press(KeyCode.ENTER).release(KeyCode.ENTER);
 
-        assertNotEquals(currentColor, colorPicker.getValue(), "Color circle should update with the selected color");
+        assertNotEquals(currentColor,
+                        colorPicker.getValue(),
+                        "Color circle should update with the selected color");
     }
 
     @Test
     public void testDatePicker() {
-        DatePicker startDateSelect = lookup("#startDateSelect").queryAs(DatePicker.class);
+        DatePicker startDateSelect =
+                lookup("#startDateSelect").queryAs(DatePicker.class);
 
         clickOn(startDateSelect);
-        assertTrue(startDateSelect.isShowing(), "Date picker should be visible after clicking");
+        assertTrue(startDateSelect.isShowing(),
+                   "Date picker should be visible after clicking");
     }
 
     private TextField eventTitleNode;
@@ -269,15 +335,15 @@ public class CalendarControllerTest extends ApplicationTest {
     @BeforeEach
     public void addEvent_BeforeEach() {
         eventTitleNode = lookup("#eventNameField").queryAs(TextField.class);
-        eventDescriptionNode = lookup("#eventDescriptionField").queryAs(TextArea.class);
+        eventDescriptionNode =
+                lookup("#eventDescriptionField").queryAs(TextArea.class);
         startDateNode = lookup("#startDateSelect").queryAs(DatePicker.class);
         startTimeNode = lookup("#startTimeSelect").queryAs(TextField.class);
         endDateNode = lookup("#endDateSelect").queryAs(DatePicker.class);
         endTimeNode = lookup("#endTimeSelect").queryAs(TextField.class);
     }
 
-    private void writeEventInfo(
-            String eventTitle,
+    private void writeEventInfo(String eventTitle,
             String eventDescription,
             boolean writeStartDate,
             boolean writeStartTime,
@@ -299,11 +365,12 @@ public class CalendarControllerTest extends ApplicationTest {
 
         if (writeEndDate) {
             clickOn(endDateNode);
-            IntStream.range(0, eventDayLength).forEach(i -> press(KeyCode.RIGHT).release(KeyCode.RIGHT));
+            IntStream.range(0, eventDayLength)
+                    .forEach(i -> press(KeyCode.RIGHT).release(KeyCode.RIGHT));
             press(KeyCode.ENTER).release(KeyCode.ENTER);
         }
-        if (writeEndTime)
-            clickOn(endTimeNode).write(Integer.toString(startHour + eventLength));
+        if (writeEndTime) clickOn(endTimeNode).write(Integer.toString(startHour
+                + eventLength));
     }
 
     @Test
@@ -312,10 +379,8 @@ public class CalendarControllerTest extends ApplicationTest {
         String eventDescription = "testDescription";
         writeEventInfo(eventName, eventDescription, true, true, true, true);
 
-        Button addEventButton = (Button) lookup("Add Event")
-                .queryAll().stream()
-                .filter(node -> node instanceof Button)
-                .findFirst().get();
+        Button addEventButton = (Button) lookup("Add Event").queryAll().stream()
+                .filter(node -> node instanceof Button).findFirst().get();
         clickOn(addEventButton);
 
         assertEquals(eventName, eventTitleNode.getText());
@@ -354,10 +419,8 @@ public class CalendarControllerTest extends ApplicationTest {
         String eventDescription = "testDescription";
         writeEventInfo(eventName, eventDescription, true, true, true, true);
 
-        Button cancelEventButton = (Button) lookup("Cancel")
-                .queryAll().stream()
-                .filter(node -> node instanceof Button)
-                .findFirst().get();
+        Button cancelEventButton = (Button) lookup("Cancel").queryAll().stream()
+                .filter(node -> node instanceof Button).findFirst().get();
         clickOn(cancelEventButton);
 
         assertEquals("", eventTitleNode.getText());

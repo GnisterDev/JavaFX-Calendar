@@ -1,27 +1,27 @@
 /* Variables */
 * {
-    -fx-primary-color: #ea454c;
-    -fx-secondary-color: #a11037;
+  -fx-primary-color: #ea454c;
+  -fx-secondary-color: #a11037;
 }
 
 .background {
-    -fx-background-color: #fff;
+  -fx-background-color: #fff;
 }
 
 .button-login {
-    -fx-background-radius: 12px;
-    -fx-background-color: -fx-primary-color;
+  -fx-background-radius: 12px;
+  -fx-background-color: -fx-primary-color;
 }
 
 .button-login:hover,
 .button-login:focused {
-    -fx-background-color: -fx-secondary-color;
+  -fx-background-color: -fx-secondary-color;
 }
 
 .input-text {
-    -fx-background-radius: 12px;
+  -fx-background-radius: 12px;
 }
 
 .no-user-label:hover {
-    -fx-cursor: hand;
+  -fx-cursor: hand;
 }
