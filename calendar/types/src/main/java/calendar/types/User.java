@@ -1,5 +1,6 @@
 package calendar.types;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -78,7 +79,7 @@ public class User {
             @JsonProperty("settings") final UserSettings settings) {
         this.userId = userId;
         this.username = username;
-        this.calendars = calendars;
+        this.calendars = new ArrayList<>(calendars);
         this.settings = settings;
     }
 
@@ -106,7 +107,7 @@ public class User {
      * @return a list of calendars for the user.
      */
     public List<Calendar> getCalendars() {
-        return calendars;
+        return new ArrayList<>(calendars);
     }
 
     /**

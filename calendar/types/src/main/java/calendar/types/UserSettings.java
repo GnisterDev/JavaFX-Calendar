@@ -62,7 +62,7 @@ public class UserSettings {
             @JsonProperty("militaryTime") final boolean militaryTime,
             @JsonProperty("showWeekNr") final boolean showWeekNr) {
         this.userId = userId;
-        this.timezone = timezone;
+        this.timezone = (TimeZone) timezone.clone();
         this.militaryTime = militaryTime;
         this.showWeekNr = showWeekNr;
     }
@@ -97,7 +97,7 @@ public class UserSettings {
      * @return the {@link TimeZone} representing the user's time zone
      */
     public TimeZone getTimezone() {
-        return timezone;
+        return (TimeZone) timezone.clone();
     }
 
     /**
