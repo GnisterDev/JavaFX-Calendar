@@ -346,7 +346,8 @@ public class RestAPI {
                 return;
             }
 
-            if (startTime.get().plusHours(1).isAfter(endTime.get())) {
+            if (startTime.isPresent() && endTime.isPresent()
+                    && startTime.get().plusHours(1).isAfter(endTime.get())) {
                 sendResponse(t, 400, "Event has to be at leat 1 hour");
                 return;
             }
