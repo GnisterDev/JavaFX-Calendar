@@ -25,9 +25,10 @@ import no.gorandalum.fluentresult.VoidResult;
 /**
  * A utility class providing helper methods for interacting with a restAPI.
  * <p>
- * The {@code RestHelper} class is a final class that offers static methods to manage
- * user and calendar data, including CRUD operations on users, calendars, and events.
- * This class relies on HTTP communication with the server specified by {@link #serverAddress}.
+ * The {@code RestHelper} class is a final class that offers static methods to
+ * manage user and calendar data, including CRUD operations on users, calendars,
+ * and events. This class relies on HTTP communication with the server specified
+ * by {@link #serverAddress}.
  * </p>
  *
  * @see java.net.http.HttpClient
@@ -46,8 +47,17 @@ public final class RestHelper {
     /** The password for authenticating API requests. */
     protected static String password;
 
-    /** The calendar ID for identifying the specific calendar associated with requests. */
+    /**
+     * The calendar ID for identifying the specific calendar associated with
+     * requests.
+     */
     protected static UUID calendarId;
+
+    /** Status code group for {@code Successful responses}. */
+    private static final int SUCCESSFUL_RESPONSES = 200;
+
+    /** Status code group for {@code Redirection messages}. */
+    private static final int REDIRECTION_MESSAGES = 300;
 
     private RestHelper() {
     }
@@ -55,7 +65,8 @@ public final class RestHelper {
     /**
      * Sets the server address for all future requests.
      *
-     * @param address the server address to set; must not be {@code null}.
+     * @param  address                  the server address to set; must not be
+     *                                  {@code null}.
      * @throws IllegalArgumentException if {@code address} is {@code null}.
      */
     public static void setServerAddress(final String address) {
@@ -68,9 +79,12 @@ public final class RestHelper {
     /**
      * Sets the credentials for authenticating API requests.
      *
-     * @param username the username for authentication; must not be {@code null}.
-     * @param password the password for authentication; must not be {@code null}.
-     * @throws IllegalArgumentException if either {@code username} or {@code password} is {@code null}.
+     * @param  username                 the username for authentication; must
+     *                                  not be {@code null}.
+     * @param  password                 the password for authentication; must
+     *                                  not be {@code null}.
+     * @throws IllegalArgumentException if either {@code username} or
+     *                                  {@code password} is {@code null}.
      */
     public static void setCredentials(final String username,
             final String password) {
@@ -84,10 +98,11 @@ public final class RestHelper {
     /**
      * Sets the calendar ID for use in calendar-related API requests.
      *
-     * @param calendarId the calendar ID to set; must not be {@code null}.
+     * @param  calendarId               the calendar ID to set; must not be
+     *                                  {@code null}.
      * @throws IllegalArgumentException if {@code calendarId} is {@code null}.
      */
-    public static void setCaledarId(UUID calendarId) {
+    public static void setCaledarId(final UUID calendarId) {
         if (calendarId == null)
             throw new IllegalArgumentException("Calendar ID can't be null");
 
@@ -110,7 +125,8 @@ public final class RestHelper {
             return Result.error("Could not reach server");
         }
 
-        if (response.statusCode() < 200 || response.statusCode() >= 300)
+        if (response.statusCode() < SUCCESSFUL_RESPONSES
+                || response.statusCode() >= REDIRECTION_MESSAGES)
             return Result.error(response.body());
 
         return Result.success(response.body());
@@ -163,8 +179,8 @@ public final class RestHelper {
     /**
      * Adds a new calendar to the server, optionally with a name.
      *
-     * @param name the optional name of the calendar to be added.
-     * @return a {@link VoidResult} indicating success or an error message.
+     * @param  name the optional name of the calendar to be added.
+     * @return      a {@link VoidResult} indicating success or an error message.
      */
     public static VoidResult<String> addCalendar(final Optional<String> name) {
         if (!hasCredentials())
@@ -181,7 +197,8 @@ public final class RestHelper {
     }
 
     /**
-     * Removes the calendar identified by the set {@code calendarId} from the server.
+     * Removes the calendar identified by the set {@code calendarId} from the
+     * server.
      *
      * @return a {@link VoidResult} indicating success or an error message.
      */
@@ -202,10 +219,13 @@ public final class RestHelper {
     /**
      * Retrieves the events for the calendar, filtered by date.
      *
-     * @param before an optional date to filter events that occur before this date.
-     * @param after an optional date to filter events that occur after this date.
-     * @return a {@link Result} containing a list of {@link Event} objects on success,
-     *         or an error message if the operation fails.
+     * @param  before an optional date to filter events that occur before this
+     *                date.
+     * @param  after  an optional date to filter events that occur after this
+     *                date.
+     * @return        a {@link Result} containing a list of {@link Event}
+     *                objects on success, or an error message if the operation
+     *                fails.
      */
     public static Result<List<Event>, String> getEvents(
             final Optional<LocalDateTime> before,
@@ -229,13 +249,14 @@ public final class RestHelper {
     /**
      * Adds an event to the calendar with optional details.
      *
-     * @param title the optional title of the event.
-     * @param description the optional description of the event.
-     * @param startTime the optional start time of the event.
-     * @param endTime the optional end time of the event.
-     * @param color the optional color of the event.
-     * @param type the optional type of the event.
-     * @return a {@code VoidResult} indicating success or an error message.
+     * @param  title       the optional title of the event.
+     * @param  description the optional description of the event.
+     * @param  startTime   the optional start time of the event.
+     * @param  endTime     the optional end time of the event.
+     * @param  color       the optional color of the event.
+     * @param  type        the optional type of the event.
+     * @return             a {@code VoidResult} indicating success or an error
+     *                     message.
      */
     public static VoidResult<String> addEvent(final Optional<String> title,
             final Optional<String> description,
@@ -267,8 +288,9 @@ public final class RestHelper {
     /**
      * Removes an event from the calendar by event ID.
      *
-     * @param eventId the ID of the event to be removed.
-     * @return a {@code VoidResult} indicating success or an error message.
+     * @param  eventId the ID of the event to be removed.
+     * @return         a {@code VoidResult} indicating success or an error
+     *                 message.
      */
     public static VoidResult<String> removeEvent(final UUID eventId) {
         if (!hasCredentials())
@@ -289,15 +311,16 @@ public final class RestHelper {
     /**
      * Edits an existing event's details by event ID, with optional new details.
      *
-     * @param eventId the ID of the event to be edited.
-     * @param title an optional new title for the event.
-     * @param description an optional new description for the event.
-     * @param startTime an optional new start time for the event.
-     * @param endTime an optional new end time for the event.
-     * @param color an optional new color for the event.
-     * @param type an optional new type for the event.
+     * @param  eventId     the ID of the event to be edited.
+     * @param  title       an optional new title for the event.
+     * @param  description an optional new description for the event.
+     * @param  startTime   an optional new start time for the event.
+     * @param  endTime     an optional new end time for the event.
+     * @param  color       an optional new color for the event.
+     * @param  type        an optional new type for the event.
      *
-     * @return a {@code VoidResult} indicating success or an error message if the operation fails.
+     * @return             a {@code VoidResult} indicating success or an error
+     *                     message if the operation fails.
      */
     public static VoidResult<String> editEvent(final UUID eventId,
             final Optional<String> title,
