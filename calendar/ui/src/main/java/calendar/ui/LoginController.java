@@ -59,7 +59,7 @@ public class LoginController {
     @FXML
     private void handleLogin(final ActionEvent event) {
         RestHelper.setCredentials(usernameField.getText(),
-                                  usernameField.getText());
+                passwordField.getText());
 
         RestHelper.getUser().consumeError(messageLabel::setText)
                 .runIfSuccess(() -> SceneCore.setScene("Calendar.fxml"));
