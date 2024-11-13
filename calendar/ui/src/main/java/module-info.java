@@ -2,10 +2,9 @@ module calendar.ui {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.fxml;
-
-    requires calendar.types;
-    requires calendar.core;
     requires javafx.graphics;
+
+    requires calendar.core;
 
     requires org.apache.commons.lang3;
     requires org.controlsfx.controls;
