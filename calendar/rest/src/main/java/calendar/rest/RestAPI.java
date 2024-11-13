@@ -68,7 +68,7 @@ public final class RestAPI {
     }
 
     /** The class all the info from the json-file goes into. */
-    private static volatile UserStore userStore;
+    private static UserStore userStore;
 
     /** The portnumber the restAPI opens at. */
     private static final int PORT = 8000;
@@ -108,7 +108,7 @@ public final class RestAPI {
      * (update event)</li>
      * </ul>
      *
-     * @param args command-line arguments (not used)
+     * @param  args        command-line arguments (not used)
      * @throws IOException if there are issues initializing the JSON file or
      *                     starting the server
      */
@@ -116,7 +116,7 @@ public final class RestAPI {
         // Make sure file exists
         Path filepath = Path.of("rest/userdata.json");
         if (Files.notExists(filepath) || Files.size(filepath) == 0)
-            Files.write(filepath, "null".getBytes("UTF-8"));
+            Files.write(filepath, "null".getBytes());
 
         // Load database
         userStore = Persistence.read(UserStore.class, filepath.toString());
@@ -194,8 +194,8 @@ public final class RestAPI {
      * <li><b>409 Conflict</b> - If the username already exists.</li>
      * </ul>
      *
-     * @param t the {@link HttpExchange} object representing the HTTP
-     *          request and response context
+     * @param  t           the {@link HttpExchange} object representing the HTTP
+     *                     request and response context
      * @throws IOException if an error occurs while sending a response
      */
     private static void userContext(final HttpExchange t) throws IOException {
@@ -207,7 +207,7 @@ public final class RestAPI {
         }
 
         // Validate path
-        String[] path = t.getRequestURI().getPath().split("/");
+        String[] path = t.getRequestURI().getPath().toString().split("/");
         if (path.length != THREE) {
             sendResponse(t, BAD_REQUEST, "Wrong number of arguments");
             return;
@@ -221,8 +221,8 @@ public final class RestAPI {
             // Username already exists
             if (userStore.hasUsername(username)) {
                 sendResponse(t,
-                        CONFLICT,
-                        "User '" + username + "' already exists");
+                             CONFLICT,
+                             "User '" + username + "' already exists");
                 return;
             }
 
@@ -239,12 +239,13 @@ public final class RestAPI {
             // Create user
             userStore.addUser(new RestUser(username, password.get()));
             sendResponse(t,
-                    CREATED,
-                    "User '" + username + "' created successfully");
+                         CREATED,
+                         "User '" + username + "' created successfully");
         }
 
         // User retreival
-        Optional<RestUser> user = userStore.getUserId(username).flatMap(userStore::getUser);
+        Optional<RestUser> user =
+                userStore.getUserId(username).flatMap(userStore::getUser);
 
         // User not found
         if (user.isEmpty()) {
@@ -253,7 +254,8 @@ public final class RestAPI {
         }
 
         // Validate password
-        Optional<String> password = Optional.ofNullable(t.getRequestHeaders().getFirst("password"));
+        Optional<String> password =
+                Optional.ofNullable(t.getRequestHeaders().getFirst("password"));
         if (password.isEmpty() || !user.get().checkPassword(password.get())) {
             sendResponse(t, UNAUTHORIZED, "Wrong password");
             return;
@@ -315,8 +317,8 @@ public final class RestAPI {
      * to retrieve events occurring after this time.</li>
      * </ul>
      *
-     * @param t the {@link HttpExchange} object representing the HTTP
-     *          request and response context
+     * @param  t           the {@link HttpExchange} object representing the HTTP
+     *                     request and response context
      * @throws IOException if an error occurs while sending a response
      */
     private static void calendarContext(final HttpExchange t)
@@ -327,7 +329,7 @@ public final class RestAPI {
         }
 
         // Validate path
-        String[] path = t.getRequestURI().getPath().split("/");
+        String[] path = t.getRequestURI().getPath().toString().split("/");
         if (!(path.length == THREE
                 || (path.length == 2 && t.getRequestMethod().equals("POST")))) {
             sendResponse(t, BAD_REQUEST, "Wrong number of arguments");
@@ -335,8 +337,10 @@ public final class RestAPI {
         }
 
         // Get credentials
-        Optional<String> password = Optional.ofNullable(t.getRequestHeaders().getFirst("password"));
-        Optional<String> username = Optional.ofNullable(t.getRequestHeaders().getFirst("username"));
+        Optional<String> password =
+                Optional.ofNullable(t.getRequestHeaders().getFirst("password"));
+        Optional<String> username =
+                Optional.ofNullable(t.getRequestHeaders().getFirst("username"));
 
         // Credentials not provided
         if (password.isEmpty() || username.isEmpty()) {
@@ -345,7 +349,8 @@ public final class RestAPI {
         }
 
         // Wrong credentials
-        Optional<RestUser> user = userStore.getUserId(username.get()).flatMap(userStore::getUser);
+        Optional<RestUser> user =
+                userStore.getUserId(username.get()).flatMap(userStore::getUser);
         if (!user.map(u -> u.checkPassword(password.get())).orElse(false)) {
             sendResponse(t, UNAUTHORIZED, "Wrong credentials");
             return;
@@ -353,13 +358,15 @@ public final class RestAPI {
 
         // Calendar creation
         if (t.getRequestMethod().equals("POST")) {
-            Optional<String> name = Optional.ofNullable(t.getRequestHeaders().getFirst("name"));
-            RestCalendar calendar = new RestCalendar(name.orElse("Unnamed calendar"));
+            Optional<String> name =
+                    Optional.ofNullable(t.getRequestHeaders().getFirst("name"));
+            RestCalendar calendar =
+                    new RestCalendar(name.orElse("Unnamed calendar"));
             user.get().addCalendar(calendar);
             sendResponse(t,
-                    CREATED,
-                    "Calendar with id: '" + calendar.getCalendarId()
-                            + "' successfully created");
+                         CREATED,
+                         "Calendar with id: '" + calendar.getCalendarId()
+                                 + "' successfully created");
             return;
         }
 
@@ -377,9 +384,9 @@ public final class RestAPI {
         if (t.getRequestMethod().equals("DELETE")) {
             user.get().removeCalendar(calendar.get());
             sendResponse(t,
-                    OK,
-                    "Calendar with id: '" + calendar.get().getCalendarId()
-                            + "' successfully deleted");
+                         OK,
+                         "Calendar with id: '" + calendar.get().getCalendarId()
+                                 + "' successfully deleted");
             return;
         }
 
@@ -472,8 +479,8 @@ public final class RestAPI {
      * event types.</li>
      * </ul>
      *
-     * @param t the {@link HttpExchange} object representing the HTTP
-     *          request and response context
+     * @param  t           the {@link HttpExchange} object representing the HTTP
+     *                     request and response context
      * @throws IOException if an error occurs while sending a response
      */
     private static void eventContext(final HttpExchange t) throws IOException {
@@ -483,7 +490,7 @@ public final class RestAPI {
         }
 
         // Validate path
-        String[] path = t.getRequestURI().getPath().split("/");
+        String[] path = t.getRequestURI().getPath().toString().split("/");
         if (!(path.length == FOUR || (t.getRequestMethod().equals("POST")
                 && path.length == THREE))) {
             sendResponse(t, BAD_REQUEST, "Wrong number of arguments");
@@ -491,8 +498,10 @@ public final class RestAPI {
         }
 
         // Get credentials
-        Optional<String> password = Optional.ofNullable(t.getRequestHeaders().getFirst("password"));
-        Optional<String> username = Optional.ofNullable(t.getRequestHeaders().getFirst("username"));
+        Optional<String> password =
+                Optional.ofNullable(t.getRequestHeaders().getFirst("password"));
+        Optional<String> username =
+                Optional.ofNullable(t.getRequestHeaders().getFirst("username"));
 
         // Credentials not provided
         if (password.isEmpty() || username.isEmpty()) {
@@ -501,7 +510,8 @@ public final class RestAPI {
         }
 
         // Wrong credentials
-        Optional<RestUser> user = userStore.getUserId(username.get()).flatMap(userStore::getUser);
+        Optional<RestUser> user =
+                userStore.getUserId(username.get()).flatMap(userStore::getUser);
         if (!user.map(u -> u.checkPassword(password.get())).orElse(false)) {
             sendResponse(t, UNAUTHORIZED, "Wrong credentials");
             return;
@@ -518,17 +528,18 @@ public final class RestAPI {
         }
 
         // Options
-        Optional<String> title = Optional.ofNullable(t.getRequestHeaders().getFirst("title"));
+        Optional<String> title =
+                Optional.ofNullable(t.getRequestHeaders().getFirst("title"));
         Optional<String> description = Optional
                 .ofNullable(t.getRequestHeaders().getFirst("description"));
-
-        Optional<LocalDateTime> startTime;
-        Optional<LocalDateTime> endTime;
-        Optional<EventType> type;
-        Optional<Color> color;
+        Optional<LocalDateTime> startTime = Optional.empty();
+        Optional<LocalDateTime> endTime = Optional.empty();
+        Optional<Color> color = Optional.empty();
+        Optional<EventType> type = Optional.empty();
         try {
-            startTime = Optional.ofNullable(t.getRequestHeaders().getFirst("start"))
-                    .map(LocalDateTime::parse);
+            startTime =
+                    Optional.ofNullable(t.getRequestHeaders().getFirst("start"))
+                            .map(LocalDateTime::parse);
             endTime = Optional.ofNullable(t.getRequestHeaders().getFirst("end"))
                     .map(LocalDateTime::parse);
         } catch (DateTimeParseException e) {
@@ -550,27 +561,29 @@ public final class RestAPI {
 
             if (startTime.isEmpty() || endTime.isEmpty()) {
                 sendResponse(t,
-                        BAD_REQUEST,
-                        "Event start and end time are required");
+                             BAD_REQUEST,
+                             "Event start and end time are required");
                 return;
             }
 
-            if (startTime.get().plusHours(1).isAfter(endTime.get())) {
-                sendResponse(t, 400, "Event has to be at leat 1 hour");
+            if (startTime.get().isAfter(endTime.get())) {
+                sendResponse(t,
+                             BAD_REQUEST,
+                             "Event end time can't be before start time");
                 return;
             }
 
             Event event = new Event(title.orElse("Untitled event"),
-                    description.orElse(""),
-                    startTime.get(),
-                    endTime.get(),
-                    color.orElse(Color.BLUE),
-                    type.orElse(EventType.REGULAR));
+                                    description.orElse(""),
+                                    startTime.get(),
+                                    endTime.get(),
+                                    color.orElse(Color.BLUE),
+                                    type.orElse(EventType.REGULAR));
             calendar.get().addEvent(event);
             sendResponse(t,
-                    CREATED,
-                    "Event with id: '" + event.getId()
-                            + "' successfully created");
+                         CREATED,
+                         "Event with id: '" + event.getId()
+                                 + "' successfully created");
             return;
         }
 
@@ -588,43 +601,38 @@ public final class RestAPI {
         if (t.getRequestMethod().equals("DELETE")) {
             calendar.get().removeEvent(event.get());
             sendResponse(t,
-                    OK,
-                    "Event with id: '" + event.get().getId()
-                            + "' successfully deleted");
-            return;
-        }
-
-        if (startTime.isPresent() && endTime.isPresent()
-                && startTime.get().plusHours(1).isAfter(endTime.get())) {
-            sendResponse(t, 400, "Event has to be at leat 1 hour");
+                         OK,
+                         "Event with id: '" + event.get().getId()
+                                 + "' successfully deleted");
             return;
         }
 
         // Event editing
-        Event newEvent = new Event(title.orElse(event.get().getTitle()),
-                description.orElse(event.get().getDescription()),
-                startTime.orElse(event.get().getStartTime()),
-                endTime.orElse(event.get().getEndTime()),
-                color.orElse(event.get().getColor()),
-                type.orElse(event.get().getType()),
-                event.get().getId());
+        Event newEvent =
+                new Event(title.orElse(event.get().getTitle()),
+                          description.orElse(event.get().getDescription()),
+                          startTime.orElse(event.get().getStartTime()),
+                          endTime.orElse(event.get().getEndTime()),
+                          color.orElse(event.get().getColor()),
+                          type.orElse(event.get().getType()),
+                          event.get().getId());
 
         calendar.get().removeEvent(event.get());
         calendar.get().addEvent(newEvent);
 
         sendResponse(t,
-                OK,
-                "Event with id: '" + event.get().getId()
-                        + "' succesfully edited");
+                     OK,
+                     "Event with id: '" + event.get().getId()
+                             + "' succesfully edited");
     };
 
     /**
      * Sends an HTTP response with the specified status and message.
      *
-     * @param t       the HttpExchange object representing the HTTP request
-     *                and response context
-     * @param status  the HTTP status code to send in the response
-     * @param message the message body to send in the response
+     * @param  t           the HttpExchange object representing the HTTP request
+     *                     and response context
+     * @param  status      the HTTP status code to send in the response
+     * @param  message     the message body to send in the response
      * @throws IOException if an I/O error occurs while sending the response
      */
     protected static void sendResponse(final HttpExchange t,
@@ -632,7 +640,7 @@ public final class RestAPI {
             final String message) throws IOException {
         t.sendResponseHeaders(status, message.length());
         OutputStream o = t.getResponseBody();
-        o.write(message.getBytes("UFT-8"));
+        o.write(message.getBytes());
         o.close();
     }
 }
