@@ -1,0 +1,31 @@
+@startuml Architecture
+
+class Calendar {
+
+}
+
+class Event {
+
+}
+
+class RestCalendar {
+
+}
+
+class RestUser {
+
+}
+
+class User {
+
+}
+
+class UserSettings {
+
+}
+
+class UserStore {
+    
+}
+
+@enduml

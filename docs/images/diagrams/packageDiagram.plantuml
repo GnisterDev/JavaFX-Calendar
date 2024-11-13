@@ -1,0 +1,51 @@
+@startuml JavaFX Project Package Diagram
+
+
+
+
+component core {
+    package "calendar.core" {
+    }
+
+    package "calendar.types" {
+
+    }
+}
+
+component fxui {
+    package "calendar.ui" {
+
+    }
+}
+
+component restserver {
+    package "calendar.rest" {
+
+    }
+    package "calendar.persistence" {
+
+    }
+}
+
+[javafx]
+[jdk.httpserver]
+[fxml]
+
+
+' [CoreService] -down-> [TypeA] : uses
+' [CoreService] -down-> [TypeB] : uses
+' [CoreController] --> [CoreService] : controls
+' [MainUI] --> [UIController] : interacts with
+' [UIController] --> [CoreService] : accesses
+
+' [RestService] --> [PersistenceManager] : interacts with
+' [RestController] --> [RestService] : provides
+' [PersistenceManager] --> [Entity] : manages
+' [DatabaseUtil] --> [PersistenceManager] : assists
+
+fxui --> javafx : uses
+fxui --> fxml : uses
+restserver --> jdk.httpserver : uses
+
+
+@enduml
