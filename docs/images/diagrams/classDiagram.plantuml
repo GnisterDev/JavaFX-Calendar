@@ -1,31 +1,112 @@
 @startuml Architecture
 
-class Calendar {
-
+class RestCalendar {
+    - UUID calendarId
+    - String name
+    - List<Event> events
+    
+    + RestCalendar()
+    + RestCalendar(UUID calendarId)
+    + RestCalendar(String name)
+    + RestCalendar(List<Event> events)
+    + RestCalendar(UUID calendarId, ...)
+    
+    + UUID getCalendarId()
+    + String getName()
+    + List<Event> getEvents()
+    + Event getEvent(int index)
+    + void removeEvent(Event event)
+    + void removeEvent(int index)
+    + void addEvent(Event event)
+    + int eventCount()
 }
 
 class Event {
+    - id : UUID
+    - type : EventType
+    - title : String
+    - description : String
+    - startTime : LocalDateTime
+    - endTime : LocalDateTime
+    - color : Color
 
-}
+    + Event(title : String, ...)
+    + Event(title : String, ...)
+    + Event(title : String, ...)
 
-class RestCalendar {
-
+    + getId() : UUID
+    + getTitle() : String
+    + getDescription() : String
+    + getStartTime() : LocalDateTime
+    + getEndTime() : LocalDateTime
+    + getType() : EventType
+    + getColor() : Color
+    + hashCode() : int
+    + equals(obj : Object) : boolean
 }
 
 class RestUser {
-
-}
-
-class User {
-
+    - UUID userId
+    - String username
+    - String password
+    - List<RestCalendar> calendars
+    - UserSettings settings
+    
+    + RestUser(String username, ...)
+    + RestUser(UUID userId, ...)
+    + RestUser(UUID userId, ...)
+    + UUID getUserId()
+    + String getUsername()
+    + UserSettings getSettings()
+    + boolean checkPassword(String password)
+    + List<RestCalendar> getCalendars()
+    + RestCalendar getCalendar(int index)
+    + void removeCalendar(RestCalendar calendar)
+    + void removeCalendar(int index)
+    + void addCalendar(RestCalendar calendar)
+    + int calendarCount()
 }
 
 class UserSettings {
+    - userId : UUID
+    - timezone : TimeZone
+    - militaryTime : boolean
+    - showWeekNr : boolean
 
+    + UserSettings(userId : UUID, ...)
+    + UserSettings(userId : UUID)
+
+    + getUserId() : UUID
+    + getTimezone() : TimeZone
+    + getMilitaryTime() : boolean
+    + getShowWeekNr() : boolean
 }
 
 class UserStore {
-    
+    - usernameToUserId : Map<String, UUID>
+    - userIdToUser : Map<UUID, RestUser>
+
+    + UserStore(usernameToUserId : ...)
+    + addUser(user : RestUser) : boolean
+    + removeUser(username : String) : boolean
+    + removeUser(userId : UUID) : boolean
+    + removeUser(user : RestUser) : boolean
+    + hasUsername(username : String) : boolean
+    + hasUserId(userId : UUID) : boolean
+    + hasUser(user : RestUser) : boolean
+    + getUserId(username : String) : Optional<UUID>
+    + getUser(userId : UUID) : Optional<RestUser>
 }
+
+enum EventType {
+    REGULAR
+    ALL_DAY
+}
+
+UserStore --> "userIdToUser: * " RestUser
+RestUser --> "calendars: *  " RestCalendar
+RestUser -up-> "settings: 1" UserSettings
+RestCalendar -up-> "events: *  " Event
+Event -up-> "type: 1 " EventType
 
 @enduml
