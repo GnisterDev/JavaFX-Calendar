@@ -1,6 +1,7 @@
 # Igor
 
-In this project, Igor has been responsible for the core module, focusing on seamlessly integrate every module. His work on the core module involves designing and implementing the logic that enables communication between modules. Igor has also developed the REST API, enabling data exchange between client and server.
+In this project, Igor has been responsible for the core module, focusing on seamlessly integrate every module. His work on the core module involves designing and implementing the logic that enables communication between modules.
+Igor has also developed the REST API, enabling data exchange between client and server.
 
 # Philip
 
@@ -13,5 +14,5 @@ Contributing to both functunality and design. His work included designing the si
 
 # Sindre
 
-Sindre has been responsible for the persistance module ensuring that data storage and retrival functions are robust.
+Sindre has been responsible for the persistance module ensuring that data storage and retrival functions are robust. He also worked on the SceneCore class in core, making it easier to work with multiple interacting scenes.
 Beyond that, Sindre has also been a contribitor across various modules, stepping in to assist whereever needed. Whether fixing bugs, making tests, refactoring code, or offering solutions for other issues.
