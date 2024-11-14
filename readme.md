@@ -28,6 +28,10 @@ Now open a new terminal window and cd back into the calendar folder using `cd ./
 
 To run this project in eclipse che change directory to calendar using `cd ./calendar`. Then run the run.sh script using `./run.sh`. This script will automatically install all dependencies, compile the project and run both the rest api and javafx ui.
 
+## How to test the project in Eclipse Che
+
+Testing in eclipse che is done similarly to running the project. Change directory to calendar using `cd ./calendar` if you haven't already. Then run the test.sh script using `./test.sh`.
+
 ## Packaging
 
 Unfortunately, we did not manage to configure the project with jlink or jpackage. We had a lot of issues with "automatic modules" that we could not fix, even with studass guidance. We also tried to package the project to a jar file with various maven plugins and console commands, however this did not yield better results. Despite this, we believe the overall quality of our application is good and we hope this issue won't affect out grade too much.
