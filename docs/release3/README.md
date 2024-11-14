@@ -79,6 +79,8 @@ To futher enhance code quality, we refactored a big portion of the code to minim
 
 We later realized that a significant improvement for code quality would have been to use nested FXML files. But because of time constraints, we ended up not having time to implement this. This approach could have broken down complex FXML files into smaller, reusable components, reducing the code within our current controllers and making each controller simpler and easier to read. This separation would have gratly enhanced code maintainbility and readability.
 
+In addition, we have implemented Spotbugs to catch common code smells. We have tried to adhere to Spotbugs rules as strictly as possible, however there are still couple of errors we could not get rid of.
+
 ## Test coverage
 
 Our project has strong test coverage, addressing what we consider the most essential components that require testing. Currently, coverage exceeds 80% overall. However, we are missing some coverage for `calendarController` and `popUpController`. This is due to challenges in mocking UI changes triggered by adding or editing events.
