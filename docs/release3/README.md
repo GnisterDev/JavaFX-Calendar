@@ -29,6 +29,18 @@ The rest of the project architecture remains the same as it was in [Release 2](.
   </tr>
 </table>
 
+### Comments
+
+The **Sequence diagram** shows the interactions between various components in the program; here the event of adding an event to the calendar. _Note_ that in the digram the process of getting all the info about the event is simplified into "_Event Info Area_" and "_Get info about event_". This is because the `calendarController` takes info from eight differnt input fields, and showing them all in the diagram made it clunky and harder to read. This was therefor simplified.
+
+The **Class diagram** shows how the diffenet classes responisble for the saved info about the callendar application intract with eachother. Note that the diagram shos how the data is beeing stored on the serverside of the applicattion, and therefor uses `RestUser` and `RestCalendar` instead of just `User` and `Calendar`.
+
+The **Package diagram** illustrates the structure and dependencies within the application, specifically organizing the system into distinct packages that represent core functionalities and modules. It has been devided into packages for:
+
+-   `ui` - The code responsible for the frontend.
+-   `restAPI` - The code responible for the backend.
+-   `core` - The code responisble for talking between the two other packages.
+
 ## Final functions for application
 
 For release 3 we decide not to change the framework instead we added alot of extra features as seen below.
@@ -37,21 +49,21 @@ For release 3 we decide not to change the framework instead we added alot of ext
 
 **Removed features:**
 
-- Optional event repeat selection
-- Optional location selection
-- Event reminders
-- Event sharing
-- Customizable calendar layouts (daily, weekly, or monthly views)
+-   Optional event repeat selection
+-   Optional location selection
+-   Event reminders
+-   Event sharing
+-   Customizable calendar layouts (daily, weekly, or monthly views)
 
 Most of these features were removed due to time constraints and were deemed non-essential for the app's core functionality.
 
 **Added features:**
 
-- User account creation and login
-- Option set event name
-- Optional description field
-- Option for events to span multiple days
-- Multiple calendar creation for each user
+-   User account creation and login
+-   Option set event name
+-   Optional description field
+-   Option for events to span multiple days
+-   Multiple calendar creation for each user
 
 These features were added because they aligned with the project description and were mostly straightforward to implement.
 
@@ -89,23 +101,23 @@ Our project has strong test coverage, addressing what we consider the most essen
 
 When adding a description for an event, pressing "Enter" to create a new line prevents the event from being added. This occurs because the HTTP request does not accept new line characters, as HTTP header values cannot contain line breaks or special characters.
 
-- **Suggested Fix:**
-  - Implement a function to remove or replace new line characters in the header value before sending the HTTP request
+-   **Suggested Fix:**
+    -   Implement a function to remove or replace new line characters in the header value before sending the HTTP request
 
 ### Overlapping events
 
 Events scheduled at the same time currently overlap, causing one event to hide another.
 
-- **Suggested Fix:**
-  - Implement a check for overlapping events.
-  - Create a function to adjust the event width, allowing events to display side by side instead of overlapping.
+-   **Suggested Fix:**
+    -   Implement a check for overlapping events.
+    -   Create a function to adjust the event width, allowing events to display side by side instead of overlapping.
 
 ### Readability of Dark-Colored Events:
 
 When events are assigned dark colors, the event title can become difficult to read due to insufficient contrast.
 
-- **Suggested Fix:**
-  - Add color-check function to automatically adjust the title color based on the event's background color for optimal readability.
+-   **Suggested Fix:**
+    -   Add color-check function to automatically adjust the title color based on the event's background color for optimal readability.
 
 ### Reason for Remaining Unfixed:
 
