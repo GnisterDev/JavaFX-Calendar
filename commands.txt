@@ -1,8 +1,0 @@
-JAR-file:
-jar --create --verbose --file calendar.jar --main-class calendar.ui.App -C .. .
-
-Dependencies:
-jdeps --print-module-deps --recursive calendar.jar
-
-Image:
-jlink --module-path calendar.jar --add-modules java.base --output custom-image

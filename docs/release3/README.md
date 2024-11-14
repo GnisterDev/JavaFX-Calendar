@@ -73,7 +73,7 @@ Our work habits have remained largely consistent since Release 2, with the prima
 
 ## Code quality
 
-We have implemented Checkstyle to maintain consistent code formatting and ensure adherence to coding standards. Additionally, we have documented the entire project with JavaDoc to improve code readability for anyone who wants to understand how the code works.
+We have implemented Checkstyle to maintain consistent code formatting and ensure adherence to coding standards. The rules we have used for checkstyle can be found in the [checkstyle.xml](../../calendar/checkstyle.xml) file inside of calendar. Additionally, we have documented the entire project with JavaDoc to improve code readability for anyone who wants to understand how the code works.
 
 To futher enhance code quality, we refactored a big portion of the code to minimize duplication and improve overall structure, making the concise and readable.
 
