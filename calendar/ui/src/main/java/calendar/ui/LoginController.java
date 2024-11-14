@@ -62,7 +62,10 @@ public class LoginController {
                 passwordField.getText());
 
         RestHelper.getUser().consumeError(messageLabel::setText)
-                .runIfSuccess(() -> SceneCore.setScene("Calendar.fxml"));
+                .runIfSuccess(() -> {
+                    SceneCore.setResizable(true);
+                    SceneCore.setScene("Calendar.fxml");
+                });
 
     }
 }

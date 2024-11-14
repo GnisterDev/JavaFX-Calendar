@@ -358,6 +358,7 @@ public class CalendarController {
 
     @FXML
     private void signOut() {
+        SceneCore.setResizable(false);
         SceneCore.setScene("Login.fxml");
     }
 
@@ -643,6 +644,7 @@ public class CalendarController {
             stage.setY(SceneCore.getY());
             stage.setScene(new Scene(vbox));
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
 
             controller.setStage(stage);
             controller.initialize(event, this);

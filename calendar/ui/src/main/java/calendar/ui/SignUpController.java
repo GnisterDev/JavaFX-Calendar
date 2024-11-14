@@ -67,6 +67,7 @@ public class SignUpController {
         RestHelper.addUser().consumeError(messageLabel::setText)
                 .runIfSuccess(() -> {
                     RestHelper.addCalendar(Optional.of("Default")); // Temp
+                    SceneCore.setResizable(true);
                     SceneCore.setScene("Calendar.fxml");
                 });
     }
