@@ -1,8 +1,5 @@
 @startuml JavaFX Project Package Diagram
 
-
-
-
 component core {
     package "calendar.core" {
     }
@@ -18,9 +15,9 @@ component fxui {
     }
 }
 
-component restserver {
+component restserver  {
     package "calendar.rest" {
-
+        
     }
     package "calendar.persistence" {
 
@@ -30,22 +27,27 @@ component restserver {
 [javafx]
 [jdk.httpserver]
 [fxml]
+[fasterxml.jackson]
+[apache.commons]
+[controlsfx]
+[fluentresult]
 
+fxui --> fxml
+fxui --> controlsfx
+fxui --> apache.commons
+fxui --> javafx
 
-' [CoreService] -down-> [TypeA] : uses
-' [CoreService] -down-> [TypeB] : uses
-' [CoreController] --> [CoreService] : controls
-' [MainUI] --> [UIController] : interacts with
-' [UIController] --> [CoreService] : accesses
+core --> fluentresult
+core --> fasterxml.jackson
 
-' [RestService] --> [PersistenceManager] : interacts with
-' [RestController] --> [RestService] : provides
-' [PersistenceManager] --> [Entity] : manages
-' [DatabaseUtil] --> [PersistenceManager] : assists
-
-fxui --> javafx : uses
-fxui --> fxml : uses
 restserver --> jdk.httpserver : uses
 
+"calendar.ui" --> "calendar.core"
+"calendar.ui" --> "calendar.types"
+
+"calendar.core" --> "calendar.rest"
+
+"calendar.rest" --> "calendar.types"
+"calendar.rest" --> "calendar.persistence"
 
 @enduml

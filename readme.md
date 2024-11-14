@@ -4,7 +4,9 @@
 
 ## Description
 
-This project is a simple calender. The project is containd within `./calendar`. For more information see the [README.md](./calendar/readme.md) file inside the `./calendar` folder
+This project is a simple calender. The project is containd within `./calendar`. For more information about the calendaar, see the [README.md](./calendar/readme.md) file inside the `./calendar` folder.
+
+For more information about a spesific realease of the project, see the [Link to docs](#link-to-docs) section at the bottom of this document.
 
 ## Building and running the project
 
@@ -15,17 +17,18 @@ To build the project move into the root of the application with `cd ./calendar` 
 
 <hr>
 
-This project has both a frontend, and a backend using restAPI.
+This project has both a frontend, and a backend using restAPI, and you therefor need two terminals to runt the application.
 
 To deploy the backend; type the command `cd ./calender` if you aren't there already and type the command `mvn exec:java`. Wait a few seconds for the program to start up. A restAPI server should now be running.
+**If not** try `mvn clean install -DskipTests` again, before running the server command once more.
 
 Now open a new terminal window and cd back into the calendar folder using `cd ./calendar`. Now you can run `mvn javafx:run`. After a few seconds a window should appear on your screen. You can now explore the application freely.
 
 ## Technical Information
 
-Java version `21.0.1`
+Java version: `21.0.1`
 
-Maven version `3.8.0`
+Maven version: `3.8.0`
 
 ## Link to docs
 
