@@ -79,6 +79,9 @@ public final class SceneCore {
         stage.setScene(getScene(getSceneUrl(name)));
     }
 
+    /**
+     * Displays the primary {@link Stage}.
+     */
     public static void showStage() {
         stage.show();
     }
@@ -93,10 +96,20 @@ public final class SceneCore {
         stage.setResizable(resizable);
     }
 
+    /**
+     * Gets the width of the primary {@link Stage}.
+     *
+     * @return the width of the {@link Stage}
+     */
     public static double getStageWidth() {
         return stage.getWidth();
     }
 
+    /**
+     * Gets the height of the primary {@link Stage}.
+     *
+     * @return the height of the {@link Stage}
+     */
     public static double getStageHeight() {
         return stage.getHeight();
     }

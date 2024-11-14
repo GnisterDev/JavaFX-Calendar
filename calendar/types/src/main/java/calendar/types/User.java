@@ -83,10 +83,20 @@ public class User {
         this.settings = settings;
     }
 
+    /**
+     * Gets the unique identifier for the user.
+     *
+     * @return the {@link UUID} representing the user's ID
+     */
     public UUID getUserId() {
         return userId;
     }
 
+    /**
+     * Gets the username of the user.
+     *
+     * @return the username of the user
+     */
     public String getUsername() {
         return username;
     }
