@@ -1,5 +1,7 @@
 module calendar.core {
-    requires calendar.types;
+    requires transitive javafx.fxml;
+    requires transitive calendar.types;
     requires calendar.persistence;
+
     exports calendar.core;
 }
