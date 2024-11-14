@@ -26,7 +26,7 @@ Now open a new terminal window and cd back into the calendar folder using `cd ./
 
 ## How to run project in Eclipse Che
 
-To run this project in eclipse che change directory to calendar using `cd ./calendar`. Then run the run.sh script using `./run.sh`. This script will automatically install all dependencies, compile the project and run both the rest api and javafx ui.
+To run this project in eclipse che change directory to calendar using `cd ./calendar`. Then run the run.sh script using `./run.sh`. This script will automatically install all dependencies, compile the project and run both the rest api and javafx ui. To see and interact with the app, open the "endpoint" tab in the editor and open the endpoint at port `6080` (6080-tcp-desktop-ui) in a new tab.
 
 ## How to test the project in Eclipse Che
 
