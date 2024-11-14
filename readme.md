@@ -28,6 +28,10 @@ Now open a new terminal window and cd back into the calendar folder using `cd ./
 
 To run this project in eclipse che change directory to calendar using `cd ./calendar`. Then run the run.sh script using `./run.sh`. This script will automatically install all dependencies, compile the project and run both the rest api and javafx ui.
 
+## Packaging
+
+Unfortunately, we did not manage to configure the project with jlink or jpackage. We had a lot of issues with "automatic modules" that we could not fix, even with studass guidance. We also tried to package the project to a jar file with various maven plugins and console commands, however this did not yield better results. Despite this, we believe the overall quality of our application is good and we hope this issue won't affect out grade too much.
+
 ## Technical Information
 
 Java version: `21.0.1`
@@ -36,6 +40,6 @@ Maven version: `3.8.0`
 
 ## Link to docs
 
-- [Release 1](./docs/release1/readme.md)
-- [Release 2](./docs/release2/readme.md)
-- [Release 3](./docs/release3/readme.md)
+-   [Release 1](./docs/release1/readme.md)
+-   [Release 2](./docs/release2/readme.md)
+-   [Release 3](./docs/release3/readme.md)
