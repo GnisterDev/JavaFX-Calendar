@@ -15,4 +15,4 @@ mvn clean install compile -DskipTests
 screen -dmS restAPI mvn exec:java
 
 # Run javaFX ui
-mvn javfx:run
+mvn javafx:run
