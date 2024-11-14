@@ -14,6 +14,13 @@ import org.junit.jupiter.api.Test;
 
 import javafx.scene.paint.Color;
 
+/**
+ * Unit test class for testing the {@link Event} class.
+ * <p>
+ * This class includes tests for constructors, object equality, hash code
+ * consistency,
+ * and uniqueness of generated UUIDs, along with verifying getter methods.
+ */
 public class EventTest {
 
     private Event event;
@@ -25,11 +32,18 @@ public class EventTest {
     private EventType type = EventType.REGULAR;
     private UUID id = UUID.randomUUID();
 
+    /**
+     * Sets up a default event instance before each test.
+     */
     @BeforeEach
     void setUp() {
         event = new Event(title, description, startTime, endTime, color, type, id);
     }
 
+    /**
+     * Tests the constructor with all fields to ensure all values are properly
+     * assigned.
+     */
     @Test
     void testConstructorWithAllFields() {
         assertEquals(title, event.getTitle());
@@ -41,6 +55,11 @@ public class EventTest {
         assertEquals(id, event.getId());
     }
 
+    /**
+     * Tests the default constructor, verifying default values for color, event
+     * type,
+     * and a unique identifier.
+     */
     @Test
     void testConstructorWithDefaults() {
         Event defaultEvent = new Event(title, description, startTime, endTime);
@@ -54,6 +73,13 @@ public class EventTest {
         assertNotNull(defaultEvent.getId());
     }
 
+    /**
+     * Verifies the correctness of `equals` and `hashCode` methods.
+     * <p>
+     * Confirms that objects with identical field values are equal and have the same
+     * hash code,
+     * while different objects do not.
+     */
     @Test
     void testEqualsAndHashCode() {
         Event sameEvent = new Event(title, description, startTime, endTime, color, type, id);
@@ -65,12 +91,18 @@ public class EventTest {
         assertEquals(event.hashCode(), sameEvent.hashCode());
     }
 
+    /**
+     * Tests the uniqueness of the UUID generated for each event.
+     */
     @Test
     void testIdUniqueness() {
         Event anotherEvent = new Event(title, description, startTime, endTime);
         assertNotEquals(event.getId(), anotherEvent.getId());
     }
 
+    /**
+     * Verifies the getter methods for all fields in the {@link Event} class.
+     */
     @Test
     void testGetters() {
         assertEquals(title, event.getTitle());
@@ -81,6 +113,11 @@ public class EventTest {
         assertEquals(color, event.getColor());
     }
 
+    /**
+     * Tests additional constructors to confirm the presence of default values for
+     * color,
+     * type, and ID.
+     */
     @Test
     void testOtherConstructors() {
         Event newEvent1 = new Event(title, description, startTime, endTime);
@@ -92,6 +129,11 @@ public class EventTest {
         assertNotNull(newEvent2.getId());
     }
 
+    /**
+     * Tests the `equals` method to confirm consistent behavior with different field
+     * values,
+     * including comparisons with null and unrelated types.
+     */
     @Test
     @SuppressWarnings("unlikely-arg-type")
     void testEquals() {

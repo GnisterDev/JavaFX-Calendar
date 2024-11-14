@@ -1,0 +1,20 @@
+@startuml Sequence Diagram
+
+actor user
+participant "AddEventButton" as Button
+participant "CalendarController" as Controller
+participant "Event Info Area" as inputArea
+participant "RestHelper" as restHelper
+participant "RestAPI" as restAPI
+
+user -> Button : click
+Button -> Controller : addEvent
+Controller -> inputArea : Get info about event
+inputArea -> Controller : Info about event
+Controller -> restHelper : addEvent
+restHelper -> restAPI : POST request
+restAPI -> restHelper : response
+restHelper -> Controller : response
+Controller -> Controller : update
+
+@enduml

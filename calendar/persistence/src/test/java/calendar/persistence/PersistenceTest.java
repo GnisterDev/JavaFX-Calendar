@@ -23,10 +23,23 @@ import calendar.types.UserSettings;
 import calendar.types.UserStore;
 import calendar.types.RestCalendar;
 
+/**
+ * Test class for the {@link Persistence} class, verifying the functionality of
+ * writing and reading
+ * various objects, including {@link RestUser}, {@link Event}, and complex
+ * nested objects such as
+ * {@link UserStore} and {@link RestCalendar}. This class includes cleanup steps
+ * after each test
+ * to ensure data integrity and prevent file persistence issues.
+ */
 public class PersistenceTest {
 
     private static final String TEST_FILE_PATH = "test.json";
 
+    /**
+     * Deletes the test file after each test to ensure a clean state for subsequent
+     * tests.
+     */
     @AfterEach
     public void tearDown() {
         File file = new File(TEST_FILE_PATH);
@@ -35,6 +48,13 @@ public class PersistenceTest {
         }
     }
 
+    /**
+     * Tests writing a {@link RestUser} object to a file and reading it back to
+     * verify that the
+     * data is correctly persisted and retrieved.
+     *
+     * @throws IOException if an I/O error occurs during write or read.
+     */
     @Test
     public void testWriteAndReadRestUser() throws IOException {
         RestUser user = new RestUser("testUser", "testPassword");
@@ -45,6 +65,13 @@ public class PersistenceTest {
         assertEquals(user.getUsername(), readUser.getUsername());
     }
 
+    /**
+     * Tests writing an {@link Event} object to a file and reading it back to verify
+     * all event properties
+     * are correctly persisted and retrieved.
+     *
+     * @throws IOException if an I/O error occurs during write or read.
+     */
     @Test
     public void testWriteAndReadEvent() throws IOException {
         Event event = new Event("Title", "Description", LocalDateTime.now(), LocalDateTime.now());
@@ -60,6 +87,12 @@ public class PersistenceTest {
         assertEquals(event.getId(), readEvent.getId());
     }
 
+    /**
+     * Tests that attempting to read a file with an unexpected class type throws an
+     * {@link IOException}.
+     *
+     * @throws IOException when reading with an incorrect class type.
+     */
     @Test
     public void testInvalidClassThrowsIOExeption() throws IOException {
         RestUser user = new RestUser("testUser", "testPassword");
@@ -70,6 +103,12 @@ public class PersistenceTest {
         });
     }
 
+    /**
+     * Verifies that attempting to read a non-existent file throws an
+     * {@link IOException}.
+     *
+     * @throws IOException if the file cannot be found during the read operation.
+     */
     @Test
     public void testReadThrowsIOExceptionWhenFileNotFound() {
         assertThrows(IOException.class, () -> {
@@ -77,6 +116,15 @@ public class PersistenceTest {
         });
     }
 
+    /**
+     * Tests reading and writing without specifying a file path, using a mocked
+     * {@link File} to verify
+     * that write and read operations function correctly with static mocks.
+     *
+     * @throws IOException           if an I/O error occurs during read or write.
+     * @throws FileNotFoundException if the file is not found while performing
+     *                               operations.
+     */
     @Test
     public void testWriteReadWithoutPath() throws IOException {
 
@@ -100,6 +148,29 @@ public class PersistenceTest {
         }
     }
 
+    /**
+     * Tests the serialization and deserialization of nested objects within a
+     * {@link UserStore}.
+     * The method creates multiple {@link RestUser} instances, each with associated
+     * {@link RestCalendar} and {@link Event} objects.
+     * These objects are written to and read from a file to ensure that nested
+     * structures are correctly persisted and retrieved.
+     * 
+     * Specifically, the test:
+     * <ul>
+     * <li>Verifies that all {@link RestUser} instances, identified by unique
+     * usernames and UUIDs, are correctly stored and retrieved.</li>
+     * <li>Verifies that the {@link UserStore} correctly contains the expected
+     * {@link RestUser} objects based on their usernames and IDs.</li>
+     * <li>Verifies that the {@link RestCalendar} objects are properly nested within
+     * each {@link RestUser}, with accurate event counts.</li>
+     * <li>Verifies that the number of events in each {@link RestCalendar} matches
+     * the expected values after deserialization.</li>
+     * </ul>
+     * 
+     * @throws IOException if an I/O error occurs during the file write or read
+     *                     operations.
+     */
     @Test
     public void testNestedClasses() throws IOException {
         String username1 = "A";

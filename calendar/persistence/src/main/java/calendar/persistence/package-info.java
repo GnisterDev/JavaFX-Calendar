@@ -1,18 +1,29 @@
 /**
- * Provides core functionality for the persistence layer in the application.
+ * Provides the persistence functionality for the calendar application.
+ *
  * <p>
- * This package contains classes and interfaces for handling data access and
- * storage. The persistence layer serves as a bridge between the application's
- * ui logic and the underlying restAPI, ensuring data consistency and efficient
- * access.
+ * This package contains classes and interfaces responsible for managing the
+ * storage, retrieval, and updating of calendar event data. It enables
+ * interaction with the database (JSON-file), ensuring that user events,
+ * schedules, and preferences are saved and accessible across sessions.
+ *
  * <h2>Package Overview</h2> The {@code calendar.persistence} package includes
  * the following primary components:
  * <ul>
- * <li>{@link calendar.persistence.persistence} - The main entrypont for the
- * persistance layer. Contains a read and write method.</li>
+ * <li>{@link calendar.persistence.Persistance} - A Data Access Object (DAO)
+ * class that handles the database operations for calendar events, such as
+ * creating, reading, updating, and deleting events.</li>
+ * <li>{@link calendar.persistence.internal} - Manages the connection to the
+ * database, ensuring that database sessions are created and closed efficiently.
+ * </li>
  * </ul>
- * <h2>Usage</h2> This package is intended to be used by the core modual to
- * access, create, update, and delete data in the database.
+ *
+ * <h2>Usage</h2> This package is used by other modules within the calendar
+ * application to persist and retrieve event data and user preferences. It
+ * abstracts the underlying database operations, allowing other modules to
+ * interact with event data without needing detailed knowledge of the storage
+ * implementation.
+ *
  * <h2>Dependencies</h2> The {@code com.example.persistence} package depends on
  * the following:
  * <ul>

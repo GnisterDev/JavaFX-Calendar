@@ -1,18 +1,18 @@
 ## Project description
 
-The calendar application is designed to help users manage their time by providing an easy-to-use platform for scheduling, tracking, and organzing events. It allows users to create,, modify, and view appoinments, as well as various activities into a calendar. -
+The calendar application is designed to help users manage their time by providing an easy-to-use platform for scheduling, tracking, and organzing events. It allows users to create, modify, and view appoinments, as well as various activities into a calendar. -
 
 ## Functions in our project
 
+- Ability login and create a user
 - Create events to the calendar
   - Select a time
-  - Select a place (optional)
-  - Select if event reapeats (optional)
+  - Select a name
+  - Select a description (optional)
+  - Select if events span over multiple days
   - Select colour for event (optional)
 - Ability of edit information for created event
-- Reminder for created events
-- Ability of sharing events with other people
-- Ability of changing the layout of the calendar to be daily, weekly, or monthly
+- Ability to create multiple calendars for each user
 
 ## User story
 

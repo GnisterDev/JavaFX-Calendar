@@ -582,7 +582,8 @@ public class CalendarController {
                     ? Integer.parseInt(endTimeSelect.getText().substring(0, 2))
                     : 1);
         } catch (Exception e) {
-
+            errorLabel.setText("Time value(s) are not set correctly.");
+            return;
         }
 
         Optional<LocalDateTime> startDateTime = startTime
@@ -638,8 +639,8 @@ public class CalendarController {
             PopupController controller = loader.getController();
 
             Stage stage = new Stage();
-            stage.setWidth(PopupController.Width);
-            stage.setHeight(PopupController.Height);
+            stage.setWidth(PopupController.WIDTH);
+            stage.setHeight(PopupController.HEIGHT);
             stage.setX(SceneCore.getX());
             stage.setY(SceneCore.getY());
             stage.setScene(new Scene(vbox));

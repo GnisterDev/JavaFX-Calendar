@@ -20,6 +20,13 @@ import org.mockito.MockitoAnnotations;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Unit test class for the {@link SceneCore} utility class.
+ * <p>
+ * This class tests various methods in {@link SceneCore} related to setting and
+ * interacting with
+ * the primary {@link Stage} and loading {@link Scene} resources.
+ */
 public class SceneCoreTest {
 
     @Mock
@@ -34,6 +41,10 @@ public class SceneCoreTest {
     @Mock
     private Scene mockScene;
 
+    /**
+     * Initializes mocks and sets up {@link SceneCore} with mocked dependencies
+     * before each test.
+     */
     @BeforeEach
     public void initialize() {
         MockitoAnnotations.openMocks(this);
@@ -41,18 +52,31 @@ public class SceneCoreTest {
         SceneCore.setLoader(mockLoader);
     }
 
+    /**
+     * Verifies that {@link SceneCore#setStage(Stage)} can set the stage without any
+     * initial interaction.
+     */
     @Test
     void testSetStage() {
         SceneCore.setStage(mockStage);
         verifyNoInteractions(mockStage);
     }
 
+    /**
+     * Verifies that {@link SceneCore#setLoader(Function)} can set the loader
+     * without any initial interaction.
+     */
     @Test
     void testSetLoader() {
         SceneCore.setLoader(mockLoader);
         verifyNoInteractions(mockLoader); // No interaction expected yet
     }
 
+    /**
+     * Tests {@link SceneCore#getSceneUrl(String)} by verifying that a valid URL is
+     * returned when
+     * the loader function is applied.
+     */
     @Test
     void testGetSceneUrl() {
         when(mockLoader.apply("Login.fxml")).thenReturn(mockUrl);
@@ -62,6 +86,10 @@ public class SceneCoreTest {
         verify(mockLoader).apply("Login.fxml");
     }
 
+    /**
+     * Tests {@link SceneCore#getScene(URL)} with an invalid URL, expecting a null
+     * {@link Scene} to be returned.
+     */
     @Test
     void testNotValidURL() throws MalformedURLException, URISyntaxException {
         URI uri = new URI("http://example.com/nonValidPath");
@@ -71,18 +99,30 @@ public class SceneCoreTest {
         assertNull(notValidScene, "Expected null Scene for a non-valid URL.");
     }
 
+    /**
+     * Tests {@link SceneCore#showStage()} to verify that the stage's {@code show()}
+     * method is called.
+     */
     @Test
     void testShowStage() {
         SceneCore.showStage();
         verify(mockStage).show();
     }
 
+    /**
+     * Tests {@link SceneCore#setResizable(boolean)} to verify that the resizable
+     * property of the stage is set.
+     */
     @Test
     void testSetResizable() {
         SceneCore.setResizable(true);
         verify(mockStage).setResizable(true);
     }
 
+    /**
+     * Tests {@link SceneCore#getStageWidth()} to verify that the width of the stage
+     * is returned accurately.
+     */
     @Test
     void testGetStageWidth() {
         when(mockStage.getWidth()).thenReturn(800.0);
@@ -91,6 +131,10 @@ public class SceneCoreTest {
         assertEquals(800.0, width);
     }
 
+    /**
+     * Tests {@link SceneCore#getStageHeight()} to verify that the height of the
+     * stage is returned accurately.
+     */
     @Test
     void testGetStageHeight() {
         when(mockStage.getHeight()).thenReturn(600.0);
@@ -99,6 +143,10 @@ public class SceneCoreTest {
         assertEquals(600.0, height);
     }
 
+    /**
+     * Tests {@link SceneCore#setStageTitle(String)} to verify that the title of the
+     * stage is set correctly.
+     */
     @Test
     void testSetStageTitle() {
         SceneCore.setStageTitle("Test Title");
