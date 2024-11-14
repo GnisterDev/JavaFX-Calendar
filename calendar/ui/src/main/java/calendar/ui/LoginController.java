@@ -59,7 +59,7 @@ public class LoginController {
     @FXML
     private void handleLogin(final ActionEvent event) {
         RestHelper.setCredentials(usernameField.getText(),
-                passwordField.getText());
+                                  passwordField.getText());
 
         RestHelper.getUser().consumeError(messageLabel::setText)
                 .runIfSuccess(() -> {
