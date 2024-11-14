@@ -29,6 +29,18 @@ The rest of the project architecture remains the same as it was in [Release 2](.
   </tr>
 </table>
 
+### Comments
+
+The **Sequence diagram** shows the interactions between various components in the program; here the event of adding an event to the calendar. _Note_ that in the digram the process of getting all the info about the event is simplified into "_Event Info Area_" and "_Get info about event_". This is because the `calendarController` takes info from eight differnt input fields, and showing them all in the diagram made it clunky and harder to read. This was therefor simplified.
+
+The **Class diagram** shows how the diffenet classes responisble for the saved info about the callendar application intract with eachother. Note that the diagram shos how the data is beeing stored on the serverside of the applicattion, and therefor uses `RestUser` and `RestCalendar` instead of just `User` and `Calendar`.
+
+The **Package diagram** illustrates the structure and dependencies within the application, specifically organizing the system into distinct packages that represent core functionalities and modules. It has been devided into packages for:
+
+- `ui` - The code responsible for the frontend.
+- `restAPI` - The code responible for the backend.
+- `core` - The code responisble for talking between the two other packages.
+
 ## Final functions for application
 
 For release 3 we decide not to change the framework instead we added alot of extra features as seen below.
