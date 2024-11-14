@@ -4,7 +4,23 @@ This is the third release for the project. It contains the a complete working ca
 
 ### Project architecture
 
+Since Release 2, we have added a REST module that serves as an interface to expose the application's functionality via RESTful endpoints. This module receives HTTP requests, parses them, invokes the necessary business logid, and returns appropriate responses.
+
+The new Module forwards requests to the Core layer and translates the responses from the Core layer into REST API responses.
+
+The rest of the project architecture remains the same as it was in [ Release 2](../release2/README.md).
+
+#### Sequence diagram of application
+
+![Sequence diagram](../images/sequenceDiagram.png)
+
+#### Class diagram of application
+
+![Class diagram](../images/classDiagram.png)
+
 ### Final functions for application
+
+For release 3 we decide not to change the framework instead we added alot of extra features as seen below.
 
 Explanation of Changes: We updated the app's functionality to prioritze essential features and ensure timely project completion. Below are the functions we removed and added, with reasons for these decisions.
 
@@ -30,7 +46,7 @@ These features were added because they aligned with the project description and 
 
 ### Work habits
 
-Our work habits have remained largely consistent since Release 2, with the primary change being that we now create more specific issues. In Release 2, we often created issues that were quite broad, which caused challenges when attempting to work in parallel ([explained in greater detail under Work Habits in Release 2](../release2/README.md)). By defining issues more narrowly, we were able to merge branches into the development branch earlier and collaborate more efficiently, reducing the need for complex merges and allowing us to work on separate issues with minimal conflict.
+Our work habits have remained largely consistent since Release 2, with the primary change being that we now create more specific issues. In Release 2, we often created issues that were quite broad, which caused challenges when attempting to work in parallel ([explained in greater detail under Work Habits in Release 2](../release2/README.md)). By defining issues more narrowly, we were able to merge branches into the development branch earlier and collaborate more efficiently, reducing the need for complex merges and allowing us to work on separate issues with minimal conflict. We have also writen javaDoc for the whole project, making it easier for all the members to understand the code, therfor increasing effeciency and intergration.
 
 ### Code quality
 
@@ -60,9 +76,27 @@ write what our actuall test coverage is:
 
 ### Known issues
 
-Event with startime after endtime, still gives error if you chose to edit the event to span the whole day.
+Overlapping events
+Events scheduled at the same time currently overlap, causing one event to hide another.
 
-Events that span the same time will overlapp.
+- Suggested Fix:
+  - Implement a check for overlapping events.
+  - Create a function to adjust the event width, allowing events to display side by side instead of overlapping.
+
+Readability of Dark-Colored Events:
+When events are assigned dark colors, the event title can become difficult to read due to insufficient contrast.
+
+- Suggested Fix:
+  - Add color-check function to automatically adjust the title color based on the event's background color for optimal readability.
+
+New Line Characters in Descriptions:
+When adding a description for an event, pressing "Enter" to create a new line prevents the event from being added. This occurs because the HTTP request does not accept new line characters, as HTTP header values cannot contain line breaks or special characters.
+
+- Suggested Fix:
+  - Implement a function to remove or replace new line characters in the header value before sending the HTTP request
+
+Reason for Remaining Unfixed:
+Due to time constraints and prioritization, these issues have not been resolved in the current release.
 
 ### AI statement
 
