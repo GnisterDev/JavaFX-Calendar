@@ -85,13 +85,6 @@ Our project has strong test coverage, addressing what we consider the most essen
 
 ## Known issues
 
-### New Line Characters in Descriptions:
-
-When adding a description for an event, pressing "Enter" to create a new line prevents the event from being added. This occurs because the HTTP request does not accept new line characters, as HTTP header values cannot contain line breaks or special characters.
-
-- **Suggested Fix:**
-  - Implement a function to remove or replace new line characters in the header value before sending the HTTP request
-
 ### Overlapping events
 
 Events scheduled at the same time currently overlap, causing one event to hide another.

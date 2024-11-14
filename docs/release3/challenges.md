@@ -43,3 +43,53 @@ Through these challenges, we learned several valuable lessons on working in a te
 # making the project to a shippable product
 
 ## -difficult in it self
+
+'temporary'
+
+# Testing the project
+
+One of the major challenges in this project was ensuring thorough test coverage, especially for all the classes and functionality within the application. Creating effective tests was particularly challenging for the controller classes in JavaFX, where certain elements, such as managing scene transitions and switching stages, were difficult to simulate and mock effectively.
+
+### Key Challenges:
+
+- **Mocking Dependencies:**
+
+  We struggled with implementing mocks, especially for objects and methods that interacted directly with the JavaFX framework. For example, simulating user interactions with components like button, color pickers, and date selectors required a detailed setup, and maintaining thes mocks was complex and timeconsuming.
+
+- **Ui and controller testing:**
+
+Testing the JavaFX controller layer proved difficult because JavaFX requires the UI thread for most interactions. Standard test setups were often insufficient, as asynchonous tasks and multithreading issues complicated the behavior of controllers and UI elements during tests.
+
+### Approchehes we tried:
+
+To overcome these testing challenges, we implemented a few key approaches:
+
+- **Using TestFX for JavaFX GUI testing:**
+
+  To manage JavaFX-specific challenges, we used TestFX, which allowed us to simulate user actions (e.g., clicks, typing) in a way that JavaFX could handle. This tool enabled better control over UI elements but required careful setup to avoid test flakiness.
+
+- **Mocking static methods with Mockito:**
+
+  Many parts of our code relied on static methods, particularly for retrieving user data. To address this, we used Mockito to mock static calls, allowing us to simulate various user scenarios without needing real API calls.
+
+  - **Separating UI logic:**
+
+    We found that separating logic from the UI controller helped with testability. By placing logic into service classes and using dependency injection, we reduced the complexity of testing JavaFX controllers directly
+
+  ### Lessons learned
+
+  Through thes challenges, we gained a deeper understanding of the importance of testing in complex UI applications:
+
+  - **Invest in tooling for UI tests:**
+
+    Investing time in setting up tools like TestFX was essential for testing JavaFX applications effectively.
+
+  - **Refactoring for testability:**
+
+    Testing is much easier when controllers are designed with testability in mind. By separating logic from UI and avoiding static dependencies in controllers, we created a more maintainable and testable codebase.
+
+  - **Mocking complex interactions:**
+
+    Mocking proved essential in isolating unit tests. Having experience with Mockito and learning to mock complex interactions (espacially with JavaFX components) helped us simulate real application behavior effectively without relying on external systems or dependencies.
+
+  This approach to testing, though challenging, improved to catch issues early and ensured that the UI behaved as expected in various scenarios.
