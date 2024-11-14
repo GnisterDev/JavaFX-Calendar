@@ -4,7 +4,7 @@ metadata:
 components:
   - name: calendar
     container:
-      image: adrianstoica/it1901:latest
+      image: maven:3.8.7-openjdk-21
       memoryLimit: 3Gi
       endpoints:
         - exposure: public
