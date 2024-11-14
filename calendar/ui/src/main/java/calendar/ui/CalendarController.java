@@ -597,7 +597,8 @@ public class CalendarController {
 
         RestHelper
                 .addEvent(Optional.of(eventNameField.getText()),
-                          Optional.of(eventDescriptionField.getText()),
+                          Optional.of(eventDescriptionField.getText()
+                                  .replace("\n", " ")),
                           startDateTime,
                           endDateTime,
                           Optional.of(colorPicker.getValue()),

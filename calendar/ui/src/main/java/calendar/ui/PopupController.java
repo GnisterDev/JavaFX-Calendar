@@ -253,7 +253,8 @@ public class PopupController {
         RestHelper
                 .editEvent(event.getId(),
                            Optional.of(eventNameField.getText()),
-                           Optional.of(eventDescriptionField.getText()),
+                           Optional.of(eventDescriptionField.getText()
+                                   .replace("\n", " ")),
                            startDateTime,
                            endDateTime,
                            Optional.of(colorPicker.getValue()),
