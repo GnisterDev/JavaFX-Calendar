@@ -161,8 +161,8 @@ public final class RestAPI {
      * <p>
      * Request Requirements:
      * <ul>
-     * <li><b>Path Format</b>: The path must include exactly 3 segments,
-     * e.g., "/users/{username}".</li>
+     * <li><b>Path Format</b>: The path must include exactly 3 segments, e.g.,
+     * "/users/{username}".</li>
      * <li><b>POST requests</b>:
      * <ul>
      * <li>Include a password in the request headers as "password".</li>
