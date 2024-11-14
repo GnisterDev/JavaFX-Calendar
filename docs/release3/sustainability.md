@@ -1,6 +1,6 @@
 # Sustainability
 
-![susAd](../images/susAD.png)
+<img src="../images/susAD.png" alt="SusAd" width="500px">
 
 ### Social Sustainability
 
