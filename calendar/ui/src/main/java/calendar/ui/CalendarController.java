@@ -473,10 +473,16 @@ public class CalendarController {
 
         int allDayRow = 0;
 
-        for (Event event : events) {
+        // Clearing the current calendar view before rendering new events
+        clearCalendar();
 
-            LocalDateTime eventStartTime = event.getStartTime();
-            LocalDateTime eventEndTime = event.getEndTime();
+        for (Event event : events) {
+            VBox vBox = createVBox(event);
+
+            // Get the actual start and end times, but constrain them within the current
+            // week
+            LocalDateTime eventStart = event.getStartTime();
+            LocalDateTime eventEnd = event.getEndTime();
 
             if (eventStartTime.isBefore(startTime)) eventStartTime = startTime;
             if (eventEndTime.isAfter(endTime)) eventEndTime = endTime;

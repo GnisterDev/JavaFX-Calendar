@@ -5,6 +5,7 @@ import java.util.Optional;
 import calendar.core.RestHelper;
 import calendar.core.SceneCore;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -37,6 +38,9 @@ public class SignUpController {
      * A node responisble for sending the user to the login scene if clicked.
      */
     @FXML
+    private Button createAccountButton;
+
+    @FXML
     private Label signIn;
 
     /**
@@ -47,7 +51,6 @@ public class SignUpController {
      */
     @FXML
     public void initialize() {
-        messageLabel.setTextFill(Color.RED);
         signIn.setOnMouseClicked(event -> {
             SceneCore.setScene("Login.fxml");
         });

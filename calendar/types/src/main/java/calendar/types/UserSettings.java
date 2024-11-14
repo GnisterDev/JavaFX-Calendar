@@ -82,20 +82,10 @@ public class UserSettings {
         this(userId, TimeZone.getDefault(), true, true);
     }
 
-    /**
-     * Gets the unique identifier of the user these settings belong to.
-     *
-     * @return the {@link UUID} of the user
-     */
     public UUID getUserId() {
         return userId;
     }
 
-    /**
-     * Gets the user's preferred time zone.
-     *
-     * @return the {@link TimeZone} representing the user's time zone
-     */
     public TimeZone getTimezone() {
         return (TimeZone) timezone.clone();
     }

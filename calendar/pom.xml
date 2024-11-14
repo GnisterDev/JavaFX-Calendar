@@ -110,13 +110,13 @@
                 <scope>test</scope>
             </dependency>
 
-            <!-- TextFX -->
+            <!-- TextFX -->        
             <dependency>
                 <groupId>org.testfx</groupId>
                 <artifactId>testfx-junit5</artifactId>
                 <version>${testfx.version}</version>
                 <scope>test</scope>
-            </dependency>
+            </dependency>        
             <dependency>
                 <groupId>org.testfx</groupId>
                 <artifactId>testfx-core</artifactId>
@@ -338,22 +338,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </reporting>
 </project>
 
