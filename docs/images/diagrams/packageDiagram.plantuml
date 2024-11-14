@@ -1,0 +1,53 @@
+@startuml JavaFX Project Package Diagram
+
+component core {
+    package "calendar.core" {
+    }
+
+    package "calendar.types" {
+
+    }
+}
+
+component fxui {
+    package "calendar.ui" {
+
+    }
+}
+
+component restserver  {
+    package "calendar.rest" {
+        
+    }
+    package "calendar.persistence" {
+
+    }
+}
+
+[javafx]
+[jdk.httpserver]
+[fxml]
+[fasterxml.jackson]
+[apache.commons]
+[controlsfx]
+[fluentresult]
+
+fxui --> fxml
+fxui --> controlsfx
+fxui --> apache.commons
+fxui --> javafx
+
+core --> fluentresult
+core --> fasterxml.jackson
+
+restserver --> jdk.httpserver : uses
+
+"calendar.ui" --> "calendar.core"
+"calendar.ui" --> "calendar.types"
+
+"calendar.core" --> "calendar.rest"
+
+"calendar.rest" --> "calendar.types"
+"calendar.rest" --> "calendar.persistence"
+
+@enduml

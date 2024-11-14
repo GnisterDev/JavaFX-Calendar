@@ -1,63 +1,89 @@
 package calendar.types;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * The {@code Calendar} class represents a user's calendar, which contains a
+ * list of events. Each calendar is associated with a unique {@link UUID}
+ * representing the user and a list of {@link Event} objects.
+ *
+ * <p>
+ * This class is designed to be serialized and deserialized using the Jackson
+ * library, with support for JSON properties through annotations like
+ * {@link JsonProperty} and {@link JsonCreator}. It provides methods for adding,
+ * removing, and retrieving events, as well as getting the count of events.
+ * </p>
+ *
+ * <p>
+ * Instances of this class can be constructed with a user ID and/or a list of
+ * events. If no user ID is provided, a random {@link UUID} is generated.
+ * </p>
+ */
 public class Calendar {
+
+    /** The userid of the user that owns this calendar. */
     @JsonProperty
-    private UUID userId;
+    private UUID calendarId;
 
+    /** The evensts that are conected to this calendar. */
     @JsonProperty
-    private List<Event> events;
+    private String name;
 
-    public Calendar() {
-        this(UUID.randomUUID());
+    /**
+     * Constructs a new {@link Calendar} object using the provided
+     * {@link RestCalendar}.
+     * <p>
+     * This constructor initializes the calendar's ID and name based on the
+     * provided {@link RestCalendar} instance, allowing for the creation of a
+     * new {@link Calendar} object with the same properties.
+     * </p>
+     *
+     * @param calendar the {@link RestCalendar} object containing the calendar
+     *                 details
+     */
+    public Calendar(final RestCalendar calendar) {
+        this.calendarId = calendar.getCalendarId();
+        this.name = calendar.getName();
     }
 
-    public Calendar(UUID userId) {
-        this(userId, new ArrayList<>());
-    }
-
-    public Calendar(List<Event> events) {
-        this(UUID.randomUUID(), events);
-    }
-
+    /**
+     * Full constructor for the {@code Calendar} class.
+     *
+     * <p>
+     * This constructor is annotated with {@link JsonCreator} to allow
+     * deserialization from JSON, using the {@link JsonProperty} annotations to
+     * map JSON fields to class properties.
+     * </p>
+     *
+     * @param calendarId the unique identifier for the user associated with this
+     *                   calendar
+     * @param name       the list of events to initialize this calendar with
+     */
     @JsonCreator
-    public Calendar(@JsonProperty("userId") UUID userId, @JsonProperty("events") List<Event> events) {
-        this.events = new ArrayList<>(events);
-        this.userId = userId;
+    public Calendar(@JsonProperty("calendarId") final UUID calendarId,
+            @JsonProperty("name") final String name) {
+        this.calendarId = calendarId;
+        this.name = name;
     }
 
-    public UUID getUserId() {
-        return userId;
+    /**
+     * Gets the id of the calendar.
+     *
+     * @return the id asosiated with this calendar.
+     */
+    public UUID getCalendarId() {
+        return calendarId;
     }
 
-    public List<Event> getEvents() {
-        return new ArrayList<>(events);
+    /**
+     * Gets the name of the calendar.
+     *
+     * @return the name asosiated with this calendar.
+     */
+    public String getName() {
+        return name;
     }
-
-    public Event getEvent(int index) {
-        return events.get(index);
-    }
-
-    public void removeEvent(Event event) {
-        events.remove(event);
-    }
-
-    public void removeEvent(int index) {
-        events.remove(index);
-    }
-
-    public void addEvent(Event event) {
-        events.add(event);
-    }
-
-    public int eventCount() {
-        return events.size();
-    }
-
 }

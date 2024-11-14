@@ -1,0 +1,27 @@
+/* Variables */
+* {
+  -fx-primary-color: #df782b;
+  -fx-secondary-color: #b46022;
+}
+
+.background {
+  -fx-background-color: #fff;
+}
+
+.button-signup {
+  -fx-background-radius: 12px;
+  -fx-background-color: -fx-primary-color;
+}
+
+.button-signup:hover,
+.button-signup:focused {
+  -fx-background-color: -fx-secondary-color;
+}
+
+.input-text {
+  -fx-background-radius: 12px;
+}
+
+.have-user-label:hover {
+  -fx-cursor: hand;
+}
