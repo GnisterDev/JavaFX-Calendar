@@ -85,6 +85,8 @@ Our project has strong test coverage, addressing what we consider the most essen
 
 ## REST-service
 
+Documentation for the rest api can be found [here](./rest-api.md)
+
 ## Contribution
 
 [Own md-file for discussing the contribution](./contribution.md)

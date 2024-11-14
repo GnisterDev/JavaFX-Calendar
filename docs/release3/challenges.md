@@ -28,10 +28,10 @@ Through these challenges, we learned several valuable lessons on working in a te
 
 - **Pair programming (Collaboration)**
 
-  Collaborative approaches, like pair programming were beneficial, allowing us to address integration issues more efficiently and leveraging collective problem-solving skills.
+Pair programming proved highly effective, enabling us to tackle integration issues more efficiently by harnessing collective problem-solving skills.
 
 - **Documentation is essential**
-  Making documentation eased integration and future troubleshooting, proving essential for clarity.
+Comprehensive documentation greatly simplified integration and future troubleshooting, proving invaluable for maintaining clarity and continuity.
 
 - **Modular Architecture requires lots of planning**
   Modular architecture demands careful planning and version control, especially as modules grow, to prevent later complications.
