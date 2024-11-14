@@ -37,9 +37,9 @@ The **Class diagram** shows how the diffenet classes responisble for the saved i
 
 The **Package diagram** illustrates the structure and dependencies within the application, specifically organizing the system into distinct packages that represent core functionalities and modules. It has been devided into packages for:
 
-- `ui` - The code responsible for the frontend.
-- `restAPI` - The code responible for the backend.
-- `core` - The code responisble for talking between the two other packages.
+-   `ui` - The code responsible for the frontend.
+-   `restAPI` - The code responible for the backend.
+-   `core` - The code responisble for talking between the two other packages.
 
 ## Final functions for application
 
@@ -49,21 +49,21 @@ For release 3 we decide not to change the framework instead we added alot of ext
 
 **Removed features:**
 
-- Optional event repeat selection
-- Optional location selection
-- Event reminders
-- Event sharing
-- Customizable calendar layouts (daily, weekly, or monthly views)
+-   Optional event repeat selection
+-   Optional location selection
+-   Event reminders
+-   Event sharing
+-   Customizable calendar layouts (daily, weekly, or monthly views)
 
 Most of these features were removed due to time constraints and were deemed non-essential for the app's core functionality.
 
 **Added features:**
 
-- User account creation and login
-- Option set event name
-- Optional description field
-- Option for events to span multiple days
-- Multiple calendar creation for each user
+-   User account creation and login
+-   Option set event name
+-   Optional description field
+-   Option for events to span multiple days
+-   Multiple calendar creation for each user
 
 These features were added because they aligned with the project description and were mostly straightforward to implement.
 
@@ -103,16 +103,23 @@ Our project has strong test coverage, addressing what we consider the most essen
 
 Events scheduled at the same time currently overlap, causing one event to hide another.
 
-- **Suggested Fix:**
-  - Implement a check for overlapping events.
-  - Create a function to adjust the event width, allowing events to display side by side instead of overlapping.
+-   **Suggested Fix:**
+    -   Implement a check for overlapping events.
+    -   Create a function to adjust the event width, allowing events to display side by side instead of overlapping.
+
+### Window wrong site on fullscreen signout
+
+If the calendar is fullsceren and the user clicks signout, and then moves the window, the login screen gets the dimentions of of the calendar scene when it's not fullscreen.
+
+-   **Suggested Fix:**
+    -   None. This is a bug with javaFX.
 
 ### Readability of Dark-Colored Events:
 
 When events are assigned dark colors, the event title can become difficult to read due to insufficient contrast.
 
-- **Suggested Fix:**
-  - Add color-check function to automatically adjust the title color based on the event's background color for optimal readability.
+-   **Suggested Fix:**
+    -   Add color-check function to automatically adjust the title color based on the event's background color for optimal readability.
 
 ### Reason for Remaining Unfixed:
 
