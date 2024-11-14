@@ -33,7 +33,7 @@ import javafx.scene.paint.Color;
  * sessions.
  *
  * <p>
- * This API includes three main contexts:
+ * This API includes 3 main contexts:
  * <ul>
  * <li><b>/users</b> - for managing users, including creation and password
  * validation</li>
@@ -90,9 +90,7 @@ public final class RestAPI {
     private static final int CONFLICT = 409;
 
     /** Variable used for comparing path lengths. */
-    private static final int THREE = 3;
-    /** Variable used for comparing path lengths. */
-    private static final int FOUR = 4;
+    private static final int EXPECTED_PARAMETERS = 3;
 
     /**
      * The main entry point of the API server. It initializes the user data from
@@ -163,7 +161,7 @@ public final class RestAPI {
      * <p>
      * Request Requirements:
      * <ul>
-     * <li><b>Path Format</b>: The path must include exactly three segments,
+     * <li><b>Path Format</b>: The path must include exactly 3 segments,
      * e.g., "/users/{username}".</li>
      * <li><b>POST requests</b>:
      * <ul>
@@ -208,7 +206,7 @@ public final class RestAPI {
 
         // Validate path
         String[] path = t.getRequestURI().getPath().toString().split("/");
-        if (path.length != THREE) {
+        if (path.length != EXPECTED_PARAMETERS) {
             sendResponse(t, BAD_REQUEST, "Wrong number of arguments");
             return;
         }
@@ -330,7 +328,7 @@ public final class RestAPI {
 
         // Validate path
         String[] path = t.getRequestURI().getPath().toString().split("/");
-        if (!(path.length == THREE
+        if (!(path.length == EXPECTED_PARAMETERS
                 || (path.length == 2 && t.getRequestMethod().equals("POST")))) {
             sendResponse(t, BAD_REQUEST, "Wrong number of arguments");
             return;
@@ -491,8 +489,10 @@ public final class RestAPI {
 
         // Validate path
         String[] path = t.getRequestURI().getPath().toString().split("/");
-        if (!(path.length == FOUR || (t.getRequestMethod().equals("POST")
-                && path.length == THREE))) {
+        if (!(path.length == EXPECTED_PARAMETERS
+                + 1
+                || (t.getRequestMethod().equals("POST")
+                        && path.length == EXPECTED_PARAMETERS))) {
             sendResponse(t, BAD_REQUEST, "Wrong number of arguments");
             return;
         }
@@ -588,7 +588,7 @@ public final class RestAPI {
         }
 
         // Get event
-        UUID eventId = UUID.fromString(path[THREE]);
+        UUID eventId = UUID.fromString(path[EXPECTED_PARAMETERS]);
         Optional<Event> event = calendar.get().getEvents().stream()
                 .filter(e -> e.getId().equals(eventId)).findFirst();
 
