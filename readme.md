@@ -24,6 +24,10 @@ To deploy the backend; type the command `cd ./calender` if you aren't there alre
 
 Now open a new terminal window and cd back into the calendar folder using `cd ./calendar`. Now you can run `mvn javafx:run`. After a few seconds a window should appear on your screen. You can now explore the application freely.
 
+## How to run project in Eclipse Che
+
+To run this project in eclipse che follow the installation instructions [here](./Installation.md)
+
 ## Technical Information
 
 Java version: `21.0.1`
@@ -32,6 +36,6 @@ Maven version: `3.8.0`
 
 ## Link to docs
 
--   [Release 1](./docs/release1/readme.md)
--   [Release 2](./docs/release2/readme.md)
--   [Release 3](./docs/release3/readme.md)
+- [Release 1](./docs/release1/readme.md)
+- [Release 2](./docs/release2/readme.md)
+- [Release 3](./docs/release3/readme.md)
