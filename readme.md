@@ -1,7 +1,5 @@
 # JavaFX Calendar
 
-[Open in Eclipse Che](https://che.stud.ntnu.no/#https://gitlab.stud.idi.ntnu.no/it1901/groups-2024/gr2404/gr2404)
-
 ## Description
 
 This project is a simple calender. The project is containd within `./calendar`. For more information about the calendaar, see the [README.md](./calendar/readme.md) file inside the `./calendar` folder.
@@ -24,26 +22,16 @@ To deploy the backend; type the command `cd ./calender` if you aren't there alre
 
 Now open a new terminal window and cd back into the calendar folder using `cd ./calendar`. Now you can run `mvn javafx:run`. After a few seconds a window should appear on your screen. You can now explore the application freely.
 
-## How to run project in Eclipse Che
+## How to run project on Linux
 
-To run this project in eclipse che change directory to calendar using `cd ./calendar`. Then run the run.sh script using `./run.sh`. This script will automatically install all dependencies, compile the project and run both the rest api and javafx ui. To see and interact with the app, open the "endpoint" tab in the editor and open the endpoint at port `6080` (6080-tcp-desktop-ui) in a new tab.
+To run this project on Linux, change directory to calendar using `cd ./calendar`. Then run the run.sh script using `./run.sh`. This script will automatically install all dependencies, compile the project and run both the rest api and javafx ui. To see and interact with the app, open the "endpoint" tab in the editor and open the endpoint at port `6080` (6080-tcp-desktop-ui) in a new tab.
 
-## How to test the project in Eclipse Che
+## How to test the project on Linux
 
-Testing in eclipse che is done similarly to running the project. Change directory to calendar using `cd ./calendar` if you haven't already. Then run the test.sh script using `./test.sh`.
-
-## Packaging
-
-Unfortunately, we did not manage to configure the project with jlink or jpackage. We had a lot of issues with "automatic modules" that we could not fix, even with studass guidance. We also tried to package the project to a jar file with various maven plugins and console commands, however this did not yield better results. Despite this, we believe the overall quality of our application is good and we hope this issue won't affect out grade too much.
+Testing is done similarly to running the project. Change directory to calendar using `cd ./calendar` if you haven't already. Then run the test.sh script using `./test.sh`.
 
 ## Technical Information
 
 Java version: `21.0.1`
 
 Maven version: `3.8.0`
-
-## Link to docs
-
--   [Release 1](./docs/release1/readme.md)
--   [Release 2](./docs/release2/readme.md)
--   [Release 3](./docs/release3/readme.md)
